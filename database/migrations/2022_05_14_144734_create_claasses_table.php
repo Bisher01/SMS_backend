@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+class CreateClaassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('claasses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('logo');
-            $table->string('email');
-            $table->string('phone');
-            $table->foreignId('admin_id')->constrained('admins')->cascadeOnDelete();
-            $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
+            $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('claasses');
     }
 }
