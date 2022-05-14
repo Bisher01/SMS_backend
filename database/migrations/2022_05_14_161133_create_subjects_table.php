@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubjectMarksTable extends Migration
+class CreateSubjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateSubjectMarksTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('subject-marks', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('min');
-            $table->string('max');
-            $table->foreignId('subject_id')->constrained('subject')->cascadeOnDelete();
-            $table->foreignId('class_id')->constrained('class')->cascadeOnDelete();
+            $table->string('name');
+            $table->foreignId('book_id')->constrained('books')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateSubjectMarksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subject-marks');
+        Schema::dropIfExists('subjects');
     }
 }

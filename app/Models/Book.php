@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class Book extends Model
 {
     use HasFactory;
     public $primaryKey = 'id';
 
     public $fillable = [
-        'name', 'book_id'
+        'name'
     ];
-
     public $timestamps = true;
 
-    public function book(){
-        return $this->hasMany(Book::class, 'subject_id');
-
-    }
 }

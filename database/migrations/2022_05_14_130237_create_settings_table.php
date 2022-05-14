@@ -19,8 +19,8 @@ class CreateSettingsTable extends Migration
             $table->string('logo');
             $table->string('email');
             $table->integer('phone');
-            $table->foreignId('admin_id')->constrained('admin')->cascadeOnDelete();
-            $table->foreignId('address_id')->constrained('address')->cascadeOnDelete();
+            $table->foreignId('admin_id')->constrained('admins')->cascadeOnDelete();
+            $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
             $table->timestamps();
         });
     }

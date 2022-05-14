@@ -19,11 +19,11 @@ class setting extends Model
     public $timestamps = true;
 
     public function address(){
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->hasOne(Address::class, 'setting_id');
             //->whereDate('expired_date', '>=', now());
 
     }
     public function admin(){
-        return $this->hasOne(Admin::class, 'admin_id');
+        return $this->hasOne(Admin::class, 'setting_id');
     }
 }
