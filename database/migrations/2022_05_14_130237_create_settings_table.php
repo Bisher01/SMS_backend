@@ -18,11 +18,7 @@ class CreateSettingsTable extends Migration
             $table->string('name');
             $table->string('logo');
             $table->string('email');
-<<<<<<< HEAD:database/migrations/2022_05_14_130237_create_settings_table.php
-            $table->integer('phone');
-=======
             $table->string('phone');
->>>>>>> 3355ae71732c4a4b766e9d9cc68b3f98c772a069:database/migrations/2022_05_14_121816_create_settings_table.php
             $table->foreignId('admin_id')->constrained('admins')->cascadeOnDelete();
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
             $table->timestamps();

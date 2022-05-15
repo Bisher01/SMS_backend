@@ -20,4 +20,8 @@ class Subject extends Model
         return $this->hasMany(Book::class, 'subject_id');
 
     }
+    public function teacher(){
+        return $this->hasMany(Teacher::class, 'subject_id');
+
+    }
 }

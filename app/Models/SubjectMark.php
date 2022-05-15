@@ -22,8 +22,8 @@ class SubjectMark extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
 
     }
-   /* public function class(){
-        return $this->belongsTo(Class::class, 'class_id');
-    }*/
+   public function class(){
+        return $this->belongsTo(Claass::class, 'class_id');
+    }
 
 }
