@@ -16,8 +16,8 @@ class Teacher extends Model
 
     public $timestamps = true;
 
-    public function subject(){
-        return $this->belongsTo(Subject::class, 'subject_id');
+    public function teacher_subject(){
+        return $this->hasMany(Teacher_Subject::class, 'teacher_id');
 
     }
    public function address(){
