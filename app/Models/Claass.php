@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Claass extends Model
 {
     use HasFactory;
+    protected $table = 'classes';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'name', 'grade_id'
+    ];
+    public $timestamps = true;
+
+    public function grade() {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
 }

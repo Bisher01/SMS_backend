@@ -15,11 +15,11 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('f-name');
-            $table->string('l-name');
+            $table->string('f_name');
+            $table->string('l_name');
             $table->string('email');
             $table->string('code');
-            $table->string('joiningdate');
+            $table->string('joining_date');
             $table->string('salary');
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();

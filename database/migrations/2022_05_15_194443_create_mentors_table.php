@@ -22,7 +22,7 @@ class CreateMentorsTable extends Migration
             $table->string('code');
             $table->date('joining_date');
             $table->string('phone');
-            $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
 
             $table->timestamps();
