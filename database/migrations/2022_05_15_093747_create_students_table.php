@@ -22,12 +22,12 @@ class CreateStudentsTable extends Migration
             $table->string('nationality');
             $table->text('picture');
             $table->date('birthdate');
-//            $table->foreignId('parent_id')->constrained('parents')->cascadeOnDelete();
+            $table->foreignId('parent_id')->constrained('parents')->cascadeOnDelete();
             $table->foreignId('blood_id')->constrained('bloods')->cascadeOnDelete();
             $table->foreignId('gender_id')->constrained('genders')->cascadeOnDelete();
             $table->foreignId('religion_id')->constrained('religtions')->cascadeOnDelete();
             $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
-            $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
+            $table->foreignId('claass_id')->constrained('claasses')->cascadeOnDelete();
             $table->foreignId('classroom_id')->constrained('classrooms_id')->cascadeOnDelete();
             $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
             $table->softDeletes();
