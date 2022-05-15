@@ -15,7 +15,7 @@ class ClaassClassroomsTable extends Migration
     {
         Schema::create('claass_classrooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('claass_id')->constrained('claasses', 'id')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('claasses', 'id')->cascadeOnDelete();
             $table->foreignId('classroom_id')->constrained('classrooms', 'id')->cascadeOnDelete();
             $table->timestamps();
         });
