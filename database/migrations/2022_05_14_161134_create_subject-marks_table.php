@@ -19,6 +19,7 @@ class CreateSubjectMarksTable extends Migration
             $table->string('min');
             $table->string('max');
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
+
             $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
             $table->timestamps();
         });
