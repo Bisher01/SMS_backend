@@ -60,6 +60,7 @@ class Student extends Model
     public function gender(){
         return $this->belongsTo(Blood::class, 'gender_id');
     }
+    
 
     public function attendance(){
         return $this->hasMany(Attendance::class, 'student_id');
