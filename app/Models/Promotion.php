@@ -17,7 +17,7 @@ class Promotion extends Model
         'from_class_id',
         'to_class_id',
     ];
-    public function fromclass(){
+    public function fromClass(){
         return $this->hasOne(Claass::class, 'from_class_id');
     }
     public function toclass(){
@@ -26,10 +26,10 @@ class Promotion extends Model
    public function student(){
         return $this->hasMany(Student::class, 'student_id');
     }
-    public function from_academic_year(){
+    public function fromAcademicYear(){
         return $this->hasOne(Academic_year::class, 'from_academic_year_id');
     }
-    public function to_academic_year(){
+    public function toAcademicYear(){
         return $this->hasOne(Academic_year::class, 'to_academic_year_id');
     }
 

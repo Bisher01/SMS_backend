@@ -16,14 +16,14 @@ class Exam extends Model
 
     public $timestamps = true;
 
-    public function class_exam(){
+    public function classExam(){
         return $this->hasMany(ClassExam::class, 'exam_id');
 
     }
    public function subject(){
         return $this->belongsTo(Subject::class, 'subject_id');
     }
-    public function question_exam(){
+    public function questionExam(){
         return $this->hasMany(QuestionExam::class, 'exam_id');
 
     }

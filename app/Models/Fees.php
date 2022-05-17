@@ -20,11 +20,11 @@ class Fees extends Model
         return $this->hasOne(Grade::class, 'grade_id');
 
     }
-    public function accademic_year(){
+    public function accademicYear(){
         return $this->hasOne(Address::class, 'accademic_year_id');
 
     }
-    public function fees_invoice(){
+    public function feesInvoice(){
         return $this->hasMany(Fees_Invoices::class, 'fee_id');
 
     }

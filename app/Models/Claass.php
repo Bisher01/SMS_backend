@@ -18,7 +18,7 @@ class Claass extends Model
     public function grade() {
         return $this->belongsTo(Grade::class, 'grade_id');
     }
-    public function class_exam(){
+    public function classExam(){
         return $this->hasMany(ClassExam::class, 'class_id');
     }
 }

@@ -15,6 +15,9 @@ class CreateQuestionQuizzesTable extends Migration
     {
         Schema::create('question_quizzes', function (Blueprint $table) {
             $table->id();
+            $table->string('question-mark');
+            $table->foreignId('quiz_id')->constrained('quizzes')->cascadeOnDelete();
+            $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
             $table->timestamps();
         });
     }

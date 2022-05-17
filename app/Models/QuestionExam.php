@@ -20,7 +20,7 @@ class QuestionExam extends Model
         return $this->belongsTo(Exam::class, 'exam_id');
 
     }
-   public function question_id(){
+   public function question(){
         return $this->belongsTo(Question::class, 'question_id');
     }
 }
