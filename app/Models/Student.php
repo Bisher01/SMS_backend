@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
 
-class Student extends Model
+class Student extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
     protected $table = 'students';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -60,7 +62,7 @@ class Student extends Model
     public function gender(){
         return $this->belongsTo(Blood::class, 'gender_id');
     }
-    
+
 
     public function attendance(){
         return $this->hasMany(Attendance::class, 'student_id');

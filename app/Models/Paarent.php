@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
-class Paarent extends Model
+class Paarent extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
+    protected $table = 'parents';
     public $primaryKey = 'id';
 
     public $fillable = [
