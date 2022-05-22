@@ -8,7 +8,6 @@ use App\Models\Paarent;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
 class LoginController extends Controller
 {
     public function login(LoginRequest $request)

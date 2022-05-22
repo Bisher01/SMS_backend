@@ -13,7 +13,7 @@ class Admin extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-        'name','email'
+        'email','password'
     ];
 
     public $timestamps = true;

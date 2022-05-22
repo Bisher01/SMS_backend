@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class AuthAdminController extends Controller
 {
-    //
+    public function login(Request $request)
+{
+      if(Str::is('', 'value'))
+}
 }
