@@ -44,6 +44,10 @@ class TestSeeder extends Seeder
         DB::table('claass_classrooms')->delete();
         DB::table('parents')->delete();
         DB::table('students')->delete();
+        DB::table('books')->delete();
+        DB::table('subjects')->delete();
+        DB::table('teachers')->delete();
+        DB::table('mentors')->delete();
 
         Gender::query()->create([
             'type'=> 'test',
