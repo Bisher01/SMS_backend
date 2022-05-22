@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
     {
        //  \App\Models\User::factory(10)->create();
          $this->call(AdminSeeder::class);
-         
+
+        $this->call([
+            TestSeeder::class,
+//            SectionSeeder::class
+        ]);
     }
 }

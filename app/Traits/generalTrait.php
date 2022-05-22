@@ -2,30 +2,39 @@
 namespace App\Traits;
 
 trait generalTrait{
-public function returnError($errNum, $msg)
-{
-    return response()->json([
-        'status'=>false,
-        'errNum'=>$errNum,
-        'msg'=>$msg
-    ]);
-}
+    public function returnError($errorNumber, $message)
+    {
+        return response()->json([
+            'status' => false,
+            'errNum' => $errorNumber,
+            'message' => $message
+        ]);
+    }
+    public function returnErrorMessage($message, $statusNum)
+    {
+        return response()->json([
+            'status' => false,
+            'message' => $message
+        ],$statusNum);
+    }
 
-public function returnSuccess($errNum, $msg)
-{
-    return response()->json([
-        'status'=>true,
-        'errNum'=>$errNum,
-        'msg'=>$msg
-    ]);
-}
-public function returnData($key, $value)
-{
-    return response()->json([
-        'status'=>true,
-        'errNum'=>"success",
-        $key=>  $value  ]);
-}
+
+    public function returnSuccessMessage($message= "")
+    {
+        return response()->json([
+            'status' => true,
+            'message' => $message
+        ]);
+    }
+
+    public function returnData($key, $value, $message = "")
+    {
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            $key => $value
+        ]);
+    }
 }
 
 
