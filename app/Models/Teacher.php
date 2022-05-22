@@ -8,10 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
-    public $primaryKey = 'id';
+    protected $table = 'teachers';
 
+    public $primaryKey = 'id';
     public $fillable = [
-        'subject_id', 'address_id','blood_id','grade_id','gender_id','f-name','l-name','email','code','joining-date','salary'
+        'subject_id',
+        'address_id',
+        'blood_id',
+        'grade_id',
+        'gender_id',
+        'f_name',
+        'l_name',
+        'email',
+        'code',
+        'joining_date',
+        'salary'
     ];
 
     public $timestamps = true;
