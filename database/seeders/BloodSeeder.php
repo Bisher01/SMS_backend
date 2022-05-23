@@ -18,11 +18,8 @@ class BloodSeeder extends Seeder
         DB::table('bloods')->delete();
          $bloods=['A+','A-','B+','B-','O+','O-','AB+','AB-'];
          foreach($bloods as $blood){
-             Blood::create(['name'=>$blood]);
+             Blood::create(['type'=>$blood]);
          }
-        /* DB::table('admins')->insert([
-             'email' => Str::random(10).'@gmail.com',
-             'password' => Hash::make('password'),
-         ]);*/
+
     }
 }

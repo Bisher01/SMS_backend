@@ -11,7 +11,8 @@ class Claass extends Model
     protected $table = 'claasses';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'grade_id'
+        'name',
+        'grade_id'
     ];
     public $timestamps = true;
 

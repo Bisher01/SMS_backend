@@ -18,9 +18,12 @@ class DatabaseSeeder extends Seeder
        //  \App\Models\User::factory(10)->create();
          $this->call(AdminSeeder::class);
 
-        $this->call([
+     /*   $this->call([
             TestSeeder::class,
 //            SectionSeeder::class
-        ]);
+        ]);*/
+        $this->call(BloodSeeder::class);
+       $this->call(ClaassSeeder::class);
+
     }
 }
