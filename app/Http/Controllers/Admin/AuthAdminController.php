@@ -30,7 +30,6 @@ class AuthAdminController extends Controller
 
         } else {
            return response()->json(['error' => 'UnAuthorised'], 401);
-
         }
 }
 }

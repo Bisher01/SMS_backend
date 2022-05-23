@@ -17,10 +17,6 @@ class AdminSeeder extends Seeder
     public function run()
     {
         DB::table('admins')->delete();
-       /* $ffs=['kk','jj'];
-        foreach($ffs as $ff){
-            Admin::create(['name'=>$ff]);
-        }*/
         DB::table('admins')->insert([
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),

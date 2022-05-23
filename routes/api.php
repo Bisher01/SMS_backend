@@ -22,3 +22,10 @@ Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, '
 
 
 Route::post('test', [\App\Http\Controllers\General\LoginController::class, 'login']);
+
+Route::prefix('AcademicYear')->group(function () {
+    Route::get('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
+    Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
+    Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
+    Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
+});
