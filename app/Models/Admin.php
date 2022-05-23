@@ -13,10 +13,9 @@ class Admin extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    use HasFactory;
     public $table = 'admins';
 
-    public $primaryKey = 'id';
+   // public $primaryKey = 'id';
     protected $hidden = [
         'password',
         'remember_token',
@@ -29,5 +28,5 @@ class Admin extends Model
         'email','password'
     ];
 
-    public $timestamps = true;
+   // public $timestamps = true;
 }
