@@ -19,8 +19,8 @@ class AdminSeeder extends Seeder
         DB::table('admins')->delete();
 
         DB::table('admins')->insert([
-            'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('password'),
+            'email' => 'abd@gmail.com',
+            'password' => Hash::make('12345678'),
         ]);
     }
 }
