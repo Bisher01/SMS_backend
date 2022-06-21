@@ -20,8 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, 'login']);
 
-
-Route::post('test', [\App\Http\Controllers\General\LoginController::class, 'login']);
+Route::prefix('general')->group(function () {
+    Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
+});
 
 Route::prefix('AcademicYear')->group(function () {
     Route::get('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);

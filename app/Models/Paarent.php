@@ -26,4 +26,7 @@ class Paarent extends Authenticatable
    public function religion(){
         return $this->hasOne(Religtion::class, 'religion_id');
     }
+    public function child(){
+        return $this->hasMany(Student::class, 'parent_id');
+    }
 }

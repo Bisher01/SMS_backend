@@ -19,8 +19,6 @@ class LoginController extends Controller
         $code = $request->code;
         $firstName = $request->f_name;
         $lastName = $request->l_name;
-        $motherName = $request->mother_name;
-        $fatherName = $request->father_name;
 
         // login for student
         if (Str::is('001*', $code)) {
@@ -31,7 +29,7 @@ class LoginController extends Controller
             if (!isset($student)) {
                 return $this->returnErrorMessage('Student Not Found', 404);
             } else {
-                $token = $student->createToken('student');
+                $token = $student->createToken('student', ['student']);
                 $data['student'] = $student;
                 $data['type'] = 'Bearer';
                 $data['token'] = $token->accessToken;
@@ -41,16 +39,16 @@ class LoginController extends Controller
 
             // login for parent
         } elseif(Str::is('002*', $code)) {
-            $parent = Paarent::query()->where('code', $code)
-                ->where('mother_name', $motherName)
-                ->orWhere('father_name', $fatherName)
-                ->where('code', $code)
+            $student = Paarent::query()
+                ->where('code', $code)->first()
+                ->child()->where('f_name', $firstName)
+                ->where('l_name', $lastName)
                 ->first();
-            if (!isset($parent)) {
-                return $this->returnErrorMessage('Parent Not Found', 404);
+            if (!isset($student)) {
+                return $this->returnErrorMessage('Student Not Found', 404);
             } else {
-                $token = $parent->createToken('parent');
-                $data['parent'] = $parent;
+                $token = $student->createToken('parent', ['parent']);
+                $data['student'] = $student;
                 $data['type'] = 'Bearer';
                 $data['token'] = $token->accessToken;
 
@@ -66,7 +64,7 @@ class LoginController extends Controller
             if (!isset($teacher)) {
                 return $this->returnErrorMessage('Teacher Not Found', 404);
             } else {
-                $token = $teacher->createToken('teacher');
+                $token = $teacher->createToken('teacher', ['teacher']);
                 $data['teacher'] = $teacher;
                 $data['type'] = 'Bearer';
                 $data['token'] = $token->accessToken;
@@ -84,7 +82,7 @@ class LoginController extends Controller
             if (!isset($mentor)) {
                 return $this->returnErrorMessage('Mentor Not Found', 404);
             } else {
-                $token = $mentor->createToken('mentor');
+                $token = $mentor->createToken('mentor', ['mentor']);
                 $data['mentor'] = $mentor;
                 $data['type'] = 'Bearer';
                 $data['token'] = $token->accessToken;
