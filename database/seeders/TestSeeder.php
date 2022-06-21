@@ -91,6 +91,24 @@ class TestSeeder extends Seeder
                 'academic_year_id' => 1,
                 'address_id' => 1,
             ]);
+            Student::query()->create([
+                'f_name' => 'abd',
+                'l_name' => 'abd',
+                'email' => 'adb@gmail.com',
+                'code' => '00120002800',
+                'nationality' => 'test',
+                'picture' => 'test',
+                'birthdate' => '2022-05-03',
+                'parent_id' => 1,
+                'blood_id' => 1,
+                'gender_id' => 1,
+                'religion_id' => 1,
+                'grade_id' => 1,
+                'class_id' => 1,
+                'classroom_id' => 1,
+                'academic_year_id' => 1,
+                'address_id' => 1,
+            ]);
 //
             Book::query()->create([
                 'name' => 'test',
