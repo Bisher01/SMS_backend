@@ -16,6 +16,7 @@ class BloodSeeder extends Seeder
     public function run()
     {
         DB::table('bloods')->delete();
+
         Blood::query()->create([
             'type' => 'A+'
         ]);
@@ -40,6 +41,12 @@ class BloodSeeder extends Seeder
         Blood::query()->create([
             'type' => 'AB-'
         ]);
+
+//         $bloods=['A+','A-','B+','B-','O+','O-','AB+','AB-'];
+//         foreach($bloods as $blood){
+//             Blood::create(['type'=>$blood]);
+//         }
+
 
     }
 }

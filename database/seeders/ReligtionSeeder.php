@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Religtion;
 class ReligtionSeeder extends Seeder
 {
     /**
@@ -13,6 +14,10 @@ class ReligtionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('Religtions')->delete();
+        $Religions=['مسلم','مسيحي'];
+        foreach($Religions as $Religion){
+            Religtion::create(['name'=>$Religion]);
+        }
     }
 }

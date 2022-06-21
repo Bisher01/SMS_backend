@@ -17,19 +17,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
        //  \App\Models\User::factory(10)->create();
-         $this->call(AdminSeeder::class);
-
-        $this->call([
-            BloodSeeder::class,
-            TestSeeder::class,
-//            AdminSeeder::class,
-
-//            ClassroomSeeder::class,
-//            GenderSeeder::class,
-//            GradeSeeder::class,
-//            ReligtionSeeder::class,
-//            SubjectSeeder::class,
-//            SectionSeeder::class
+       $this->call([
+           BloodSeeder::class,
+           GenderSeeder::class,
+           ReligtionSeeder::class,
+           GradeSeeder::class,
+           ClaassSeeder::class,
+           AdminSeeder::class,
+//         ClassroomSeeder::class,
+           SubjectSeeder::class,
+           TestSeeder::class,
+//         SectionSeeder::class
         ]);
+
     }
 }

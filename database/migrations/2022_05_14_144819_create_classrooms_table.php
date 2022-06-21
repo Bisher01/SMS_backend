@@ -17,8 +17,6 @@ class CreateClassroomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('max_number');
-            $table->foreignId('class_id')->constrained('claasses', 'id')->cascadeOnDelete();
-         //   $table->foreignId('classroom_id')->constrained('classrooms', 'id')->cascadeOnDelete();
             $table->timestamps();
         });
     }
