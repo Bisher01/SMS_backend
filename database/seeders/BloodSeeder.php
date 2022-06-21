@@ -16,13 +16,30 @@ class BloodSeeder extends Seeder
     public function run()
     {
         DB::table('bloods')->delete();
-         $bloods=['A+','A-','B+','B-','O+','O-','AB+','AB-'];
-         foreach($bloods as $blood){
-             Blood::create(['name'=>$blood]);
-         }
-        /* DB::table('admins')->insert([
-             'email' => Str::random(10).'@gmail.com',
-             'password' => Hash::make('password'),
-         ]);*/
+        Blood::query()->create([
+            'type' => 'A+'
+        ]);
+        Blood::query()->create([
+            'type' => 'A-'
+        ]);
+        Blood::query()->create([
+            'type' => 'B+'
+        ]);
+        Blood::query()->create([
+            'type' => 'B-'
+        ]);
+        Blood::query()->create([
+            'type' => 'O+'
+        ]);
+        Blood::query()->create([
+            'type' => 'O-'
+        ]);
+        Blood::query()->create([
+            'type' => 'AB+'
+        ]);
+        Blood::query()->create([
+            'type' => 'AB-'
+        ]);
+
     }
 }

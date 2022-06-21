@@ -29,9 +29,9 @@ class TestSeeder extends Seeder
      * @return void
      */
     public function run()
-    {        DB::table('addresses')->delete();
+    {       DB::table('addresses')->delete();
 
-        DB::table('bloods')->delete();
+//        DB::table('bloods')->delete();
 
         DB::table('genders')->delete();
         DB::table('religtions')->delete();
@@ -73,10 +73,6 @@ class TestSeeder extends Seeder
 
         Religtion::query()->create([
             'name'=> 'test',
-        ]);
-
-        Blood::query()->create([
-            'type'=> 'test',
         ]);
 
         Claass::query()->create([

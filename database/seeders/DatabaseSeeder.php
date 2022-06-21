@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classroom;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,15 @@ class DatabaseSeeder extends Seeder
          $this->call(AdminSeeder::class);
 
         $this->call([
+            BloodSeeder::class,
             TestSeeder::class,
+//            AdminSeeder::class,
+
+//            ClassroomSeeder::class,
+//            GenderSeeder::class,
+//            GradeSeeder::class,
+//            ReligtionSeeder::class,
+//            SubjectSeeder::class,
 //            SectionSeeder::class
         ]);
     }
