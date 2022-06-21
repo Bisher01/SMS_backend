@@ -89,6 +89,7 @@ class TestSeeder extends Seeder
                 'class_id' => 1,
                 'classroom_id' => 1,
                 'academic_year_id' => 1,
+                'address_id' => 1,
             ]);
 //
             Book::query()->create([

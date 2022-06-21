@@ -30,6 +30,7 @@ class CreateStudentsTable extends Migration
             $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
             $table->foreignId('classroom_id')->constrained('classrooms')->cascadeOnDelete();
             $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
+            $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -28,6 +28,7 @@ class Student extends Authenticatable
         'class_id',
         'classroom_id',
         'academic_year_id',
+        'address_id'
     ];
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');

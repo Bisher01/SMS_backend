@@ -15,6 +15,5 @@ class Address extends Model
     public $fillable = [
         'city','town','street'
     ];
-
     public $timestamps = true;
 }
