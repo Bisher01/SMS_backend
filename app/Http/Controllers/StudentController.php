@@ -7,6 +7,7 @@ use App\Models\Paarent;
 
 use Illuminate\Http\Request;
 use App\Traits\generalTrait;
+use Illuminate\Support\Facades\Facade;
 use phpDocumentor\Reflection\Types\Parent_;
 use PhpParser\Builder\Param;
 use PHPUnit\Framework\MockObject\Builder\Stub;
@@ -32,7 +33,7 @@ class StudentController extends Controller
 
     $result = $request->file('picture')->store('aaa');
     $student = Student::query()->create([
-        'picture'=>$result,
+       'picture'=>$result,
         'f_name'=>$request->f_name,
         'l_name'=>$request->l_name,
         'email'=>$request->email,
@@ -82,10 +83,12 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
-
-      // $result = $request->file('picture')->store('aaa');
+        if($request->file('file')){
+      $result = $request->file('file')->store('aaa');
+    $student->update(['picture'=>$result]);
+    }
         $student->update([
-        // 'picture'=>$result,
+
         'f_name'=>$request->f_name,
         'l_name'=>$request->l_name,
         'email'=>$request->email,
