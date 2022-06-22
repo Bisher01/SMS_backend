@@ -18,10 +18,8 @@ class AuthAdminController extends Controller
 
     public function login(Request $request)
 {
-
-    //$credentials = request(['email', 'password']);
-
-       $admin=Admin::query()->where('email',$request->email)->where('password',$request->password)->first();
+       $admin = Admin::query()->where('email',$request->email)
+           ->where('password',$request->password)->first();
         if(!isset($admin))
        {
         return $this->returnErrorMessage('admin Not Found', 404);}

@@ -30,3 +30,7 @@ Route::prefix('AcademicYear')->group(function () {
     Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
     Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
 });
+
+Route::prefix('student')->group(function () {
+    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
+});
