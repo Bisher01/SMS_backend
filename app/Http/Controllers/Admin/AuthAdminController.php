@@ -17,42 +17,20 @@ class AuthAdminController extends Controller
 
 
     public function login(Request $request)
-{
-       $admin = Admin::query()->where('email',$request->email)
-           ->where('password',$request->password)->first();
-        if(!isset($admin))
-       {
-        return $this->returnErrorMessage('admin Not Found', 404);}
-        else{
-            $token=$admin->createToken('user');
+    {
+        $admin = Admin::query()->where('email', $request->email)->first();
+        if(!isset($admin)) {
+            return $this->returnErrorMessage('Admin Not Found', 404);
+        }
+        if (!Hash::check(request('password'), $admin->password)) {
+            return $this->returnErrorMessage('Incorrect password', 403);
+        }
 
-            $data['admin']=$admin;
-            $data['type']='Bearer';
-            $data['token']=$token->accessToken;
+        $token= $admin->createToken('admin', ['admin']);
+        $data['admin'] = $admin;
+        $data['type'] ='Bearer';
+        $data['token'] = $token->accessToken;
 
-            return $this->returnData('admin Data', $data,'logged in successfully');
-      }
-
-
-    $credentials = request(['email', 'password']);
-    if (!Auth::attempt($credentials)){
-        throw new AuthenticationException();
+        return $this->returnData('data', $data,'logged in successfully');
     }
-//    $credentials = [$request->email, $request->password];
-
-//    if (Auth::attempt($credentials)) {
-
-            $admin = $request->user();
-
-            $token = $admin->createToken('admin', ['admin']);
-            $data['admin'] = $admin;
-            $data['type'] = 'Bearer';
-            $data['token'] = $token->accessToken;
-            return $this->returnData('admin Data', $data,'logged in successfully');
-//    }
-//    else {
-//            return $this->returnErrorMessage('admin Not Found', 404);
-//    }
-
-}
 }

@@ -33,13 +33,13 @@ Route::prefix('AcademicYear')->group(function () {
     Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
 });
 
-<<<<<<< HEAD
-Route::prefix('student')->group(function () {
-    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
-});
-=======
+
+//Route::prefix('student')->group(function () {
+//    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
+//});
+
 
 //Route::post('store', [App\Http\Controllers\StudentController::class, 'store']);
 
 Route::resource('student', 'App\Http\Controllers\StudentController');
->>>>>>> 536c4fc4de2cc2935a79c310fa76c4918a8b1d79
+
