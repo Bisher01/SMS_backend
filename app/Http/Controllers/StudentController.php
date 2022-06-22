@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Student;
+use App\Models\Paarent;
+
+use Illuminate\Http\Request;
+use App\Traits\generalTrait;
+use phpDocumentor\Reflection\Types\Parent_;
+use PhpParser\Builder\Param;
+use PHPUnit\Framework\MockObject\Builder\Stub;
+
+class StudentController extends Controller
+{
+    use generalTrait;
+
+    public function index()
+    {
+        $students=Student::query()->get();
+      //  $parents=Paarent::query()->get();
+
+        $data['students'] = $students;
+      //  $data['parents'] = $parents;
+
+    return $this->returnData('Student&parent Data', $data,'success');
+    }
+
+
+   public function store(Request $request)
+   {
+
+    $result = $request->file('picture')->store('aaa');
+    $student = Student::query()->create([
+        'picture'=>$result,
+        'f_name'=>$request->f_name,
+        'l_name'=>$request->l_name,
+        'email'=>$request->email,
+        'code'=>$request->code,
+        'nationality'=>$request->nationality,
+        'address_id'=>$request->address_id,
+        'birthdate'=>$request->birthdate,
+        'parent_id'=>$request->parent_id,
+        'blood_id'=>$request->blood_id,
+        'gender_id'=>$request->gender_id,
+        'religion_id'=>$request->religion_id,
+        'grade_id'=>$request->grade_id,
+        'class_id'=>$request->class_id,
+        'classroom_id'=>$request->classroom_id,
+        'academic_year_id'=>$request->academic_year_id,
+
+    ]);
+
+
+    $parent=Paarent::query()->create([
+        'mother_name'=>$request->mother_name,
+        'father_name'=>$request->father_name,
+        'code'=>$request->code,
+        'nationality'=>$request->nationality,
+        'phone'=>$request->phone,
+        'email'=>$request->email,
+        'jop'=>$request->jop,
+        'religion_id'=>$request->religion_id,
+        'blood_id'=>$request->blood_id,
+
+    ]);
+
+    $data['student'] = $student;
+    $data['parent'] = $parent;
+
+    return $this->returnData('Student Data', $data,'signup successfully');
+}
+
+
+    public function show(Student $student)
+    {
+        $data['student'] = $student;
+        return $this->returnData('Student&parent Data', $data,'success');
+
+    }
+
+
+    public function update(Request $request, Student $student)
+    {
+
+      // $result = $request->file('picture')->store('aaa');
+        $student->update([
+        // 'picture'=>$result,
+        'f_name'=>$request->f_name,
+        'l_name'=>$request->l_name,
+        'email'=>$request->email,
+        'code'=>$request->code,
+        'nationality'=>$request->nationality,
+        'address_id'=>$request->address_id,
+        'birthdate'=>$request->birthdate,
+        'parent_id'=>$request->parent_id,
+        'blood_id'=>$request->blood_id,
+        'gender_id'=>$request->gender_id,
+        'religion_id'=>$request->religion_id,
+        'grade_id'=>$request->grade_id,
+        'class_id'=>$request->class_id,
+        'classroom_id'=>$request->classroom_id,
+        'academic_year_id'=>$request->academic_year_id,
+        ]);
+
+        $data['student'] = $student;
+        return $this->returnData('Student Data', $data,'update successfully');
+    }
+
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+    }
+}
