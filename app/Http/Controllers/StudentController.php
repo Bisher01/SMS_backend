@@ -84,7 +84,7 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         if($request->file('file')){
-      $result = $request->file('file')->store('aaa');
+      $result = $request->file('file')->store($request->f_name);
     $student->update(['picture'=>$result]);
     }
         $student->update([
