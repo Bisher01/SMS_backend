@@ -23,6 +23,10 @@ class Paarent extends Authenticatable
         return $this->hasOne(Blood::class, 'blood_id');
 
     }
+    public function student(){
+        return $this->hasOne(Student::class, 'parent_id');
+
+    }
    public function religion(){
         return $this->hasOne(Religtion::class, 'religion_id');
     }
