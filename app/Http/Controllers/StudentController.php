@@ -50,11 +50,12 @@ class StudentController extends Controller
                           $data['parent'] = $parent;
 
             }
-            $result = $request->file('picture')->store($request->f_name);
+            $result = $request->file('picture')->store('a');
 
-            $student = Student::query()->create(['picture'=>$result]);
             $student = Student::query()->create([
-       
+                'picture'=>$result]);
+            $student = Student::query()->create([
+          // 'picture'=>$request->l_name,
           'f_name'=>$request->f_name,
           'l_name'=>$request->l_name,
           'email'=>$request->email,
@@ -77,10 +78,6 @@ class StudentController extends Controller
 
     }
 
-
-
-
-
     public function show(Student $student)
     {
         $data['student'] = $student;
@@ -93,7 +90,7 @@ class StudentController extends Controller
     {
         if($request->file('file')){
 
-      $result = $request->file('picture')->store($request->f_name);
+     $result = $request->file('picture')->store($request->f_name);
 
     $student->update(['picture'=>$result]);
     }
