@@ -14,7 +14,14 @@ class Paarent extends Authenticatable
     public $primaryKey = 'id';
 
     public $fillable = [
-       'blood_id','religion_id','mother_name','father_name','code','nationality','email','jop','phone'
+        'national_number',
+        'mother_name',
+        'father_name',
+        'code',
+        'nationality',
+        'email',
+        'jop',
+        'phone'
     ];
 
     public $timestamps = true;

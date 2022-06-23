@@ -41,5 +41,6 @@ Route::prefix('AcademicYear')->group(function () {
 
 //Route::post('store', [App\Http\Controllers\StudentController::class, 'store']);
 
-Route::resource('student', 'App\Http\Controllers\StudentController');
+Route::resource('student', 'App\Http\Controllers\add');
+Route::post('student/add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
 

@@ -63,12 +63,10 @@ class TestSeeder extends Seeder
             ]);
 //
             Paarent::query()->create([
-                'blood_id' => 1,
-                'religion_id' => 1,
                 'mother_name' => 'test',
                 'father_name' => 'test',
+                'national_number' => '0123456',
                 'code' => '00213007800',
-                'nationality' => 'test',
                 'email' => 'abd@gmail.com',
                 'jop' => 'test',
                 'phone' => 'test',

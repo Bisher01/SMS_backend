@@ -15,15 +15,13 @@ class CreateParentsTable extends Migration
 {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
+            $table->string('national_number')->unique();
             $table->string('mother_name');
             $table->string('father_name');
             $table->string('code');
-            $table->string('nationality');
             $table->string('phone');
             $table->string('email');
             $table->string('jop');
-            $table->foreignId('blood_id')->constrained('bloods')->cascadeOnDelete();
-            $table->foreignId('religion_id')->constrained('religtions')->cascadeOnDelete();
             $table->timestamps();
         });
     }
