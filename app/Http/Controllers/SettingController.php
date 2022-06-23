@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\setting;
+use App\Models\Student;
 
 class SettingController extends Controller
 {
@@ -40,10 +41,11 @@ class SettingController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-   /* public function show(User $user_id)
+   /* public function show(Student $request)
     {
         $user_id->products()->whereDate('expired_date', '>=', now());
-    }
+
+    }*/
 
     /**
      * Update the specified resource in storage.

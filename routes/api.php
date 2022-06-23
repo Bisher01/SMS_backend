@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use function PHPSTORM_META\map;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,3 +32,14 @@ Route::prefix('AcademicYear')->group(function () {
     Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
     Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
 });
+
+
+//Route::prefix('student')->group(function () {
+//    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
+//});
+
+
+//Route::post('store', [App\Http\Controllers\StudentController::class, 'store']);
+
+Route::resource('student', 'App\Http\Controllers\StudentController');
+

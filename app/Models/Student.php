@@ -46,9 +46,10 @@ class Student extends Authenticatable
     public function address(){
         return $this->hasOne(Address::class, 'address_id');
     }
+    public $with = ['parent'];
 
     public function parent(){
-        return $this->hasOne(Paarent::class, 'parent_id');
+        return $this->belongsTo(Paarent::class, 'parent_id');
     }
 
     public function blood(){

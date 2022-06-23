@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Paarent;
-use Symfony\Component\Console\Input\Input;
 use Illuminate\Http\Request;
 use App\Traits\generalTrait;
 use Illuminate\Support\Facades\Facade;
@@ -31,6 +30,7 @@ class StudentController extends Controller
    public function store(Request $request)
    {
 
+
           $parent=Paarent::query()->where('father_name',$request->father_name)->first();
             if(!isset($parent))
             {
@@ -50,9 +50,11 @@ class StudentController extends Controller
                           $data['parent'] = $parent;
 
             }
+            $result = $request->file('picture')->store($request->f_name);
 
+            $student = Student::query()->create(['picture'=>$result]);
             $student = Student::query()->create([
-         // 'picture'=> $imagepath,
+       
           'f_name'=>$request->f_name,
           'l_name'=>$request->l_name,
           'email'=>$request->email,
@@ -90,7 +92,9 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         if($request->file('file')){
+
       $result = $request->file('picture')->store($request->f_name);
+
     $student->update(['picture'=>$result]);
     }
         $student->update([
