@@ -41,6 +41,11 @@ Route::prefix('AcademicYear')->group(function () {
 
 //Route::post('store', [App\Http\Controllers\StudentController::class, 'store']);
 
-Route::post('student/add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
-Route::put('student/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'update']);
+Route::prefix('student')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Student\AddStudentController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
+    Route::put('edit/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'update']);
+    Route::delete('delete/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'destroy']);
+});
+
 

@@ -88,11 +88,12 @@ class AddStudentController extends Controller
 
     }
 
-    
+    public function editParent($request, $parent) {
+
+        return $parent;
+    }
     public function update(Request $request, Student $student)
     {
-
-
         $student->update([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
@@ -101,7 +102,6 @@ class AddStudentController extends Controller
            // 'picture' => '/'.$pathInData.'/'.$image_name,
             'address_id' => $request->address_id,
             'birthdate' => $request->birthdate,
-            'parent_id' => $request->parent_id,
             'blood_id' => $request->blood_id,
             'gender_id' => $request->gender_id,
             'religion_id' => $request->religion_id,
@@ -110,8 +110,17 @@ class AddStudentController extends Controller
             'classroom_id' => $request->classroom_id,
             'academic_year_id' => $request->academic_year_id,
         ]);
+        $student->parent()->update([
+            'national_number' => $request-> national_number,
+            'mother_name' => $request-> mother_name,
+            'father_name' => $request-> father_name,
+            'email' => $request-> parentEmail,
+            'jop' => $request-> parentJop,
+            'phone' => $request-> parentPhone,
+        ]);
 
         $data['student'] = $student;
+        $data['parent'] = $student->parent;
         return $this->returnData('Student Data', $data,'update successfully');
     }
 

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
 
 class Student extends Authenticatable
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, SoftDeletes;
     protected $table = 'students';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -46,7 +47,7 @@ class Student extends Authenticatable
     public function address(){
         return $this->hasOne(Address::class, 'address_id');
     }
-    public $with = ['parent'];
+//    public $with = ['parent'];
 
     public function parent(){
         return $this->belongsTo(Paarent::class, 'parent_id');
