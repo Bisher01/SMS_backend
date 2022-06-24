@@ -8,6 +8,8 @@ use App\Models\Paarent;
 use App\Models\Student;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AddStudentController extends Controller
 {
@@ -94,34 +96,27 @@ class AddStudentController extends Controller
     }
     public function update(Request $request, Student $student)
     {
-        $student->update([
-            'f_name' => $request->f_name,
-            'l_name' => $request->l_name,
-            'email' => $request->email,
-            'nationality' => $request->nationality,
-           // 'picture' => '/'.$pathInData.'/'.$image_name,
-            'address_id' => $request->address_id,
-            'birthdate' => $request->birthdate,
-            'blood_id' => $request->blood_id,
-            'gender_id' => $request->gender_id,
-            'religion_id' => $request->religion_id,
-            'grade_id' => $request->grade_id,
-            'class_id' => $request->class_id,
-            'classroom_id' => $request->classroom_id,
-            'academic_year_id' => $request->academic_year_id,
-        ]);
-        $student->parent()->update([
-            'national_number' => $request-> national_number,
-            'mother_name' => $request-> mother_name,
-            'father_name' => $request-> father_name,
-            'email' => $request-> parentEmail,
-            'jop' => $request-> parentJop,
-            'phone' => $request-> parentPhone,
-        ]);
-
-        $data['student'] = $student;
-        $data['parent'] = $student->parent;
-        return $this->returnData('Student Data', $data,'update successfully');
+            $student->f_name = $request->f_name;
+            $student->l_name = $request->l_name;
+            $student->email = $request->email;
+            $student->nationality = $request->nationality;
+            $student->address_id = $request->address_id;
+            $student->birthdate = $request->birthdate;
+            $student->blood_id = $request->blood_id;
+            $student->gender_id = $request->gender_id;
+            $student->religion_id = $request->religion_id;
+            $student->grade_id = $request->grade_id;
+            $student->class_id = $request->class_id;
+            $student->classroom_id = $request->classroom_id;
+            $student->academic_year_id = $request->academic_year_id;
+            if ($request->hasFile('picture')) {
+                if (Storage::exists($student->picture)) {
+                    Storage::delete($student->picture);
+                }
+                $student->picture =  '/'.$request->file('picture')->store('images/students');
+            }
+            $student->update();
+        return $this->returnData('Student Data', $student,'update successfully');
     }
 
 
