@@ -86,8 +86,7 @@ class AddStudentController extends Controller
     public function show(Student $student)
     {
         $data['student'] = $student;
-        return $this->returnData('Student&parent Data', $data,'success');
-
+        return $this->returnData('Student Data', $data,'success');
     }
 
     public function editParent($request, $parent) {
