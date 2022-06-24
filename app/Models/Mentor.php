@@ -32,6 +32,5 @@ class Mentor extends Authenticatable
     }
     public function address(){
         return $this->hasOne(Address::class, 'address_id');
-
     }
 }

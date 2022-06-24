@@ -50,7 +50,11 @@ Route::prefix('student')->group(function () {
 });
 
 Route::prefix('mentor')->group(function () {
-
+    Route::get('all', [\App\Http\Controllers\Mentor\MentorController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Mentor\MentorController::class, 'store']);
+    Route::put('edit/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'update']);
+    Route::get('show/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'show']);
+    Route::delete('delete/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'destroy']);
 });
 
 
