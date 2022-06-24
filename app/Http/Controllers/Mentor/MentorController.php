@@ -30,17 +30,9 @@ class MentorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-//    public function addAddress($request){
-//        $address = Address::query()->create([
-//            'city' => $request->city,
-//            'street' => $request->street,
-//            'town' => $request->town,
-//        ]);
-//        return $address;
-//    }
     public function store(Request $request)
     {
-        $data['bloods'] = $this->getBloods();
+//        $data['bloods'] = $this->getBloods();
         $address = $this->addAddress($request);
         $mentor = Mentor::query()->create([
             'email' => $request->email,
@@ -79,11 +71,12 @@ class MentorController extends Controller
      */
     public function update(Request $request, Mentor $mentor)
     {
+        $address = $this->addAddress($request);
         $mentor->update([
             'email' => $request->email,
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
-            'address_id' => $request->address_id,
+            'address_id' => $address->id,
             'joining_date' => $request->joining_date,
             'phone' => $request->phone,
             'class_id' => $request->class_id,
