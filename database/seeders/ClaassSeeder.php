@@ -20,7 +20,7 @@ class ClaassSeeder extends Seeder
 
             DB::table('Claasses')->insert([
                 [
-                    'name' => 'الصف الاول',
+                    'name' => '1 الصف الاول',
                     'grade_id' => '1'
                 ],
                 [

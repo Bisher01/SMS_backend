@@ -120,9 +120,10 @@ class TestSeeder extends Seeder
             Teacher::query()->create([
                 'subject_id' => 1,
                 'address_id' => 1,
-                'blood_id' => 1,
+                'religion_id' => 1,
                 'grade_id' => 1,
                 'gender_id' => 1,
+                'picture' => 'sssss',
                 'f_name' => 'teacher',
                 'l_name' => 'teacher',
                 'email' => 'tea@gmail.com',

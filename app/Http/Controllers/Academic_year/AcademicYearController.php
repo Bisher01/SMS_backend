@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Academic_year;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academic_year;
+use App\Models\Student;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,7 @@ class AcademicYearController extends Controller
         $yearId->update([
             'date' => $request->date,
         ]);
+      
         return $this->returnData('Academic Year', $yearId, 'Updated Successfully');
     }
 

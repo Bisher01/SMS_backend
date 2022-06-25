@@ -8,7 +8,8 @@ use App\Models\Blood;
 trait basicFunctionsTrait{
     use generalTrait;
     public function addAddress($request) {
-        $address  = Address::query()
+
+         $address  = Address::query()
             ->where('city', $request->city)
             ->where('street', $request->street)
             ->where('town', $request->town)
@@ -22,6 +23,7 @@ trait basicFunctionsTrait{
             return $address;
         }
         return $address;
+    
 
     }
     public function getBloods() {

@@ -20,8 +20,7 @@ class AddStudentController extends Controller
     public function index()
     {
         $students=Student::query()->get();
-        $data['students'] = $students;
-        return $this->returnData('Student&parent Data', $data,'success');
+        return $this->returnData('Student Data', $students,'success');
     }
 
     /**

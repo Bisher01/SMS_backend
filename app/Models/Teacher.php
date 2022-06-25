@@ -14,7 +14,7 @@ class Teacher extends Model
     public $fillable = [
         'subject_id',
         'address_id',
-        'blood_id',
+        'religion_id',
         'grade_id',
         'gender_id',
         'f_name',
@@ -22,7 +22,8 @@ class Teacher extends Model
         'email',
         'code',
         'joining_date',
-        'salary'
+        'salary',
+        'picture'
     ];
 
     public $timestamps = true;
@@ -34,8 +35,8 @@ class Teacher extends Model
    public function address(){
         return $this->hasOne(Address::class, 'address_id');
     }
-    public function blood(){
-        return $this->hasOne(Blood::class, 'blood_id');
+    public function religion(){
+        return $this->hasOne(Blood::class, 'religion_id');
     }
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');
