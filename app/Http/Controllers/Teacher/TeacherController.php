@@ -38,9 +38,6 @@ class TeacherController extends Controller
             $picture=null;
         }
 
-        $time = Carbon::now();
-
-        $code= '003' .$teacher->class_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H');
 
         $address = $this->addAddress($request);
 
@@ -48,7 +45,7 @@ class TeacherController extends Controller
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
-            'code' => $code,
+            'code' =>'003',
             'picture' => $picture,
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
@@ -59,6 +56,10 @@ class TeacherController extends Controller
             'grade_id' => $request->grade_id,
         ]);
 
+        $time = Carbon::now();
+        $teacher->update([
+            'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
+        ]);
         return $this->returnData('teacher Data', $teacher,'signup successfully');
 
     }
@@ -94,18 +95,14 @@ class TeacherController extends Controller
         }
 
         $address = $this->addAddress($request);
-        $address_id = $address -> id;
-          if (!isset($address))
-          {
-            $address_id=null;
-          }
+
         $teacher->update([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
-            'address_id' =>  $address_id,
+            'address_id' =>  $address->id,
             'subject_id' => $request->subject_id,
             'religion_id' => $request->religion_id,
             'gender_id' => $request->gender_id,
