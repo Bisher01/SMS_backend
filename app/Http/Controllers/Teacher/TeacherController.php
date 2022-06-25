@@ -29,7 +29,7 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Teacher $teacher)
+    public function store(Request $request)
     {
         if ($request->hasFile('picture')) {
             $picture = '/'.$request->file('picture')->store('images/teacher');
