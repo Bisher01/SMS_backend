@@ -38,7 +38,6 @@ class TeacherController extends Controller
             $picture=null;
         }
 
-
         $address = $this->addAddress($request);
 
         $teacher = Teacher::query()->create([
@@ -60,6 +59,7 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
+
         return $this->returnData('teacher Data', $teacher,'signup successfully');
 
     }
