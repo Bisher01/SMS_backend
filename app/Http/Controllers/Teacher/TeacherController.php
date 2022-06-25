@@ -91,8 +91,8 @@ class TeacherController extends Controller
             if (Storage::exists($teacher->picture)) {
                 Storage::delete($teacher->picture);
             }
-            $picture =  '/'.$request->file('picture')
-                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
+            $picture =  '/'.$request->file('picture')->storePubliclyAs( $request->f_name, $request->f_name);
+           // ($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name,'');
             $teacher->update(['picture' => $picture]);
         }
 

@@ -10,7 +10,7 @@ use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use Carbon\Carbon;
 class AddStudentController extends Controller
 {
     use generalTrait;
@@ -31,13 +31,7 @@ class AddStudentController extends Controller
      */
     public function store(AddStudentRquest $request)
     {
-        if ($request->hasFile('picture')) {
-            $destination_path = 'public/images/students';
-            $pathInData = 'storage/images/students';
-            $image = $request->file('picture');
-            $image_name = time().'.'.$image->getClientOriginalExtension();
-            $path = $image->storeAs($destination_path, $image_name);
-        }
+
         $parent = Paarent::query()
             ->where('national_number', $request->national_number)->first();
         if(!isset($parent))
@@ -56,13 +50,24 @@ class AddStudentController extends Controller
             ]);
             $data['parent'] = $parent;
         }
+
+        $time = Carbon::now();
+
+        if ($request->hasFile('picture')) {
+            $picture = '/'.$request->file('picture')
+                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
+        }
+        else{
+            $picture=null;
+        }
+
         $student = Student::query()->create([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
             'code' => '001',
             'nationality' => $request->nationality,
-            'picture' => '/'.$pathInData.'/'.$image_name,
+            'picture' => $picture,
             'address_id' => $request->address_id,
             'birthdate' => $request->birthdate,
             'parent_id' => $parent->id,
@@ -94,26 +99,37 @@ class AddStudentController extends Controller
     }
     public function update(Request $request, Student $student)
     {
-            $student->f_name = $request->f_name;
-            $student->l_name = $request->l_name;
-            $student->email = $request->email;
-            $student->nationality = $request->nationality;
-            $student->address_id = $request->address_id;
-            $student->birthdate = $request->birthdate;
-            $student->blood_id = $request->blood_id;
-            $student->gender_id = $request->gender_id;
-            $student->religion_id = $request->religion_id;
-            $student->grade_id = $request->grade_id;
-            $student->class_id = $request->class_id;
-            $student->classroom_id = $request->classroom_id;
-            $student->academic_year_id = $request->academic_year_id;
-            if ($request->hasFile('picture')) {
-                if (Storage::exists($student->picture)) {
-                    Storage::delete($student->picture);
-                }
-                $student->picture =  '/'.$request->file('picture')->store('images/students');
+
+        $time = Carbon::now();
+        if ($request->hasFile('picture')) {
+            if (Storage::exists($student->picture)) {
+                Storage::delete($student->picture);
             }
-            $student->update();
+            $picture =  '/'.$request->file('picture')
+                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
+            $student->update(['picture' => $picture]);
+        }
+
+        $address = $this->addAddress($request);
+
+        $student->update([
+            'f_name' => $request->f_name,
+            'l_name' => $request->l_name,
+            'email' => $request->email,
+            'nationality' => $request->nationality,
+            'address_id' => $request->address_id,
+            'birthdate' => $request->birthdate,
+            'parent_id' => $request->parent_id,
+            'blood_id' => $request->blood_id,
+            'gender_id' => $request->gender_id,
+            'religion_id' => $request->religion_id,
+            'grade_id' => $request->grade_id,
+            'class_id' => $request->class_id,
+            'classroom_id' => $request->classroom_id,
+            'academic_year_id' => $request->academic_year_id,
+        ]);
+
+          
         return $this->returnData('Student Data', $student,'update successfully');
     }
 
