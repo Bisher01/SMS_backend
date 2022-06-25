@@ -31,8 +31,10 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        $time = Carbon::now();
         if ($request->hasFile('picture')) {
-            $picture = '/'.$request->file('picture')->store('images/teacher');
+            $picture = '/'.$request->file('picture')
+                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
         }
         else{
             $picture=null;
@@ -55,7 +57,6 @@ class TeacherController extends Controller
             'grade_id' => $request->grade_id,
         ]);
 
-        $time = Carbon::now();
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
@@ -85,12 +86,13 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-
+        $time = Carbon::now();
         if ($request->hasFile('picture')) {
             if (Storage::exists($teacher->picture)) {
                 Storage::delete($teacher->picture);
             }
-            $picture =  '/'.$request->file('picture')->store('images/teacher');
+            $picture =  '/'.$request->file('picture')
+                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
             $teacher->update(['picture' => $picture]);
         }
 
