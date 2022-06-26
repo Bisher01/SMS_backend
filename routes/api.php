@@ -70,4 +70,10 @@ Route::prefix('teacher')->group(function () {
     Route::delete('delete/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'destroy']);
 });
 
+Route::prefix('subject')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Subject\SubjectController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Subject\SubjectController::class, 'store']);
+    Route::put('edit/{subject}', [\App\Http\Controllers\Subject\SubjectController::class, 'update']);
+    Route::delete('delete/{subject}', [\App\Http\Controllers\Subject\SubjectController::class, 'destroy']);
+});
 

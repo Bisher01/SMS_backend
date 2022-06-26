@@ -114,7 +114,6 @@ class TestSeeder extends Seeder
 
             Subject::query()->create([
                 'name' => 'test',
-                'book_id' => 1,
             ]);
 //
             Teacher::query()->create([
