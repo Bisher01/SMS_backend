@@ -11,7 +11,7 @@ class Subject extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-        'name', 'book_id'
+        'name',
     ];
 
     public $timestamps = true;

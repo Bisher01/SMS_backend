@@ -122,11 +122,7 @@ class AddStudentController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'nationality' => $request->nationality,
-<<<<<<< HEAD
-            'address_id' => $address->id,
-=======
             'address_id' =>  $address->id,
->>>>>>> f3ef9afd2e1da416efcfe0eee60e308c55b0160b
             'birthdate' => $request->birthdate,
             'parent_id' => $request->parent_id,
             'blood_id' => $request->blood_id,
