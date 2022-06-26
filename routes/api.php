@@ -49,6 +49,11 @@ Route::prefix('student')->group(function () {
     Route::delete('delete/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'destroy']);
 });
 
+Route::prefix('parent')->group(function () {
+    Route::put('edit/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'update']);
+    Route::delete('delete/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'destroy']);
+});
+
 Route::prefix('mentor')->group(function () {
     Route::get('all', [\App\Http\Controllers\Mentor\MentorController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Mentor\MentorController::class, 'store']);
