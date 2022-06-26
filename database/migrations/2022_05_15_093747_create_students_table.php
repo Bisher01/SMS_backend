@@ -20,7 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('email');
             $table->string('code');
             $table->string('nationality');
-            $table->text('picture');
+            $table->text('picture')->nullable();
             $table->date('birthdate');
             $table->foreignId('parent_id')->constrained('parents')->cascadeOnDelete();
             $table->foreignId('blood_id')->constrained('bloods')->cascadeOnDelete();

@@ -8,6 +8,7 @@ use App\Models\Paarent;
 use App\Models\Student;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
+use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
