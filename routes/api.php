@@ -77,3 +77,17 @@ Route::prefix('subject')->group(function () {
     Route::delete('delete/{subject}', [\App\Http\Controllers\Subject\SubjectController::class, 'destroy']);
 });
 
+Route::prefix('classroom')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Classroom\ClassroomController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Classroom\ClassroomController::class, 'store']);
+    Route::put('edit/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'update']);
+    Route::delete('delete/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
+});
+
+Route::prefix('syllabi')->group(function () {
+    Route::get('all', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\syllabi\syllabiController::class, 'store']);
+    Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
+    Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
+});
+

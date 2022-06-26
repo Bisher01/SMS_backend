@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSyllabisTable extends Migration
+class CreateSubjectClassTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateSyllabisTable extends Migration
      */
     public function up()
     {
-        Schema::create('syllabis', function (Blueprint $table) {
+        Schema::create('subject_class', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
+            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateSyllabisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syllabis');
+        Schema::dropIfExists('subject_class');
     }
 }

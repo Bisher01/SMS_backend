@@ -28,4 +28,11 @@ class Subject extends Model
         return $this->hasMany(Exam::class, 'subject_id');
 
     }
+
+    public function classes() {
+        return $this->belongsToMany(Claass::class, 'subject_class');
+    }
+    public function teachers() {
+        return $this->belongsToMany(Teacher::class, 'subject_class');
+    }
 }

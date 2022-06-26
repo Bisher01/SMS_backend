@@ -22,4 +22,11 @@ class Claass extends Model
     public function classExam(){
         return $this->hasMany(ClassExam::class, 'class_id');
     }
+
+    public function subjects() {
+        return $this->belongsToMany(Subject::class, 'subject_class');
+    }
+    public function teachers() {
+        return $this->belongsToMany(Teacher::class, 'subject_class');
+    }
 }

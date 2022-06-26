@@ -30,27 +30,27 @@ class TestSeeder extends Seeder
      */
     public function run()
     {
-            DB::table('addresses')->delete();
+//            DB::table('addresses')->delete();
             DB::table('classrooms')->delete();
             DB::table('claass_classrooms')->delete();
             DB::table('books')->delete();
             DB::table('academic_years')->delete();
-            DB::table('teachers')->delete();
-            DB::table('parents')->delete();
-            DB::table('subjects')->delete();
-            DB::table('students')->delete();
-            DB::table('mentors')->delete();
+//            DB::table('teachers')->delete();
+//            DB::table('parents')->delete();
+//            DB::table('subjects')->delete();
+//            DB::table('students')->delete();
+//            DB::table('mentors')->delete();
 
             //
-            Academic_year::query()->create([
-                'date' => '2022-05-03',
-            ]);
-
-            Address::query()->create([
-                'city' => 'test',
-                'street' => 'test',
-                'town' => 'test',
-            ]);
+//            Academic_year::query()->create([
+//                'date' => '2022-05-03',
+//            ]);
+//
+//            Address::query()->create([
+//                'city' => 'test',
+//                'street' => 'test',
+//                'town' => 'test',
+//            ]);
 
             Classroom::query()->create([
                 'name' => 'test',
@@ -62,61 +62,61 @@ class TestSeeder extends Seeder
                 'classroom_id' => 1,
             ]);
 //
-            Paarent::query()->create([
-                'mother_name' => 'test',
-                'father_name' => 'test',
-                'national_number' => '0123456',
-                'code' => '00213007800',
-                'email' => 'abd@gmail.com',
-                'jop' => 'test',
-                'phone' => 'test',
-            ]);
-            Student::query()->create([
-                'f_name' => 'test',
-                'l_name' => 'test',
-                'email' => 'test@gmail.com',
-                'code' => '00113502800',
-                'nationality' => 'test',
-                'picture' => 'test',
-                'birthdate' => '2022-05-03',
-                'parent_id' => 1,
-                'blood_id' => 1,
-                'gender_id' => 1,
-                'religion_id' => 1,
-                'grade_id' => 1,
-                'class_id' => 1,
-                'classroom_id' => 1,
-                'academic_year_id' => 1,
-                'address_id' => 1,
-            ]);
-            Student::query()->create([
-                'f_name' => 'abd',
-                'l_name' => 'abd',
-                'email' => 'adb@gmail.com',
-                'code' => '00120002800',
-                'nationality' => 'test',
-                'picture' => 'test',
-                'birthdate' => '2022-05-03',
-                'parent_id' => 1,
-                'blood_id' => 1,
-                'gender_id' => 1,
-                'religion_id' => 1,
-                'grade_id' => 1,
-                'class_id' => 1,
-                'classroom_id' => 1,
-                'academic_year_id' => 1,
-                'address_id' => 1,
-            ]);
-//
+//            Paarent::query()->create([
+//                'mother_name' => 'test',
+//                'father_name' => 'test',
+//                'national_number' => '0123456',
+//                'code' => '00213007800',
+//                'email' => 'abd@gmail.com',
+//                'jop' => 'test',
+//                'phone' => 'test',
+//            ]);
+//            Student::query()->create([
+//                'f_name' => 'test',
+//                'l_name' => 'test',
+//                'email' => 'test@gmail.com',
+//                'code' => '00113502800',
+//                'nationality' => 'test',
+//                'picture' => 'test',
+//                'birthdate' => '2022-05-03',
+//                'parent_id' => 1,
+//                'blood_id' => 1,
+//                'gender_id' => 1,
+//                'religion_id' => 1,
+//                'grade_id' => 1,
+//                'class_id' => 1,
+//                'classroom_id' => 1,
+//                'academic_year_id' => 1,
+//                'address_id' => 1,
+//            ]);
+//            Student::query()->create([
+//                'f_name' => 'abd',
+//                'l_name' => 'abd',
+//                'email' => 'adb@gmail.com',
+//                'code' => '00120002800',
+//                'nationality' => 'test',
+//                'picture' => 'test',
+//                'birthdate' => '2022-05-03',
+//                'parent_id' => 1,
+//                'blood_id' => 1,
+//                'gender_id' => 1,
+//                'religion_id' => 1,
+//                'grade_id' => 1,
+//                'class_id' => 1,
+//                'classroom_id' => 1,
+//                'academic_year_id' => 1,
+//                'address_id' => 1,
+//            ]);
+////
             Book::query()->create([
                 'name' => 'test',
             ]);
 
-            Subject::query()->create([
-                'name' => 'test',
-            ]);
+//            Subject::query()->create([
+//                'name' => 'test',
+//            ]);
 //
-            Teacher::query()->create([
+          /*  Teacher::query()->create([
                 'subject_id' => 1,
                 'address_id' => 1,
                 'religion_id' => 1,
@@ -140,7 +140,7 @@ class TestSeeder extends Seeder
                 'joining_date' => '2022-05-03',
                 'phone' => '0952200',
                 'class_id' => 1,
-            ]);
+            ]);*/
 
     }
 }
