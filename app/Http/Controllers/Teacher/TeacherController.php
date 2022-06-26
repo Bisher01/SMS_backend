@@ -90,9 +90,10 @@ class TeacherController extends Controller
         if ($request->hasFile('picture')) {
             if (Storage::exists($teacher->picture)) {
                 Storage::delete($teacher->picture);
+                Storage::deleteDirectory($time->format('Y').'/images/teacher/'. $teacher->f_name. '_'. $teacher->l_name);
             }
-            $picture =  '/'.$request->file('picture')->storePubliclyAs( $request->f_name, $request->f_name);
-           // ($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name,'');
+            $picture =  '/'.$request->file('picture')
+                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
             $teacher->update(['picture' => $picture]);
         }
 
@@ -102,6 +103,7 @@ class TeacherController extends Controller
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
+            'picture' => $picture,
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
             'address_id' =>  $address->id,
