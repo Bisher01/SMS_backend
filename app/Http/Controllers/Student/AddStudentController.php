@@ -7,13 +7,14 @@ use App\Http\Requests\AddStudentRquest;
 use App\Models\Paarent;
 use App\Models\Student;
 use App\Traits\generalTrait;
+use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 class AddStudentController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
 
 
 
