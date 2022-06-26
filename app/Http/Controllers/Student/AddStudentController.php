@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddStudentRquest;
 use App\Models\Paarent;
 use App\Models\Student;
+use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 class AddStudentController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
 
 
 
@@ -54,6 +55,7 @@ class AddStudentController extends Controller
         $time = Carbon::now();
 
         if ($request->hasFile('picture')) {
+
             $picture = '/'.$request->file('picture')
                     ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
         }
@@ -104,6 +106,7 @@ class AddStudentController extends Controller
         if ($request->hasFile('picture')) {
             if (Storage::exists($student->picture)) {
                 Storage::delete($student->picture);
+                Storage::deleteDirectory($time->format('Y').'/images/student/'. $student->f_name. '_'. $student->l_name);
             }
             $picture =  '/'.$request->file('picture')
                     ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
@@ -117,7 +120,7 @@ class AddStudentController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'nationality' => $request->nationality,
-            'address_id' => $request->address_id,
+            'address_id' => $address->id,
             'birthdate' => $request->birthdate,
             'parent_id' => $request->parent_id,
             'blood_id' => $request->blood_id,
@@ -129,7 +132,7 @@ class AddStudentController extends Controller
             'academic_year_id' => $request->academic_year_id,
         ]);
 
-          
+
         return $this->returnData('Student Data', $student,'update successfully');
     }
 
