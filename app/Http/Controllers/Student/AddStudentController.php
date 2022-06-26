@@ -63,6 +63,8 @@ class AddStudentController extends Controller
             $picture=null;
         }
 
+        $address = $this->addAddress($request);
+
         $student = Student::query()->create([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
@@ -70,7 +72,7 @@ class AddStudentController extends Controller
             'code' => '001',
             'nationality' => $request->nationality,
             'picture' => $picture,
-            'address_id' => $request->address_id,
+            'address_id' =>$address->id,
             'birthdate' => $request->birthdate,
             'parent_id' => $parent->id,
             'blood_id' => $request->blood_id,
@@ -120,7 +122,11 @@ class AddStudentController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'nationality' => $request->nationality,
+<<<<<<< HEAD
             'address_id' => $address->id,
+=======
+            'address_id' =>  $address->id,
+>>>>>>> f3ef9afd2e1da416efcfe0eee60e308c55b0160b
             'birthdate' => $request->birthdate,
             'parent_id' => $request->parent_id,
             'blood_id' => $request->blood_id,
