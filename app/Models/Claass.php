@@ -29,4 +29,12 @@ class Claass extends Model
     public function teachers() {
         return $this->belongsToMany(Teacher::class, 'subject_class');
     }
+    public function classroom() {
+        return $this->belongsToMany(
+            Classroom::class,
+            'claass_classrooms',
+            'class_id',
+            'classroom_id'
+        );
+    }
 }
