@@ -82,6 +82,7 @@ Route::prefix('classroom')->group(function () {
     Route::post('add', [\App\Http\Controllers\Classroom\ClassroomController::class, 'store']);
     Route::put('edit/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'update']);
     Route::put('addClassroomToClass/{claass}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'addClassroomToClass']);
+    Route::put('addSubjectToClass/{claass}', [\App\Http\Controllers\Subject\SubjectController::class, 'addSubjectToClass']);
     Route::delete('delete/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
 });
 
@@ -93,3 +94,7 @@ Route::prefix('syllabi')->group(function () {
 });
 
 Route::post('add', [\App\Http\Controllers\Subject\SubjectClassController::class, 'store']);
+
+Route::prefix('addToClass')->group(function () {
+
+});

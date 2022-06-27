@@ -64,4 +64,10 @@ class SubjectController extends Controller
         return $this->returnSuccessMessage('deleted subject successfully');
     }
 
+    public function addSubjectToClass(Request $request, Claass $claass) {
+        $claass->subjects()->syncWithoutDetaching($request->subject_id);
+        return $this->returnSuccessMessage('added subject to class successfully');
+    }
+
+
 }

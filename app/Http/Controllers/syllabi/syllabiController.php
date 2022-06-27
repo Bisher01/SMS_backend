@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\syllabi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Claass;
 use App\Models\Subject;
 use App\Models\Subject_Class;
 use App\Models\SubjectClass;
@@ -25,7 +26,7 @@ class syllabiController extends Controller
     {
         $syllabi = Syllabi::query()->get();
         return $this->returnData('syllabi', $syllabi, 'syllabi');
- 
+
     }
 
     /**
@@ -36,6 +37,11 @@ class syllabiController extends Controller
      */
     public function store(Request $request)
     {
+        $subjectClass = SubjectClass::query()->find($request->subject_class_id);
+        $subName = Subject::query()->select('name')->where('id', $subjectClass->subject_id)->first();
+        $classNmae = Claass::query()->select('name')->where('id', $subjectClass->class_id)->first();
+        dd( $classNmae->name, $subName->name);
+
         $picture  = null;
         $time  = Carbon::now();
         if ($request->hasFile('content')) {

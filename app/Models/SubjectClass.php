@@ -16,7 +16,7 @@ class SubjectClass extends Model
 
     protected $fillable=[
 
-        'teacher_id','class_id','subject_id'
+        'class_id','subject_id'
     ];
 
     public $timetamps = true;

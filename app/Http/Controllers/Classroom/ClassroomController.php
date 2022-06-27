@@ -46,6 +46,6 @@ class ClassroomController extends Controller
 
     public function addClassroomToClass(Request $request, Claass $claass) {
         $claass -> classroom()->syncWithoutDetaching($request -> classroom_Id);
-        return $this->returnSuccessMessage('added classroom successfully');
+        return $this->returnSuccessMessage('added classroom to class successfully');
     }
 }
