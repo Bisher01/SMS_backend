@@ -63,4 +63,5 @@ class SubjectController extends Controller
         $subject->delete();
         return $this->returnSuccessMessage('deleted subject successfully');
     }
+
 }

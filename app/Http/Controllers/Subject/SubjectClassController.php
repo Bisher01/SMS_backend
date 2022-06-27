@@ -31,10 +31,17 @@ class SubjectClassController extends Controller
     {
         $class = Claass::find($request->class_id);
 
-           $class->subjects()->attach($request->subject_id,['teacher_id'=>$request->teacher_id]);
+          // $class->subjects()->attach($request->subject_id,['teacher_id'=>$request->teacher_id]);
 
 
-          //  $class->subjects()->syncWithoutDetaching([$request->subject_id,['teacher_id'=>$request->teacher_id]]);
+         //   $class->subjects()->syncWithoutDetaching(['subject_id'=>$request->subject_id],['teacher_id'=>$request->teacher_id]);
+
+         $class -> subjects()->syncWithoutDetaching([$$request -> subject_id,'teacher_id'=>$request->teacher_id]);
+
+
+        //  $class -> teachers()->syncWithoutDetaching([$request->teacher_id]);
+
+        // $class->teachers()->syncWithoutDetaching( $request->teacher_id);
 
 
        // echo 'n';

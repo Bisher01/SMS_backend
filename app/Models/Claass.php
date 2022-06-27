@@ -25,12 +25,12 @@ class Claass extends Model
 
 
     public function subjects() {
-        return $this->belongsToMany(Subject::class, 'subject_class','subject_id','class_id');
+        return $this->belongsToMany(Subject::class, 'subject_class','class_id','subject_id');
     }
     public function teachers() {
-        return $this->belongsToMany(Teacher::class, 'subject_class','teacher_id','class_id');
+        return $this->belongsToMany(Teacher::class, 'subject_class','class_id','teacher_id');
     }
     public function classroom() {
-        return $this->belongsToMany(Classroom::class, 'claass_classrooms','classroom_id','class_id');
+        return $this->belongsToMany(Classroom::class, 'claass_classrooms','class_id','classroom_id');
     }
 }

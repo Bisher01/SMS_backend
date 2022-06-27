@@ -31,10 +31,10 @@ class Subject extends Model
 
     public function classes() {
 
-        return $this->belongsToMany(Claass::class, 'subject_class','class_id','subject_id');
+        return $this->belongsToMany(Claass::class, 'subject_class','subject_id','class_id');
     }
     public function teachers() {
-        return $this->belongsToMany(Teacher::class, 'subject_class','teacher_id','subject_id');
+        return $this->belongsToMany(Teacher::class, 'subject_class','subject_id','teacher_id');
 
     }
 }

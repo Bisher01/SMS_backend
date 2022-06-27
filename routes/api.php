@@ -92,4 +92,4 @@ Route::prefix('syllabi')->group(function () {
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
 });
 
-Route::post('test/{claass}', [\App\Http\Controllers\Claass\ClassController::class, 'update']);
+Route::post('add', [\App\Http\Controllers\Subject\SubjectClassController::class, 'store']);

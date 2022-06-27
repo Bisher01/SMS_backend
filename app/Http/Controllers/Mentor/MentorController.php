@@ -21,7 +21,7 @@ class MentorController extends Controller
     public function index()
     {
         $mentors = Mentor::query()->get();
-        return $this->returnData('data', $mentors, 'list of mentors');
+        return $this->returnData('mentor', $mentors, 'list of mentors');
     }
 
     /**
@@ -32,7 +32,6 @@ class MentorController extends Controller
      */
     public function store(Request $request)
     {
-//        $data['bloods'] = $this->getBloods();
         $address = $this->addAddress($request);
         $mentor = Mentor::query()->create([
             'email' => $request->email,
@@ -48,8 +47,8 @@ class MentorController extends Controller
         $mentor->update([
             'code' =>  '004' .$mentor->class_id.  rand(0, 99) . $mentor->id . rand(100, 999) . $time->format('H') ,
         ]);
-        $data['mentor'] = $mentor;
-        return $this->returnData('data', $data, 'added mentor successfully');
+         $data[] = $mentor;
+        return $this->returnData('mentor', $data, 'added mentor successfully');
     }
     /**
      * Display the specified resource.
@@ -59,7 +58,9 @@ class MentorController extends Controller
      */
     public function show(Mentor $mentor)
     {
-        return $this->returnData('Student Data', $mentor,'success');
+        $data[] = $mentor;
+
+        return $this->returnData('mentor', $data,'success');
     }
 
     /**
@@ -81,7 +82,10 @@ class MentorController extends Controller
             'phone' => $request->phone,
             'class_id' => $request->class_id,
         ]);
-        return $this->returnData('Data', $mentor,'updated successfully');
+
+        $data[] = $mentor;
+
+        return $this->returnData('mentor', $data,'updated successfully');
     }
 
     /**
