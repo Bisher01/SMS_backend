@@ -91,3 +91,9 @@ Route::prefix('syllabi')->group(function () {
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
 });
 
+// Route::prefix('syllabi')->group(function () {
+   // Route::get('all', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\subject\SubjectClassController::class, 'store']);
+    Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
+    Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
+// });

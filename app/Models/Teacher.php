@@ -47,9 +47,9 @@ class Teacher extends Model
     }
 
     public function subjects() {
-        return $this->belongsToMany(Subject::class, 'subject_class');
+        return $this->belongsToMany(Subject::class, 'subject_class','subject_id','teacher_id');
     }
     public function classes() {
-        return $this->belongsToMany(Claass::class, 'subject_class');
+        return $this->belongsToMany(Claass::class, 'subject_class','class_id','teacher_id');
     }
 }
