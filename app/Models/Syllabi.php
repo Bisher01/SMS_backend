@@ -9,6 +9,7 @@ class Syllabi extends Model
 {
     use HasFactory;
 
+    
     protected $table = 'syllabi';
     protected $fillable  = [
         'content' ,

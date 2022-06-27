@@ -21,7 +21,9 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers=Teacher::query()->get();
-        return $this->returnData('Teacher Data', $teachers,'success');    }
+        return $this->returnData('Teacher Data', $teachers,'success');
+    
+    }
 
     /**
      * Store a newly created resource in storage.

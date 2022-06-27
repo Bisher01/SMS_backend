@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\syllabi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
+use App\Models\Subject_Class;
+use App\Models\SubjectClass;
 use App\Models\Syllabi;
+use App\Models\Teacher;
 use App\Traits\generalTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,6 +25,7 @@ class syllabiController extends Controller
     {
         $syllabi = Syllabi::query()->get();
         return $this->returnData('syllabi', $syllabi, 'syllabi');
+ 
     }
 
     /**
@@ -33,9 +38,9 @@ class syllabiController extends Controller
     {
         $picture  = null;
         $time  = Carbon::now();
-        if ($request->hasFile('pdf')) {
+        if ($request->hasFile('content')) {
 
-            $picture = '/'.$request->file('pdf')
+            $picture = '/'.$request->file('content')
                     ->store($time->format('Y').'/syllabi/subject/');
         }
 
@@ -58,12 +63,12 @@ class syllabiController extends Controller
     {
         $pdf  = null;
         $time  = Carbon::now();
-        if ($request->hasFile('pdf')) {
+        if ($request->hasFile('content')) {
                 if (Storage::exists($syllabi->content)) {
                     Storage::delete($syllabi->content);
 //                    Storage::deleteDirectory($time->format('Y').'/syllabi/student/');
                     }
-            $pdf = '/'.$request->file('pdf')
+            $pdf = '/'.$request->file('content')
                     ->store($time->format('Y').'/syllabi/subject/');
         }
 

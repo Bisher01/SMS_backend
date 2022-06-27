@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Subject;
 
 use App\Http\Controllers\Controller;
+use App\Models\Claass;
 use App\Models\Subject;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
