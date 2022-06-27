@@ -22,7 +22,7 @@ class TeacherController extends Controller
     {
         $teachers=Teacher::query()->get();
         return $this->returnData('Teacher Data', $teachers,'success');
-    
+
     }
 
     /**
@@ -127,5 +127,10 @@ class TeacherController extends Controller
     {
         $teacher->delete();
         return $this->returnSuccessMessage('deleted teacher successfully');
+    }
+
+    public function addClassroomToTeacher(Request $request, Teacher $teacher) {
+        $teacher -> classClassroom()->syncWithoutDetaching($request -> claass_classroom_id);
+        return $this->returnSuccessMessage('added classroom successfully');
     }
 }
