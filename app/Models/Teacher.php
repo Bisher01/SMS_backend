@@ -46,10 +46,24 @@ class Teacher extends Model
         return $this->hasOne(Blood::class, 'gender_id');
     }
 
-    public function subjects() {
-        return $this->belongsToMany(Subject::class, 'subject_class');
-    }
+//    public function subjects() {
+//        return $this->belongsToMany(Subject::class, 'subject_class');
+//    }
     public function classes() {
-        return $this->belongsToMany(Claass::class, 'subject_class');
+        return $this->belongsToMany(
+            Claass::class,
+            'subject_class',
+            'teacher_id',
+            'class_id'
+        );
+    }
+    public function subjects()
+    {
+        return $this->belongsToMany(
+            Subject::class,
+            'subject_class',
+            'teacher_id',
+            'subject_id'
+        );
     }
 }
