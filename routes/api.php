@@ -81,6 +81,7 @@ Route::prefix('classroom')->group(function () {
     Route::get('all', [\App\Http\Controllers\Classroom\ClassroomController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Classroom\ClassroomController::class, 'store']);
     Route::put('edit/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'update']);
+    Route::put('addClassroomToClass/{claass}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'addClassroomToClass']);
     Route::delete('delete/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
 });
 
@@ -91,9 +92,4 @@ Route::prefix('syllabi')->group(function () {
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
 });
 
-// Route::prefix('syllabi')->group(function () {
-   // Route::get('all', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
-    Route::post('add', [\App\Http\Controllers\subject\SubjectClassController::class, 'store']);
-    Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
-    Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
-// });
+Route::post('test/{claass}', [\App\Http\Controllers\Claass\ClassController::class, 'update']);
