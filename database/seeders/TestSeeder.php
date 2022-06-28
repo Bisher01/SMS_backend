@@ -31,10 +31,10 @@ class TestSeeder extends Seeder
     public function run()
     {
 //            DB::table('addresses')->delete();
-            DB::table('classrooms')->delete();
-            DB::table('claass_classrooms')->delete();
-            DB::table('books')->delete();
-            DB::table('academic_years')->delete();
+//            DB::table('classrooms')->delete();
+//            DB::table('claass_classrooms')->delete();
+//            DB::table('books')->delete();
+//            DB::table('academic_years')->delete();
 //            DB::table('teachers')->delete();
 //            DB::table('parents')->delete();
 //            DB::table('subjects')->delete();
