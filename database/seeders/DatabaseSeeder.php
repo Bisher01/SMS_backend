@@ -19,17 +19,16 @@ class DatabaseSeeder extends Seeder
     {
        //  \App\Models\User::factory(10)->create();
        $this->call([
+           GradeSeeder::class,
            BloodSeeder::class,
            GenderSeeder::class,
            ReligtionSeeder::class,
-           GradeSeeder::class,
            ClaassSeeder::class,
            AdminSeeder::class,
+           LessonSeeder::class,
            NationalitySeeder::class,
-//         ClassroomSeeder::class,
-           SubjectSeeder::class,
-           TestSeeder::class,
-//         SectionSeeder::class
+           DaysSeeder::class,
+           LessonSeeder::class,
         ]);
 
     }

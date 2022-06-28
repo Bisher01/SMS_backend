@@ -24,6 +24,7 @@ Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, '
 
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
+    Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);
 });
 
 Route::prefix('AcademicYear')->group(function () {
@@ -97,6 +98,3 @@ Route::prefix('syllabi')->group(function () {
 
 Route::post('add', [\App\Http\Controllers\Subject\SubjectClassController::class, 'store']);
 
-Route::prefix('addToClass')->group(function () {
-
-});

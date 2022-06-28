@@ -34,7 +34,8 @@ class SubjectController extends Controller
         $subject = Subject::query()->create([
             'name' => $request->subject_name
         ]);
-        return $this->returnData('subject', $subject, 'added subject successfully');
+        $data[] = $subject;
+        return $this->returnData('subject', $data, 'added subject successfully');
     }
 
 
@@ -50,7 +51,8 @@ class SubjectController extends Controller
         $subject->update([
             'name' => $request->subject_name
         ]);
-        return $this->returnData('subject', $subject, 'updated subject successfully');
+        $data[] = $subject;
+        return $this->returnData('subject', $data, 'updated subject successfully');
     }
 
     /**
@@ -64,8 +66,6 @@ class SubjectController extends Controller
         $subject->delete();
         return $this->returnSuccessMessage('deleted subject successfully');
     }
-
-  
 
 
 }

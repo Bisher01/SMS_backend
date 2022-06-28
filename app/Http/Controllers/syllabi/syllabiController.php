@@ -26,7 +26,6 @@ class syllabiController extends Controller
     {
         $syllabi = Syllabi::query()->get();
         return $this->returnData('syllabi', $syllabi, 'syllabi');
-
     }
 
     /**
@@ -40,21 +39,20 @@ class syllabiController extends Controller
         $subjectClass = SubjectClass::query()->find($request->subject_class_id);
         $subName = Subject::query()->select('name')->where('id', $subjectClass->subject_id)->first();
         $classNmae = Claass::query()->select('name')->where('id', $subjectClass->class_id)->first();
-        dd( $classNmae->name, $subName->name);
-
-        $picture  = null;
+        $path  = null;
         $time  = Carbon::now();
         if ($request->hasFile('content')) {
 
-            $picture = '/'.$request->file('content')
-                    ->store($time->format('Y').'/syllabi/subject/');
+            $path = '/'.$request->file('content')
+                    ->store($time->format('Y').'/syllabi/'.$subName->name. '/'. $classNmae->name);
         }
 
         $syllabi = Syllabi::query()->create([
-            'content' => $picture,
+            'content' => $path,
             'subject_class_id' => $request->subject_class_id
         ]);
-        return $this->returnData('data', $syllabi, 'a');
+        $data[] = $syllabi;
+        return $this->returnData('syllabi', $data, 'added syllabi success');
     }
 
 
@@ -82,8 +80,8 @@ class syllabiController extends Controller
             'content' => $pdf,
             'subject_class_id' => $request->subject_class_id
         ]);
-
-        return $this->returnData('syllabi', $syllabi, 'syllabi') ;
+        $data[] = $syllabi;
+        return $this->returnData('syllabi', $data, 'updated syllabi success') ;
     }
 
     /**

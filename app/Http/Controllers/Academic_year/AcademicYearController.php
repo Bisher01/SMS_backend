@@ -23,13 +23,15 @@ class AcademicYearController extends Controller
         $academicYear = Academic_year::query()->create([
             'date' => $request->date,
         ]);
-        return $this->returnData('Academic Year', $academicYear, 'Added Successfully');
+        $data[] = $academicYear;
+        return $this->returnData('Academic Year', $data, 'Added Successfully');
     }
 
 
     public function show(Academic_year $yearId)
     {
-        return $this->returnData('Academic Year', $yearId, '');
+        $data[] = $yearId;
+        return $this->returnData('Academic Year', $data, 'success');
     }
 
 
@@ -38,8 +40,8 @@ class AcademicYearController extends Controller
         $yearId->update([
             'date' => $request->date,
         ]);
-      
-        return $this->returnData('Academic Year', $yearId, 'Updated Successfully');
+        $data[] = $yearId;
+        return $this->returnData('Academic Year', $data, 'Updated Successfully');
     }
 
 

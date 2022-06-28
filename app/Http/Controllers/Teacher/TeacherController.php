@@ -21,7 +21,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers=Teacher::query()->get();
-        return $this->returnData('Teacher Data', $teachers,'success');
+        return $this->returnData('teacher', $teachers,'success');
 
     }
 
@@ -61,8 +61,8 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
-
-        return $this->returnData('teacher Data', $teacher,'signup successfully');
+        $data[] = $teacher;
+        return $this->returnData('teacher', $data,'signup successfully');
 
     }
 
@@ -74,8 +74,8 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-
-        return $this->returnData('Data', $teacher,'success');
+        $data[] = $teacher;
+        return $this->returnData('teacher', $data,'success');
     }
 
     /**
@@ -112,7 +112,8 @@ class TeacherController extends Controller
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
         ]);
-        return $this->returnData('Data', $teacher,'updated successfully');
+        $data[] = $teacher;
+        return $this->returnData('teacher', $data,'updated successfully');
     }
 
     /**

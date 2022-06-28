@@ -59,7 +59,6 @@ class MentorController extends Controller
     public function show(Mentor $mentor)
     {
         $data[] = $mentor;
-
         return $this->returnData('mentor', $data,'success');
     }
 
