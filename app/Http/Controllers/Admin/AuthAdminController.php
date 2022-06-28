@@ -27,9 +27,9 @@ class AuthAdminController extends Controller
         }
 
         $token= $admin->createToken('admin', ['admin']);
-        $data[] = $admin;
-        $data[] ='Bearer';
-        $data[] = $token->accessToken;
+        $data['admin'] = $admin;
+        $data['Bearer'] ='Bearer';
+        $data['token'] = $token->accessToken;
 
         return $this->returnData('data', $data,'logged in successfully');
     }
