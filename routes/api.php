@@ -34,14 +34,6 @@ Route::prefix('AcademicYear')->group(function () {
     Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
 });
 
-
-//Route::prefix('student')->group(function () {
-//    Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
-//});
-
-
-//Route::post('store', [App\Http\Controllers\StudentController::class, 'store']);
-
 Route::prefix('student')->group(function () {
     Route::get('all', [\App\Http\Controllers\Student\AddStudentController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
@@ -66,8 +58,6 @@ Route::prefix('mentor')->group(function () {
 Route::prefix('teacher')->group(function () {
     Route::get('all', [\App\Http\Controllers\Teacher\TeacherController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Teacher\TeacherController::class, 'store']);
-    Route::put('add/classroom/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'addClassroomToTeacher']);
-    Route::put('add/subject/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'addSubjectToTeacher']);
     Route::put('edit/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'update']);
     Route::get('show/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'show']);
     Route::delete('delete/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'destroy']);
@@ -84,8 +74,6 @@ Route::prefix('classroom')->group(function () {
     Route::get('all', [\App\Http\Controllers\Classroom\ClassroomController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Classroom\ClassroomController::class, 'store']);
     Route::put('edit/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'update']);
-    Route::put('addClassroomToClass/{claass}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'addClassroomToClass']);
-    Route::put('addSubjectToClass/{claass}', [\App\Http\Controllers\Subject\SubjectController::class, 'addSubjectToClass']);
     Route::delete('delete/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
 });
 
@@ -95,6 +83,10 @@ Route::prefix('syllabi')->group(function () {
     Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
 });
-
-Route::post('add', [\App\Http\Controllers\Subject\SubjectClassController::class, 'store']);
+Route::prefix('management')->group(function(){
+    Route::put('add/lessons/{day}', [\App\Http\Controllers\General\ManagementController::class, 'addLessonsToDays']);
+    Route::put('add/ClassroomToClass/{claass}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToClass']);
+    Route::put('add/classroom/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToTeacher']);
+    Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
+});
 

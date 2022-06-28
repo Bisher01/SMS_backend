@@ -87,6 +87,7 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
+        $picture=null;
         $time = Carbon::now();
         if ($request->hasFile('picture')) {
             if (Storage::exists($teacher->picture)) {
@@ -128,13 +129,5 @@ class TeacherController extends Controller
         return $this->returnSuccessMessage('deleted teacher successfully');
     }
 
-    public function addClassroomToTeacher(Request $request, Teacher $teacher) {
-        $teacher -> classClassroom()->syncWithoutDetaching($request -> claass_classroom_id);
-        return $this->returnSuccessMessage('added classroom successfully');
-    }
 
-    public function addSubjectToTeacher(Request $request, Teacher $teacher) {
-        $teacher->subject()->syncWithoutDetaching($request->subject_id);
-        return $this->returnSuccessMessage('added subject to class successfully');
-    }
 }

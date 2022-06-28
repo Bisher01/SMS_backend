@@ -15,8 +15,8 @@ class CreateLessonDayTable extends Migration
     {
         Schema::create('lesson_day', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('day_id')->constrained('days', 'id')->cascadeOnDelete();
-            $table->foreignId('lesson_id')->constrained('lessons', 'id')->cascadeOnDelete();
+            $table->foreignId('day_id')->constrained('days')->cascadeOnDelete();
+            $table->foreignId('lesson_id')->constrained('lessons')->cascadeOnDelete();
             $table->timestamps();
         });
     }
