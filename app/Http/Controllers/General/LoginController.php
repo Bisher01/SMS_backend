@@ -30,9 +30,9 @@ class LoginController extends Controller
                 return $this->returnErrorMessage('Student Not Found', 404);
             } else {
                 $token = $student->createToken('student', ['student']);
-                $data[] = $student;
-                $data[] = 'Bearer';
-                $data[] = $token->accessToken;
+                $data['student'] = $student;
+                $data['Bearer'] = 'Bearer';
+                $data['token'] = $token->accessToken;
 
                 return $this->returnData('Student Data', $data,'logged in successfully');
             }
@@ -48,9 +48,9 @@ class LoginController extends Controller
                 return $this->returnErrorMessage('Student Not Found', 404);
             } else {
                 $token = $parent->createToken('parent', ['parent']);
-                $data[] = $parent;
-                $data[] = 'Bearer';
-                $data[] = $token->accessToken;
+                $data['parent'] = $parent;
+                $data['Bearer'] = 'Bearer';
+                $data['token'] = $token->accessToken;
 
                 return $this->returnData('Parent Data', $data,'logged in successfully');
             }
@@ -65,9 +65,9 @@ class LoginController extends Controller
                 return $this->returnErrorMessage('Teacher Not Found', 404);
             } else {
                 $token = $teacher->createToken('teacher', ['teacher']);
-                $data[] = $teacher;
-                $data[] = 'Bearer';
-                $data[] = $token->accessToken;
+                $data['teacher'] = $teacher;
+                $data['Bearer'] = 'Bearer';
+                $data['token'] = $token->accessToken;
 
                 return $this->returnData('Teacher Data', $data,'logged in successfully');
             }
@@ -83,9 +83,9 @@ class LoginController extends Controller
                 return $this->returnErrorMessage('Mentor Not Found', 404);
             } else {
                 $token = $mentor->createToken('mentor', ['mentor']);
-                $data[] = $mentor;
-                $data[] = 'Bearer';
-                $data[] = $token->accessToken;
+                $data['mentor'] = $mentor;
+                $data['Bearer'] = 'Bearer';
+                $data['token'] = $token->accessToken;
 
                 return $this->returnData('Mentor Data', $data,'logged in successfully');
             }
