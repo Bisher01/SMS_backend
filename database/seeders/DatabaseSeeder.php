@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Classroom;
+use App\Models\Nationality;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
            GradeSeeder::class,
            ClaassSeeder::class,
            AdminSeeder::class,
+           NationalitySeeder::class,
 //         ClassroomSeeder::class,
            SubjectSeeder::class,
            TestSeeder::class,

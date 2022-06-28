@@ -18,13 +18,13 @@ class Student extends Authenticatable
         'l_name',
         'email',
         'code',
-        'nationality',
         'picture',
         'birthdate',
         'parent_id',
         'blood_id',
         'gender_id',
         'religion_id',
+        'nationality_id',
         'grade_id',
         'class_id',
         'classroom_id',
@@ -47,7 +47,6 @@ class Student extends Authenticatable
     public function address(){
         return $this->hasOne(Address::class, 'address_id');
     }
-//    public $with = ['parent'];
 
     public function parent(){
         return $this->belongsTo(Paarent::class, 'parent_id');
@@ -66,6 +65,9 @@ class Student extends Authenticatable
         return $this->belongsTo(Blood::class, 'gender_id');
     }
 
+    public function nationality(){
+        return $this->belongsTo(Nationality::class, 'nationality_id');
+    }
 
     public function attendance(){
         return $this->hasMany(Attendance::class, 'student_id');
