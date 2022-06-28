@@ -24,7 +24,8 @@ class ClassroomController extends Controller
             'name' => $request->name,
             'max_number' => $request->max_number,
         ]);
-        return  $this->returnData('classroom', $classroom, 'added classroom successfully');
+        $data[] = $classroom;
+        return  $this->returnData('classroom', $data, 'added classroom successfully');
 
     }
 
@@ -34,7 +35,8 @@ class ClassroomController extends Controller
             'name' => $request->name,
             'max_number' => $request->max_number,
         ]);
-        return  $this->returnData('classroom', $classroom, 'updated classroom successfully');
+        $data[] = $classroom;
+        return  $this->returnData('classroom', $data, 'updated classroom successfully');
 
     }
 

@@ -59,7 +59,9 @@ class ParentController extends Controller
             'email' => $request->parentEmail,
             'jop' => $request->parentJop,
         ]);
-        return $this->returnData('Parent Data', $parent, 'updated parent successfully');
+
+        $data[] = $parent;
+        return $this->returnData('Parent', $data, 'updated parent successfully');
     }
 
     /**

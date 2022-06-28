@@ -21,7 +21,7 @@ class AddStudentController extends Controller
     public function index()
     {
         $students=Student::query()->get();
-        return $this->returnData('Student Data', $students,'success');
+        return $this->returnData('student', $students,'success');
     }
 
     /**
@@ -86,24 +86,19 @@ class AddStudentController extends Controller
         $student->update([
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
-        $data['student'] = $student;
-        return $this->returnData('Student Data', $data,'signup successfully');
+        $data[] = $student;
+        return $this->returnData('student', $data,'signup successfully');
     }
 
 
     public function show(Student $student)
     {
-        $data['student'] = $student;
-        return $this->returnData('Data', $data,'success');
+        $data[] = $student;
+        return $this->returnData('student', $data,'success');
     }
 
-    public function editParent($request, $parent) {
-
-        return $parent;
-    }
     public function update(Request $request, Student $student)
     {
-
         $time = Carbon::now();
         if ($request->hasFile('picture')) {
             if (Storage::exists($student->picture)) {
@@ -134,14 +129,15 @@ class AddStudentController extends Controller
             'academic_year_id' => $request->academic_year_id,
         ]);
 
-
-        return $this->returnData('Student Data', $student,'update successfully');
+        $data[] = $student;
+        return $this->returnData('student', $data,'update successfully');
     }
 
 
     public function destroy(Student $student)
     {
         $student->delete();
+        return $this->returnSuccessMessage('deleted successfully');
     }
 }
 
