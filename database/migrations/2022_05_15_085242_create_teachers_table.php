@@ -23,7 +23,6 @@ class CreateTeachersTable extends Migration
             $table->string('salary');
             $table->text('picture')->nullable();
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
-            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
             $table->foreignId('religion_id')->constrained('religtions')->cascadeOnDelete();
             $table->foreignId('gender_id')->constrained('genders')->cascadeOnDelete();
             $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();

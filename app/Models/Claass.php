@@ -23,12 +23,17 @@ class Claass extends Model
         return $this->hasMany(ClassExam::class, 'class_id');
     }
 
-
     public function subjects() {
         return $this->belongsToMany(Subject::class, 'subject_class','class_id','subject_id');
     }
 
     public function classroom() {
         return $this->belongsToMany(Classroom::class, 'claass_classrooms','class_id','classroom_id');
+    }
+
+
+    public function syllabi(){
+        return $this->hasMany(Syllabi::class, 'class_id');
+
     }
 }

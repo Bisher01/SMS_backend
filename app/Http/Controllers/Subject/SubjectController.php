@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Subject;
 use App\Http\Controllers\Controller;
 use App\Models\Claass;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 
@@ -64,10 +65,7 @@ class SubjectController extends Controller
         return $this->returnSuccessMessage('deleted subject successfully');
     }
 
-    public function addSubjectToClass(Request $request, Claass $claass) {
-        $claass->subjects()->syncWithoutDetaching($request->subject_id);
-        return $this->returnSuccessMessage('added subject to class successfully');
-    }
+  
 
 
 }

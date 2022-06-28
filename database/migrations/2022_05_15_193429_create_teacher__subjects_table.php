@@ -18,7 +18,6 @@ class CreateTeacherSubjectsTable extends Migration
             $table->id();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
             $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
-
             $table->timestamps();
         });
     }

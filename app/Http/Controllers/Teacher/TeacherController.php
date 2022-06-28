@@ -53,7 +53,6 @@ class TeacherController extends Controller
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
             'address_id' => $address->id,
-            'subject_id' => $request->subject_id,
             'religion_id' => $request->religion_id,
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
@@ -109,7 +108,6 @@ class TeacherController extends Controller
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
             'address_id' =>  $address->id,
-            'subject_id' => $request->subject_id,
             'religion_id' => $request->religion_id,
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
@@ -132,5 +130,10 @@ class TeacherController extends Controller
     public function addClassroomToTeacher(Request $request, Teacher $teacher) {
         $teacher -> classClassroom()->syncWithoutDetaching($request -> claass_classroom_id);
         return $this->returnSuccessMessage('added classroom successfully');
+    }
+
+    public function addSubjectToTeacher(Request $request, Teacher $teacher) {
+        $teacher->subject()->syncWithoutDetaching($request->subject_id);
+        return $this->returnSuccessMessage('added subject to class successfully');
     }
 }

@@ -16,7 +16,8 @@ class CreateSyllabiTable extends Migration
         Schema::create('syllabi', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->foreignId('subject_class_id')->constrained('subject_class')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
+            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
             $table->timestamps();
         });
     }

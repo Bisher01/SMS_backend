@@ -9,16 +9,20 @@ class Syllabi extends Model
 {
     use HasFactory;
 
-    
+
     protected $table = 'syllabi';
     protected $fillable  = [
         'content' ,
-        'subject_class_id',
+        'class_id',
+        'subject_id'
     ];
     public $timestamps = true;
     protected $primaryKey = 'id';
 
-    public function sub_class() {
-        return $this->belongsTo(SubjectClass::class, 'subject_class_id');
+    public function subject() {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+    public function class() {
+        return $this->belongsTo(Claass::class, 'class_id');
     }
 }

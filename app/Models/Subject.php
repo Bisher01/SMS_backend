@@ -20,8 +20,8 @@ class Subject extends Model
         return $this->hasMany(Book::class, 'subject_id');
 
     }
-    public function teacher_subject(){
-        return $this->hasMany(Teacher_Subject::class, 'subject_id');
+    public function teacher(){
+        return $this->belongsToMany(Teacher::class, 'teacher__subjects','subject_id','teacher_id');
 
     }
     public function exam(){
@@ -32,5 +32,10 @@ class Subject extends Model
     public function classes() {
 
         return $this->belongsToMany(Claass::class, 'subject_class','subject_id','class_id');
+    }
+
+    public function syllabi(){
+        return $this->hasMany(Syllabi::class, 'subject_id');
+
     }
 }

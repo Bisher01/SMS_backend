@@ -12,7 +12,6 @@ class Teacher extends Model
 
     public $primaryKey = 'id';
     public $fillable = [
-        'subject_id',
         'address_id',
         'religion_id',
         'grade_id',
@@ -28,8 +27,8 @@ class Teacher extends Model
 
     public $timestamps = true;
 
-    public function teacher_subject(){
-        return $this->hasMany(Teacher_Subject::class, 'teacher_id');
+    public function subject(){
+        return $this->belongsToMany(Subject::class, 'teacher__subjects','teacher_id','subject_id');
 
     }
    public function address(){

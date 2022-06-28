@@ -66,6 +66,7 @@ Route::prefix('teacher')->group(function () {
     Route::get('all', [\App\Http\Controllers\Teacher\TeacherController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Teacher\TeacherController::class, 'store']);
     Route::put('add/classroom/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'addClassroomToTeacher']);
+    Route::put('add/subject/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'addSubjectToTeacher']);
     Route::put('edit/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'update']);
     Route::get('show/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'show']);
     Route::delete('delete/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'destroy']);
