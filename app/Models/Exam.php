@@ -11,13 +11,23 @@ class Exam extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-       'name','mark','subject_id'
+       'mark','subject_id','exam_name_id','class_id'
     ];
 
     public $timestamps = true;
 
     public function classExam(){
         return $this->hasMany(ClassExam::class, 'exam_id');
+
+    }
+
+    public function class(){
+        return $this->belongsTo(Claass::class, 'class_id');
+
+    }
+
+    public function name(){
+        return $this->belongsTo(ExamName::class, 'exam_name_id');
 
     }
    public function subject(){

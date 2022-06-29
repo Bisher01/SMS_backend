@@ -16,10 +16,12 @@ class CreateExamsTable extends Migration
 
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('mark');
 
+            $table->integer('mark');
+            $table->foreignId('exam_name_id')->constrained('exam_names')->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained('claasses')->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
