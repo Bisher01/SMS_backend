@@ -9,11 +9,12 @@ class ClassClassroom extends Model
 {
     use HasFactory;
 
-   // protected $table = 'claass_classrooms';
+    protected $table = 'claass_classrooms';
     protected $primaryKey = 'id';
     protected $fillable = [
         'class_id',
-        'classroom_id'
+        'classroom_id',
+        'teacher_id'
     ];
     public $timestamps = true;
 

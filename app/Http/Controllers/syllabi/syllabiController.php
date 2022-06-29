@@ -36,20 +36,20 @@ class syllabiController extends Controller
      */
     public function store(Request $request)
     {
-        $subjectClass = SubjectClass::query()->find($request->subject_class_id);
-        $subName = Subject::query()->select('name')->where('id', $subjectClass->subject_id)->first();
-        $classNmae = Claass::query()->select('name')->where('id', $subjectClass->class_id)->first();
         $path  = null;
+        $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
+//        dd($subName);
+        $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
         $time  = Carbon::now();
         if ($request->hasFile('content')) {
-
             $path = '/'.$request->file('content')
                     ->store($time->format('Y').'/syllabi/'.$subName->name. '/'. $classNmae->name);
         }
 
         $syllabi = Syllabi::query()->create([
             'content' => $path,
-            'subject_class_id' => $request->subject_class_id
+            'class_id' => $request->class_id,
+            'subject_id' => $request->subject_id,
         ]);
         $data[] = $syllabi;
         return $this->returnData('syllabi', $data, 'added syllabi success');
