@@ -23,6 +23,9 @@ class Claass extends Model
         return $this->hasMany(ClassExam::class, 'class_id');
     }
 
+    public function Exam(){
+        return $this->hasMany(Exam::class, 'exam_id');
+    }
     public function subjects() {
         return $this->belongsToMany(Subject::class, 'subject_class','class_id','subject_id');
     }

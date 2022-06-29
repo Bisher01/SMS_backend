@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
            NationalitySeeder::class,
            DaysSeeder::class,
            QuizNameSeed::class,
+           ExamNameSeeder::class,
+           QuestionTypeSeeder::class
+
         ]);
 
     }

@@ -55,6 +55,30 @@ Route::prefix('mentor')->group(function () {
     Route::delete('delete/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'destroy']);
 });
 
+Route::prefix('exam')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Exam\ExamController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Exam\ExamController::class, 'store']);
+    Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
+    Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
+    Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
+});
+
+Route::prefix('question')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Exam\QuestionController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Exam\QuestionController::class, 'store']);
+    Route::put('edit/{question}', [\App\Http\Controllers\Exam\QuestionController::class, 'update']);
+    // Route::get('show/{question}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
+    Route::delete('delete/{question}', [\App\Http\Controllers\Exam\QuestionController::class, 'destroy']);
+});
+
+Route::prefix('choice')->group(function () {
+    Route::get('all', [\App\Http\Controllers\Exam\ChoiseController::class, 'index']);
+    Route::post('add', [\App\Http\Controllers\Exam\ChoiseController::class, 'store']);
+    Route::put('edit/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'update']);
+    // Route::get('show/{question}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
+    Route::delete('delete/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'destroy']);
+});
+
 Route::prefix('teacher')->group(function () {
     Route::get('all', [\App\Http\Controllers\Teacher\TeacherController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Teacher\TeacherController::class, 'store']);
