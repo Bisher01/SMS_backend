@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     use HasFactory;
+    protected $table = 'quizzes';
+
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'name',
+        'C_Cr_T_S_id'
+        ];
 }

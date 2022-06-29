@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
            LessonSeeder::class,
            NationalitySeeder::class,
            DaysSeeder::class,
-           
+           QuizNameSeed::class,
         ]);
 
     }

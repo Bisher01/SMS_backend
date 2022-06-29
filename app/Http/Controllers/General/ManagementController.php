@@ -4,6 +4,7 @@ namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassClassroom;
+use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use App\Models\Claass;
 use App\Models\Day;
@@ -14,7 +15,7 @@ use mysql_xdevapi\Exception;
 
 class ManagementController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
     public function addClassroomToClass(Request $request, Claass $claass) {
         $claass -> classroom()->syncWithoutDetaching($request -> classroom_Id);
         return $this->returnSuccessMessage('added classroom to class successfully');
@@ -40,31 +41,34 @@ class ManagementController extends Controller
        $claassId = $request->class_id;
        $classroomId = $request->classroom_id;
 
-       $classClassroom = ClassClassroom::query()
-           ->select('id')
-           ->where('class_id', $claassId)
-           ->where('classroom_id', $classroomId)
-           ->first();
-       if (!isset($classClassroom)) {
-           return $this->returnErrorMessage('class or classroom not found', 404);
-       }
-       $teachSubject = DB::table('teacher__subjects')
-           ->select('id')
-           ->where('subject_id', $subjectId)
-           ->where('teacher_id', $teacherId)
-           ->first();
-        if (!isset($teachSubject)) {
+       $classClassroom = $this->checkClassClassroom($claassId, $classroomId);
+        if ($classClassroom == null) {
+            return $this->returnErrorMessage('class or classroom not found', 404);
+        }
+
+        $teachSubject = $this->checkTeacherSubject($teacherId, $subjectId);
+        if ($teachSubject == null) {
             return $this->returnErrorMessage('teacher or subject not found', 404);
         }
-       $classClassroomId = $classClassroom->id;
-       $teachSubjectId = $teachSubject->id;
 
-       DB::table('claass_classroom_teacher_subject')->insert([
-                't_s_id' => $teachSubjectId,
-                'c_cr_id' => $classClassroomId
-       ]);
+        $classClassroomId = $classClassroom->id;
+        $teachSubjectId = $teachSubject->id;
 
-       return $this->returnSuccessMessage('success');
+       $C_CR_T_S_ID = DB::table('claass_classroom_teacher_subject')
+           ->select('id')
+           ->where('t_s_id', $teachSubjectId)
+           ->where('c_cr_id', $classClassroomId)
+           ->first();
+
+       if (!isset($C_CR_T_S_ID)) {
+           DB::table('claass_classroom_teacher_subject')->insert([
+               't_s_id' => $teachSubjectId,
+               'c_cr_id' => $classClassroomId
+           ]);
+
+           return $this->returnSuccessMessage('success');
+       }
+        return $this->returnSuccessMessage('already exists');
 
     }
 }
