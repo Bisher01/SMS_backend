@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Choice;
 use App\Models\Exam;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use App\Models\Claass;
+use App\Models\Question;
 
 class ExamController extends Controller
 {
@@ -19,6 +22,22 @@ class ExamController extends Controller
     {
         $exams=Exam::query()->get();
         return $this->returnData('exams', $exams, 'all exams');
+
+    }
+
+    public function mark_ladder(Exam $exam)
+    {
+
+
+       $exam_info= Exam::query()->where('id',$exam->id)->with('questionExam',function($query){
+             $query->with('question',function($query){
+                $query->with('choices',function($query){
+                    $query->where('status',true);});
+                });
+                })->get();
+
+                $data[] = $exam_info;
+          return $this->returnData('exam_info', $exam_info, 'exam_info');
 
     }
 

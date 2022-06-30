@@ -66,6 +66,7 @@ Route::prefix('quiz')->group(function () {
 Route::prefix('exam')->group(function () {
     Route::get('all', [\App\Http\Controllers\Exam\ExamController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Exam\ExamController::class, 'store']);
+
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
@@ -125,3 +126,5 @@ Route::prefix('management')->group(function(){
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::post('all/{grade}/{day}', [\App\Http\Controllers\TimeTableController::class, 'show']);
+
+Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
