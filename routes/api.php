@@ -115,3 +115,5 @@ Route::prefix('management')->group(function(){
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
 });
 
+Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
+Route::post('all/{grade}/{day}', [\App\Http\Controllers\TimeTableController::class, 'show']);

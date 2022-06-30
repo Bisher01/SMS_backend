@@ -17,4 +17,8 @@ class Grade extends Model
         return $this->hasMany(Teacher::class, 'grade_id');
 
     }
+    public function class(){
+        return $this->hasMany(Claass::class, 'grade_id');
+
+    }
 }
