@@ -18,7 +18,6 @@ class QuestionController extends Controller
     {
         $questions=Question::query()->get();
         return $this->returnData('questions', $questions, 'all questions');
-
     }
 
     /**
@@ -67,10 +66,8 @@ class QuestionController extends Controller
     public function update(Request $request,Question $question)
     {
         $question->update([
-
             'text'=>$request->text,
             'question_type_id' => $request->question_type_id,
-
         ]);
 
         $data[] = $question;
@@ -85,9 +82,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-
         $question->delete();
         return $this->returnSuccessMessage('deleted question successfully');
-
     }
 }

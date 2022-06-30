@@ -16,7 +16,6 @@ class ChoiseController extends Controller
     {
         $choices=Choice::query()->get();
         return $this->returnData('choices', $choices, 'all choices');
-
     }
 
     /**
@@ -27,38 +26,27 @@ class ChoiseController extends Controller
      */
     public function store(Request $request, Question $question)
     {
+        $arrayChioces = $request->chioces;
         $choices = DB::table('choices')->select('status')
             ->where('question_id', $question->id)
             ->where('status', true)
             ->first();
-        if (isset($choices)) {
-            if ($request->status == true) {
-                return $this->returnErrorMessage('must enter one correct answer for this question', 400);
+        foreach ($arrayChioces as $item) {
+            if (isset($choices)) {
+                if ($item['status'] == true) {
+                    return $this->returnErrorMessage('must enter one correct answer for this question', 400);
+                }
             }
+            $choice = Choice::query()->create([
+                'text' => $item['text'],
+                'status' => $item['status'],
+                'question_id' => $question->id
+            ]);
+            $data[] = $choice;
         }
-
-        $choice = Choice::query()->create([
-            'text'=>$request->text,
-            'status' => $request->status,
-            'question_id' => $question->id
-        ]);
-
-        $data[] = $choice;
         return  $this->returnData('choices', $data, 'added choices successfully');
 
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show(Question $question)
-    // {
-    //     $data[] = $question;
-    //     return $this->returnData('question', $data,'success');
-    // }
 
     /**
      * Update the specified resource in storage.
@@ -76,7 +64,7 @@ class ChoiseController extends Controller
        ]);
 
         $data[] = $choice;
-        return  $this->returnData('choice', $choice, 'updated choice successfully');
+        return  $this->returnData('choice', $data, 'updated choice successfully');
     }
 
     /**
@@ -87,7 +75,6 @@ class ChoiseController extends Controller
      */
     public function destroy(Choice $choice)
     {
-
         $choice->delete();
         return $this->returnSuccessMessage('deleted choice successfully');
 
