@@ -58,9 +58,9 @@ Route::prefix('mentor')->group(function () {
 Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
-    Route::put('edit/{exam}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
-    Route::get('show/{exam}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
-    Route::delete('delete/{exam}', [\App\Http\Controllers\Quiz\QuizController::class, 'destroy']);
+    Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
+    Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
+    Route::delete('delete/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'destroy']);
 });
 
 Route::prefix('exam')->group(function () {
