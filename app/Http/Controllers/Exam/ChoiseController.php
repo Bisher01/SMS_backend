@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Choice;
+use App\Models\Question;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChoiseController extends Controller
 {
@@ -23,17 +25,25 @@ class ChoiseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Question $question)
     {
-        $choices=Choice::query()->create([
+        $choices = DB::table('choices')->select('status')
+            ->where('question_id', $question->id)
+            ->where('status', true)
+            ->first();
+        if (isset($choices)) {
+            if ($request->status == true) {
+                return $this->returnErrorMessage('must enter one correct answer for this question', 400);
+            }
+        }
 
+        $choice = Choice::query()->create([
             'text'=>$request->text,
             'status' => $request->status,
-            'question_id' => $request->question_id
-
+            'question_id' => $question->id
         ]);
 
-        $data[] = $choices;
+        $data[] = $choice;
         return  $this->returnData('choices', $data, 'added choices successfully');
 
     }
