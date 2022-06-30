@@ -41,25 +41,7 @@ class QuestionController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show(Question $question)
-    // {
-    //     $data[] = $question;
-    //     return $this->returnData('question', $data,'success');
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request,Question $question)
     {
         $question->update([
@@ -70,7 +52,8 @@ class QuestionController extends Controller
         ]);
 
         $data[] = $question;
-        return  $this->returnData('questions', $data, 'updated question successfully');
+         return  $this->returnData('questions', $data, 'updated question successfully');
+
     }
 
     /**
