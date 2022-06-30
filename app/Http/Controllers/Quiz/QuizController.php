@@ -8,6 +8,7 @@ use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\True_;
 
 class QuizController extends Controller
 {
@@ -31,6 +32,51 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
+        $check = $this->check($request);
+        $responseFromCheckFun =  $check->getData();
+        if ($responseFromCheckFun->status == false) {
+           return $responseFromCheckFun;
+        }else if ($responseFromCheckFun->status == true)  {
+            $quiz = Quiz::query()->create([
+                'quiz_name_id' => (int)$request->quizNameId,
+                'C_Cr_T_S_id' => $responseFromCheckFun->id
+            ]);
+            $data[] = $quiz;
+            return $this->returnData('quiz', $data, 'success');
+        }
+        return $this->returnErrorMessage('input error', 400);
+    }
+
+    public function show(Quiz $quiz)
+    {
+        $data[] = $quiz;
+        return $this->returnData('quiz', $data, 'success');
+    }
+
+    public function update(Request $request, Quiz $quiz)
+    {
+        $check = $this->check($request);
+        $responseFromCheckFun =  $check->getData();
+        if ($responseFromCheckFun->status == false) {
+            return $responseFromCheckFun;
+        }else if ($responseFromCheckFun->status == true) {
+            $quiz->update([
+                'quiz_name_id' => (int)$request->quizNameId,
+                'C_Cr_T_S_id' => $responseFromCheckFun->id,
+            ]);
+            $data[] = $quiz;
+            return $this->returnData('quiz', $data, 'success');
+        }
+        return $this->returnErrorMessage('input error', 400);
+
+    }
+
+    public function destroy(Quiz $quiz)
+    {
+        $quiz->delete();
+        return $this->returnSuccessMessage('success');
+    }
+    public function check($request) {
         $teacherId = $request->teacher_id;
         $subjectId = $request->subject_id;
         $claassId = $request->class_id;
@@ -45,6 +91,7 @@ class QuizController extends Controller
         if ($teachSubject == null) {
             return $this->returnErrorMessage('teacher or subject not found', 404);
         }
+
         $classClassroomId = $classClassroom->id;
         $teachSubjectId = $teachSubject->id;
 
@@ -53,53 +100,10 @@ class QuizController extends Controller
             ->where('t_s_id', $teachSubjectId)
             ->where('c_cr_id', $classClassroomId)
             ->first();
-
         if (isset($C_CR_T_S_ID)) {
-            $quiz = Quiz::query()->create([
-                'quiz_name_id' => (int)$request->quizNameId,
-                'C_Cr_T_S_id' => $C_CR_T_S_ID->id
-        ]);
-            $data[] = $quiz;
-            return $this->returnData('quiz', $data, 'success');
+            return $this->returnData('id', $C_CR_T_S_ID->id, 'success');
+        }else {
+            return $this->returnErrorMessage('the tech does not have permission to create this quiz', 403);
         }
-        return $this->returnErrorMessage('the tech does not have permission to create this quiz', 403);
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Quiz $quiz)
-    {
-        $data[] = $quiz;
-        return $this->returnData('quiz', $data, 'success');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Quiz $quiz)
-    {
-        $quiz->update([
-
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
