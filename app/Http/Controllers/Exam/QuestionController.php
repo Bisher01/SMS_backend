@@ -29,16 +29,20 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $questions=Question::query()->create([
-
-            'text'=>$request->text,
-            'question_type_id' => $request->question_type_id,
-
-        ]);
-
-        $data[] = $questions;
-        return  $this->returnData('questions', $data, 'added questions successfully');
-
+        foreach ($request->question as $question) {
+            $newQuestion = Question::query()->create([
+                'text' => $question['text'],
+                'question_type_id' => $question['question_type_id']
+            ]);
+            foreach ($question['chioces'] as $chioce) {
+                $newQuestion->choices()->create([
+                    'text' => $chioce['text'],
+                    'status' => $chioce['status']
+                ]);
+            }
+            $data[] = $newQuestion;
+        }
+        return  $this->returnData('data', $data, 'success');
     }
 
     /**
