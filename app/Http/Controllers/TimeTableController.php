@@ -8,12 +8,18 @@ use App\Models\Classroom;
 use App\Models\Day;
 use App\Models\Grade;
 use App\Models\Lesson;
+use App\Models\Teacher;
 use App\Models\TimeTable;
+use App\Traits\generalTrait;
 use Dflydev\DotAccessData\Data;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Builder\Class_;
+
 class TimeTableController extends Controller
 {
+    use generalTrait;
     public function store(Request $request)
     {
         $timetaple=TimeTable::query()->create([
@@ -28,44 +34,17 @@ class TimeTableController extends Controller
     }
 
 
-    public function show(Request $request,Grade $grade,Day $day)
+    public function show(Request $request,Grade $grade,Day $day,Lesson $lesson)
     {
 
-
-     //  $timetaple=TimeTable::query()->get();
-    //    $grade_name=Grade::select('name')->where($request->grade_id,$grade->id);
- // $c=DB::table('lesson_day')->where('day_id',$request->day_id)->get();
-   // $a = Grade::query()->where('id',$request->grade_id)->get('name');
-   // $d=$c->pluck('lesson_id');
-    // $day=Day::query()->where('id',$request->day_id)->get('name');
-
-
-     $a = $day->lessons()->pluck('name');
-     $b = $grade->class()->pluck('name');
-
-
-     $c = $grade->class()->pluck('id');
-    foreach($c as $cc){
-
-      $ali=Claass::find($cc);
-
-      $al[]=$ali->classroom()->get();
-       // $d[]= ClassClassroom::query()->where('class_id',$cc)->pluck('classroom_id');
-     }
-     foreach($al as $all)
-     {
-
-        $all=Classroom::find($all);
-        $aa[]=$all->teachers()->get();
-     }
-
-//     $classroom=Classroom::query()->where('id',$d)->get('name');
-       return $al;
-
-
-
-
-     // return [[$grade->name,$b],[$day->name,$a]];
+        $info = $grade::query()->with('class', function ($query) {
+            $query->with('classroom', function ($query) {
+                $query->with('teacherSubjects', function ($query) {
+                    $query->with('teachers');
+                });
+            });
+        })->first();
+        return $this->returnData('data', $info, 'success');
 
 
     }

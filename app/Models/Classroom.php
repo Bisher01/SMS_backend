@@ -15,5 +15,18 @@ class Classroom extends Model
     ];
     public $timestamps = true;
 
-   
+    protected $hidden = ['pivot'];
+
+
+
+
+    public function teacherSubjects() {
+        return $this->belongsToMany(
+            TeacherSubject::class,
+            'claass_classroom_teacher_subject',
+            'c_cr_id',
+            't_s_id'
+        );
+    }
+
 }

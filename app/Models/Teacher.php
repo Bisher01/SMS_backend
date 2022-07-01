@@ -26,7 +26,7 @@ class Teacher extends Model
     ];
 
     public $timestamps = true;
-
+    protected $hidden = ['code'];
     public function subject(){
         return $this->belongsToMany(Subject::class, 'teacher__subjects','teacher_id','subject_id');
 
