@@ -31,7 +31,7 @@ class Subject extends Model
 
     public function classes() {
 
-        return $this->belongsToMany(Claass::class, 'subject_class','subject_id','class_id');
+        return $this->belongsToMany(Claass::class, 'subject_mark','subject_id','class_id');
     }
 
     public function syllabi(){

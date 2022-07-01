@@ -13,17 +13,11 @@ class SubjectMark extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-        'subject_id', 'class_id','min','max'
+        'subject_id', 'class_id','mark'
     ];
 
     public $timestamps = true;
 
-    public function subject(){
-        return $this->belongsTo(Subject::class, 'subject_id');
-
-    }
-   public function class(){
-        return $this->belongsTo(Claass::class, 'class_id');
-    }
+   
 
 }

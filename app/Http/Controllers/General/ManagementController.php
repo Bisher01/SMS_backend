@@ -35,6 +35,16 @@ class ManagementController extends Controller
         $teacher->subject()->syncWithoutDetaching($request->subject_id);
         return $this->returnSuccessMessage('added subject to teacher successfully');
     }
+
+    public function addSubjectToClass(Request $request, Claass $class) {
+        $class->subjects()->syncWithoutDetaching($request->subject_id);
+        $mark=$request->mark;
+        DB::table('subject_mark')->insert([
+            'mark' =>$mark->id,
+        ]);
+        return $this->returnSuccessMessage('added subject to class successfully');
+    }
+
     public function customizeTeachForClassroom(Request $request) {
        $teacherId = $request->teacher_id;
        $subjectId = $request->subject_id;
