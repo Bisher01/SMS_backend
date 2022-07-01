@@ -38,7 +38,6 @@ class syllabiController extends Controller
     {
         $path  = null;
         $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
-//        dd($subName);
         $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
         $time  = Carbon::now();
         if ($request->hasFile('content')) {

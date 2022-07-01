@@ -18,13 +18,17 @@ class ClassroomController extends Controller
         return $this->returnData('classroomms', $classrooms, 'all classroom');
     }
 
+
     public function store(Request $request)
     {
         $classroom = Classroom::query()->create([
             'name' => $request->name,
             'max_number' => $request->max_number,
         ]);
-        return  $this->returnData('classroom', $classroom, 'added classroom successfully');
+
+        $classroom -> class()->syncWithoutDetaching($request -> class_id);
+
+        return  $this->returnData('classroom', $classroom, 'added classroom & choose the classes which belongto successfully');
 
     }
 

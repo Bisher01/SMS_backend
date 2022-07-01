@@ -32,17 +32,29 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $subject = Subject::query()->create([
             'name' => $request->subject_name
         ]);
 
-           DB::table('subject_mark')->insert([
-                'class_id' => $request->class_id,
-                'mark' => $request->mark,
-                'subject_id' => $subject->id,
-           ]);
+        foreach( $request->class_id as $key=>$insert){
 
-        return $this->returnData('subject', $subject, 'added subject successfully');
+           DB::table('subject_mark')->insert([
+                        'class_id' => $request->class_id[$key],
+                        'mark' => $request->mark[$key],
+                        'subject_id' =>$subject->id,
+                   ]);
+                   foreach( $request->content[$key] as $key1=>$insert1){
+                    DB::table('syllabi')->insert([
+                     'class_id' => $request->class_id[$key],
+                     'content' => $request->content[$key][$key1],
+                     'subject_id' =>$subject->id,
+                    ]);
+                }
+                }
+             return $this->returnSuccessMessage('add subject & choose its class&syllabi successfully');
+
+
     }
 
 

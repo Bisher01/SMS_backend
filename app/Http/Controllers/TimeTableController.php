@@ -46,6 +46,5 @@ class TimeTableController extends Controller
         })->first();
         return $this->returnData('data', $info, 'success');
 
-
     }
 }

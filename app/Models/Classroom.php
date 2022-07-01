@@ -18,7 +18,9 @@ class Classroom extends Model
     protected $hidden = ['pivot'];
 
 
-
+    public function class() {
+        return $this->belongsToMany(Claass::class, 'claass_classrooms','classroom_id','class_id');
+    }
 
     public function teacherSubjects() {
         return $this->belongsToMany(
