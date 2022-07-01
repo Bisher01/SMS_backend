@@ -8,7 +8,9 @@ use App\Models\Exam;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use App\Models\Claass;
+use App\Models\ExamName;
 use App\Models\Question;
+use App\Models\QuestionExam;
 
 class ExamController extends Controller
 {
@@ -27,17 +29,25 @@ class ExamController extends Controller
 
     public function mark_ladder(Exam $exam)
     {
+        $exam_mark=Exam::where('id',$exam->id)->get('mark');
+        $exam_name=ExamName::where('id',$exam->exam_name_id)->get('name');
+        $a=QuestionExam::where('exam_id',$exam->id)->pluck('question_id');
+        foreach( $a as $aa){
+
+        $question_text[]=Question::query()->where('id',$aa)->with('choices',function($query){
+                             return $query->where('status',true);})->get();
+
+       // $choise[]=Choice::query()->where('question_id',$aa)->where('status',true)->pluck('text');
+
+        }
+
+        $data['exam_mark']=$exam_mark;
+        $data['exam_name']=$exam_name;
+        $data['question_text']=$question_text;
+      //  $data['choise']=$choise;
 
 
-       $exam_info= Exam::query()->where('id',$exam->id)->with('questionExam',function($query){
-             $query->with('question',function($query){
-                $query->with('choices',function($query){
-                    $query->where('status',true);});
-                });
-                })->get();
-
-                $data[] = $exam_info;
-          return $this->returnData('exam_info', $exam_info, 'exam_info');
+        return $this->returnData('exam_info', $data, 'exam_info');
 
     }
 

@@ -125,6 +125,6 @@ Route::prefix('management')->group(function(){
 });
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
-Route::post('all/{grade}/{day}', [\App\Http\Controllers\TimeTableController::class, 'show']);
+Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);

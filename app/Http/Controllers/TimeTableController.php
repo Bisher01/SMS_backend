@@ -8,10 +8,14 @@ use App\Models\Classroom;
 use App\Models\Day;
 use App\Models\Grade;
 use App\Models\Lesson;
+use App\Models\Teacher;
 use App\Models\TimeTable;
 use Dflydev\DotAccessData\Data;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Builder\Class_;
+
 class TimeTableController extends Controller
 {
     public function store(Request $request)
@@ -28,45 +32,42 @@ class TimeTableController extends Controller
     }
 
 
-    public function show(Request $request,Grade $grade,Day $day)
+    public function show(Request $request,Grade $grade,Day $day,Lesson $lesson)
     {
 
+        $classs=DB::table('claasses')
+        ->where('grade_id',$grade->id)
+        ->select('id','name')
+        ->get();
 
-     //  $timetaple=TimeTable::query()->get();
-    //    $grade_name=Grade::select('name')->where($request->grade_id,$grade->id);
- // $c=DB::table('lesson_day')->where('day_id',$request->day_id)->get();
-   // $a = Grade::query()->where('id',$request->grade_id)->get('name');
-   // $d=$c->pluck('lesson_id');
-    // $day=Day::query()->where('id',$request->day_id)->get('name');
+        foreach($classs as $class){
 
+            $class_room[]=DB::table('claass_classrooms')
+            ->where('class_id', $class->id)
+            ->select('id')
+            ->get();
 
-     $a = $day->lessons()->pluck('name');
-     $b = $grade->class()->pluck('name');
+        }
 
+         foreach( $class_room as  $one_class_room){
 
-     $c = $grade->class()->pluck('id');
-    foreach($c as $cc){
+           $class_room_teacher[]=DB::table('claass_classroom_teacher_subject')
+           ->select('t_s_id')
+           ->where('c_cr_id',$one_class_room)
+           ->get();
 
-      $ali=Claass::find($cc);
+        }
 
-      $al[]=$ali->classroom()->get();
-       // $d[]= ClassClassroom::query()->where('class_id',$cc)->pluck('classroom_id');
-     }
-     foreach($al as $all)
-     {
-
-        $all=Classroom::find($all);
-        $aa[]=$all->teachers()->get();
-     }
-
-//     $classroom=Classroom::query()->where('id',$d)->get('name');
-       return $al;
+        return $class_room_teacher;
 
 
 
+        //  $class=Claass::query()->where('grade_id',$grade->id)->select('id','name')
+        //  ->with('classroom',function($query){
+        //        $query->select('name');})->get();
 
-     // return [[$grade->name,$b],[$day->name,$a]];
 
+        //  return $class;
 
     }
 }
