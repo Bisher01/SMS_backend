@@ -14,4 +14,6 @@ class Classroom extends Model
         'name', 'max_number',
     ];
     public $timestamps = true;
+
+   
 }

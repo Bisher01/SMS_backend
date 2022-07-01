@@ -23,12 +23,12 @@ class GetAllSeedController extends Controller
         $religtions = Religtion::query()->get();
         $nationality = Nationality::query()->get();
 
-        $data[] = $bloods;
-        $data[] = $classes;
-        $data[] = $genders;
-        $data[] = $grades;
-        $data[] = $religtions;
-        $data[] = $nationality;
+        $data['bloods'] = $bloods;
+        $data['classes'] = $classes;
+        $data['genders'] = $genders;
+        $data['grades'] = $grades;
+        $data['religtions'] = $religtions;
+        $data['nationality'] = $nationality;
 
         return $this->returnData('data', $data, 'all seed');
 

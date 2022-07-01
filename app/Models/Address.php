@@ -16,4 +16,5 @@ class Address extends Model
         'city','town','street'
     ];
     public $timestamps = true;
+
 }

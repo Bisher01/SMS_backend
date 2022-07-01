@@ -60,8 +60,7 @@ class ParentController extends Controller
             'jop' => $request->parentJop,
         ]);
 
-        $data[] = $parent;
-        return $this->returnData('Parent', $data, 'updated parent successfully');
+        return $this->returnData('Parent', $parent, 'updated parent successfully');
     }
 
     /**

@@ -60,7 +60,7 @@ class AddStudentController extends Controller
                     ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
         }
         else{
-            $picture=null;
+            $picture = null;
         }
 
         $address = $this->addAddress($request);
@@ -86,15 +86,13 @@ class AddStudentController extends Controller
         $student->update([
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
-        $data[] = $student;
-        return $this->returnData('student', $data,'signup successfully');
+        return $this->returnData('student', $student,'signup successfully');
     }
 
 
     public function show(Student $student)
     {
-        $data[] = $student;
-        return $this->returnData('student', $data,'success');
+        return $this->returnData('student', $student,'success');
     }
 
     public function update(Request $request, Student $student)
@@ -129,8 +127,7 @@ class AddStudentController extends Controller
             'academic_year_id' => $request->academic_year_id,
         ]);
 
-        $data[] = $student;
-        return $this->returnData('student', $data,'update successfully');
+        return $this->returnData('student', $student,'update successfully');
     }
 
 

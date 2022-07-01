@@ -91,7 +91,7 @@ class LoginController extends Controller
             }
         }
         else {
-                return 'not found';
+                return $this->returnErrorMessage('Not Found', 404);
             }
 
         }

@@ -57,6 +57,7 @@ Route::prefix('mentor')->group(function () {
 
 Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
+    Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
@@ -123,3 +124,7 @@ Route::prefix('management')->group(function(){
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
 });
 
+Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
+Route::post('all/{grade}/{day}', [\App\Http\Controllers\TimeTableController::class, 'show']);
+
+Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);

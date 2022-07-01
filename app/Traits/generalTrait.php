@@ -32,7 +32,7 @@ trait generalTrait{
         return response()->json([
             'status' => true,
             'message' => $message,
-            $key => $value
+            $key => [$value]
         ]);
     }
 }

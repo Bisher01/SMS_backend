@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Choice;
 use App\Models\Exam;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use App\Models\Claass;
+use App\Models\Question;
 
 class ExamController extends Controller
 {
@@ -19,6 +22,21 @@ class ExamController extends Controller
     {
         $exams=Exam::query()->get();
         return $this->returnData('exams', $exams, 'all exams');
+
+    }
+
+    public function mark_ladder(Exam $exam)
+    {
+
+
+       $exam_info= Exam::query()->where('id',$exam->id)->with('questionExam',function($query){
+             $query->with('question',function($query){
+                $query->with('choices',function($query){
+                    $query->where('status',true);});
+                });
+                })->get();
+
+          return $this->returnData('exam_info', $exam_info, 'exam_info');
 
     }
 
@@ -39,8 +57,7 @@ class ExamController extends Controller
 
         ]);
 
-        $data[] = $exam;
-        return  $this->returnData('exam', $data, 'added exams successfully');
+        return  $this->returnData('exam', $exam, 'added exams successfully');
 
     }
 
@@ -52,8 +69,7 @@ class ExamController extends Controller
      */
     public function show(Exam $exam)
     {
-        $data[] = $exam;
-        return $this->returnData('exam', $data,'success');
+        return $this->returnData('exam', $exam,'success');
     }
 
     /**
@@ -74,8 +90,7 @@ class ExamController extends Controller
 
         ]);
 
-        $data[] = $exam;
-        return  $this->returnData('exam', $data, 'updated exam successfully');
+        return  $this->returnData('exam', $exam, 'updated exam successfully');
     }
 
     /**
@@ -86,7 +101,6 @@ class ExamController extends Controller
      */
     public function destroy(Exam $exam)
     {
-
         $exam->delete();
         return $this->returnSuccessMessage('deleted exam successfully');
 

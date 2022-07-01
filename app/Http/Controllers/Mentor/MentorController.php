@@ -47,8 +47,8 @@ class MentorController extends Controller
         $mentor->update([
             'code' =>  '004' .$mentor->class_id.  rand(0, 99) . $mentor->id . rand(100, 999) . $time->format('H') ,
         ]);
-         $data[] = $mentor;
-        return $this->returnData('mentor', $data, 'added mentor successfully');
+
+        return $this->returnData('mentor', $mentor, 'added mentor successfully');
     }
     /**
      * Display the specified resource.
@@ -58,8 +58,7 @@ class MentorController extends Controller
      */
     public function show(Mentor $mentor)
     {
-        $data[] = $mentor;
-        return $this->returnData('mentor', $data,'success');
+        return $this->returnData('mentor', $mentor,'success');
     }
 
     /**
@@ -82,9 +81,7 @@ class MentorController extends Controller
             'class_id' => $request->class_id,
         ]);
 
-        $data[] = $mentor;
-
-        return $this->returnData('mentor', $data,'updated successfully');
+        return $this->returnData('mentor', $mentor,'updated successfully');
     }
 
     /**

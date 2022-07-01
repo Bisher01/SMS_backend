@@ -16,4 +16,13 @@ class Quiz extends Model
         'quiz_name_id',
         'C_Cr_T_S_id'
         ];
+
+    public function questions() {
+        return $this->belongsToMany(
+            Question::class,
+            'question_quizzes',
+            'quiz_id',
+            'question_id'
+        );
+    }
 }

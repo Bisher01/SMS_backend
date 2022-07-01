@@ -31,6 +31,9 @@ class Student extends Authenticatable
         'academic_year_id',
         'address_id'
     ];
+    protected $with = ['parent', 'address'];
+
+
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');
     }
@@ -45,7 +48,7 @@ class Student extends Authenticatable
     }
 
     public function address(){
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     public function parent(){

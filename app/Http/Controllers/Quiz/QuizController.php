@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Quiz;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassClassroom;
+use App\Models\Exam;
 use App\Models\Quiz;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
@@ -13,23 +15,15 @@ use phpDocumentor\Reflection\Types\True_;
 class QuizController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function index()
     {
         $quizzes = Quiz::query()->get();
         return $this->returnData('quiz', $quizzes, 'quiz');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $check = $this->check($request);
@@ -41,16 +35,15 @@ class QuizController extends Controller
                 'quiz_name_id' => (int)$request->quizNameId,
                 'C_Cr_T_S_id' => $responseFromCheckFun->id
             ]);
-            $data[] = $quiz;
-            return $this->returnData('quiz', $data, 'success');
+
+            return $this->returnData('quiz', $quiz, 'success');
         }
         return $this->returnErrorMessage('input error', 400);
     }
 
     public function show(Quiz $quiz)
     {
-        $data[] = $quiz;
-        return $this->returnData('quiz', $data, 'success');
+        return $this->returnData('quiz', $quiz, 'success');
     }
 
     public function update(Request $request, Quiz $quiz)
@@ -64,8 +57,8 @@ class QuizController extends Controller
                 'quiz_name_id' => (int)$request->quizNameId,
                 'C_Cr_T_S_id' => $responseFromCheckFun->id,
             ]);
-            $data[] = $quiz;
-            return $this->returnData('quiz', $data, 'success');
+
+            return $this->returnData('quiz', $quiz, 'success');
         }
         return $this->returnErrorMessage('input error', 400);
 
@@ -76,6 +69,22 @@ class QuizController extends Controller
         $quiz->delete();
         return $this->returnSuccessMessage('success');
     }
+
+    public function markLadder(Quiz $quiz) {
+
+        $quizInfo = $this->quizInfo($quiz);
+        $questions = $quiz::query()->with('questions', function ($query) {
+            $query->with('choices', function ($query) {
+                $query->where('status', true);
+            });
+        })->get();
+
+        $data['quizInfo'] = $quizInfo;
+        $data['questions'] = $questions;
+        return $this->returnData('data', $data, 'success');
+
+    }
+
     public function check($request) {
         $teacherId = $request->teacher_id;
         $subjectId = $request->subject_id;

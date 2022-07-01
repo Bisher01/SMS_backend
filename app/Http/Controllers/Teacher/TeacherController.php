@@ -61,8 +61,8 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
-        $data[] = $teacher;
-        return $this->returnData('teacher', $data,'signup successfully');
+
+        return $this->returnData('teacher', $teacher,'signup successfully');
 
     }
 
@@ -74,8 +74,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        $data[] = $teacher;
-        return $this->returnData('teacher', $data,'success');
+        return $this->returnData('teacher', $teacher,'success');
     }
 
     /**
@@ -113,8 +112,8 @@ class TeacherController extends Controller
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
         ]);
-        $data[] = $teacher;
-        return $this->returnData('teacher', $data,'updated successfully');
+
+        return $this->returnData('teacher', $teacher,'updated successfully');
     }
 
     /**

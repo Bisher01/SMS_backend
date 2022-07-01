@@ -50,4 +50,40 @@ trait basicFunctionsTrait{
             ->first();
         return $teachSubject;
     }
+
+    public function quizInfo($quiz) {
+        $quizInfo = DB::table('quizzes')
+            ->select(['quiz_name_id', 'C_Cr_T_S_id'])
+            ->where('id', $quiz->id)->first();
+
+        $C_Cr_T_S_id = DB::table('claass_classroom_teacher_subject')
+            ->where('id', $quizInfo->C_Cr_T_S_id)->first();
+
+        $classClassroom = ClassClassroom::query()->where('id', $C_Cr_T_S_id->c_cr_id)->first();
+        $class = DB::table('claasses')
+            ->select(['id', 'name', 'grade_id'])
+            ->where('id', $classClassroom->class_id)->first();
+
+        $classroom = DB::table('classrooms')->select('name')
+            ->where('id', $classClassroom->classroom_id)->first();
+
+        $teacherSubjcet = DB::table('teacher__subjects')
+            ->where('id', $C_Cr_T_S_id->t_s_id)->first();
+
+        $teacher = DB::table('teachers')
+            ->select(['id', 'f_name', 'l_name', 'picture'])
+            ->where('id', $teacherSubjcet->teacher_id)->first();
+
+        $subject = DB::table('subjects')
+            ->select(['id', 'name'])
+            ->where('id', $teacherSubjcet->subject_id)->first();
+
+        $data['quiz'] = $quiz;
+        $data['subject'] = $subject;
+        $data['class'] = $class;
+        $data['classroom'] = $classroom;
+        $data['teacher'] = $teacher;
+
+        return $data;
+    }
 }

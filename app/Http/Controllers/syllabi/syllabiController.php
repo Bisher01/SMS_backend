@@ -51,8 +51,7 @@ class syllabiController extends Controller
             'class_id' => $request->class_id,
             'subject_id' => $request->subject_id,
         ]);
-        $data[] = $syllabi;
-        return $this->returnData('syllabi', $data, 'added syllabi success');
+        return $this->returnData('syllabi', $syllabi, 'added syllabi success');
     }
 
 
@@ -80,8 +79,7 @@ class syllabiController extends Controller
             'content' => $pdf,
             'subject_class_id' => $request->subject_class_id
         ]);
-        $data[] = $syllabi;
-        return $this->returnData('syllabi', $data, 'updated syllabi success') ;
+        return $this->returnData('syllabi', $syllabi, 'updated syllabi success') ;
     }
 
     /**

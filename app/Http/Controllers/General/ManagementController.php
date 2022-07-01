@@ -35,6 +35,7 @@ class ManagementController extends Controller
         $teacher->subject()->syncWithoutDetaching($request->subject_id);
         return $this->returnSuccessMessage('added subject to teacher successfully');
     }
+
     public function customizeTeachForClassroom(Request $request) {
        $teacherId = $request->teacher_id;
        $subjectId = $request->subject_id;
