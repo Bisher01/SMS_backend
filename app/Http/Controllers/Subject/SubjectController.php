@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
@@ -34,6 +35,13 @@ class SubjectController extends Controller
         $subject = Subject::query()->create([
             'name' => $request->subject_name
         ]);
+
+           DB::table('subject_mark')->insert([
+                'class_id' => $request->class_id,
+                'mark' => $request->mark,
+                'subject_id' => $subject->id,
+           ]);
+
         return $this->returnData('subject', $subject, 'added subject successfully');
     }
 
