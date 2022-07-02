@@ -37,4 +37,8 @@ class Subject extends Model
     public function syllabi(){
         return $this->hasMany(Syllabi::class, 'subject_id');
     }
+
+    public function mark(){
+        return $this->hasMany(SubjectMark::class,'subject_id');
+       }
 }

@@ -40,4 +40,8 @@ class Claass extends Model
         return $this->hasMany(Syllabi::class, 'class_id');
 
     }
+
+    public function mark(){
+        return $this->hasMany(SubjectMark::class,'class_id');
+       }
 }

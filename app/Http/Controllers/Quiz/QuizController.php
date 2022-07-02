@@ -11,7 +11,7 @@ use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
-
+use App\Models\SubjectMark;
 class QuizController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -24,14 +24,39 @@ class QuizController extends Controller
         return $this->returnData('quiz', $quizzes, 'quiz');
     }
 
+
+
     public function store(Request $request)
     {
+        $name1=DB::table('quiz_names')
+              ->where('id',$request->quizNameId)
+               ->where('name','شفهي')
+                ->first();
+        $name2=DB::table('quiz_names')
+              ->where('id',$request->quizNameId)
+               ->where('name','اختبار')
+                ->first();
+        $subject_mark=SubjectMark::query()
+         ->where('subject_id',$request->subject_id)
+          ->where('class_id',$request->class_id)
+           ->first();
+
+                if(isset($name1))
+
+                   $mark=(80/100)*$subject_mark->mark;
+
+                 if(isset($name2))
+
+                    $mark=(20/100)*$subject_mark->mark;
+
         $check = $this->check($request);
         $responseFromCheckFun =  $check->getData();
         if ($responseFromCheckFun->status == false) {
            return $responseFromCheckFun;
         }else if ($responseFromCheckFun->status == true)  {
+
             $quiz = Quiz::query()->create([
+                'mark' => $mark,
                 'quiz_name_id' => (int)$request->quizNameId,
                 'C_Cr_T_S_id' => $responseFromCheckFun->id
             ]);
@@ -40,6 +65,8 @@ class QuizController extends Controller
         }
         return $this->returnErrorMessage('input error', 400);
     }
+
+
 
     public function show(Quiz $quiz)
     {
