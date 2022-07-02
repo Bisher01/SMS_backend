@@ -28,7 +28,7 @@ class Teacher extends Authenticatable
     ];
 
     public $timestamps = true;
-    protected $hidden = ['code'];
+   // protected $hidden = ['code'];
     public function subject(){
         return $this->belongsToMany(Subject::class, 'teacher__subjects','teacher_id','subject_id');
 

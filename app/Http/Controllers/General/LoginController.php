@@ -56,6 +56,7 @@ class LoginController extends Controller
             }
 
             // login for teacher
+            
         } elseif(Str::is('003*', $code)){
             $teacher = Teacher::query()
                 ->where('code', $code)

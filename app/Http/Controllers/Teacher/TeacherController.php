@@ -44,25 +44,27 @@ class TeacherController extends Controller
 
         $address = $this->addAddress($request);
 
-        $teacher = Teacher::query()->create([
-            'f_name' => $request->f_name,
-            'l_name' => $request->l_name,
-            'email' => $request->email,
-            'code' =>'003',
-            'picture' => $picture,
-            'joining_date' => $request->joining_date,
-            'salary' => $request->salary,
-            'address_id' => $address->id,
-            'religion_id' => $request->religion_id,
-            'gender_id' => $request->gender_id,
-            'grade_id' => $request->grade_id,
-        ]);
+            $teacher = Teacher::query()->create([
+                'f_name' => $request->f_name,
+                'l_name' => $request->l_name,
+                'email' => $request->email,
+                'code' =>'003',
+                'picture' => $picture,
+                'joining_date' => $request->joining_date,
+                'salary' => $request->salary,
+                'address_id' => $address->id,
+                'religion_id' => $request->religion_id,
+                'gender_id' => $request->gender_id,
+                'grade_id' => $request->grade_id,
+            ]);
 
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
 
-        return $this->returnData('teacher', $teacher,'signup successfully');
+        $teacher->subject()->syncWithoutDetaching($request->subject_id);
+
+        return $this->returnData('teacher', $teacher,'signup & add her/his subjects  successfully');
 
     }
 
