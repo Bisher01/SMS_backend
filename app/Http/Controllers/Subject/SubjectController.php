@@ -7,6 +7,7 @@ use App\Models\Claass;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Traits\generalTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,27 +33,45 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        $path  = null;
+        $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
+        $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
+        $time  = Carbon::now();
 
-        $subject = Subject::query()->create([
-            'name' => $request->subject_name
-        ]);
+        $subject = Subject::query()
+            ->where('name', $request->subject_name)->first();
+        if (!isset($subject)) {
+            $subject = Subject::query()->create([
+                'name' => $request->subject_name
+            ]);
+        }
 
-        foreach( $request->class_id as $key=>$insert){
 
-           DB::table('subject_mark')->insert([
-                        'class_id' => $request->class_id[$key],
-                        'mark' => $request->mark[$key],
-                        'subject_id' =>$subject->id,
-                   ]);
-                   foreach( $request->content[$key] as $key1=>$insert1){
-                    DB::table('syllabi')->insert([
-                     'class_id' => $request->class_id[$key],
-                     'content' => $request->content[$key][$key1],
-                     'subject_id' =>$subject->id,
-                    ]);
+
+        foreach($request->class_id as $key => $insert){
+
+            DB::table('subject_mark')->insert([
+                'class_id' => $request->class_id[$key],
+                'mark' => $request->mark[$key],
+                'subject_id' =>$subject->id,
+            ]);
+            foreach($request->syllabiContent[$key] as $key1 => $insert1){
+
+                if ($request->hasFile('syllabiContent[$key][$key1]')) {
+                    $path = '/'.$request->file('syllabiContent[$key][$key1]')
+                            ->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
                 }
-                }
-             return $this->returnSuccessMessage('add subject & choose its class&syllabi successfully');
+
+                DB::table('syllabi')->insert([
+                    'class_id' => $request->class_id[$key],
+                    'content' => $path,
+                    'subject_id' =>$subject->id,
+                ]);
+            }
+        }
+
+
+             return $this->returnSuccessMessage('add subject & choose its class&sylabil successfully');
 
 
     }
