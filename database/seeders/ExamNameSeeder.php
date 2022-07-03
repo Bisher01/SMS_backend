@@ -15,7 +15,7 @@ class ExamNameSeeder extends Seeder
     public function run()
     {
         DB::table('exam_names')->delete();
-        $names=['امتحان الفصل الاول','امتحان الفصل الثاني'];
+        $names=['مذاكرة اولى ','مذاكرة ثانية','مذاكرة فصلية','امتحان'];
         foreach($names as $name){
            ExamName::create(['name'=>$name]);
         }

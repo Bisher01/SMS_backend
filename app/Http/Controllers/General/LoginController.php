@@ -56,21 +56,21 @@ class LoginController extends Controller
             }
 
             // login for teacher
-            
-        } elseif(Str::is('003*', $code)){
+
+        } elseif (Str::is('003*', $code)) {
             $teacher = Teacher::query()
                 ->where('code', $code)
                 ->where('f_name', $firstName)
                 ->where('l_name', $lastName)->first();
             if (!isset($teacher)) {
-                return $this->returnErrorMessage('Teacher Not Found', 404);
+                return $this->returnErrorMessage('teacher Not Found', 404);
             } else {
                 $token = $teacher->createToken('teacher', ['teacher']);
                 $data['teacher'] = $teacher;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
 
-                return $this->returnData('Teacher Data', $data,'logged in successfully');
+                return $this->returnData('teacher Data', $data,'logged in successfully');
             }
         }
 //        login for mentor

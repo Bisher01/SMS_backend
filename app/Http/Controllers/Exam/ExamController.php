@@ -7,9 +7,10 @@ use App\Models\Exam;
 use App\Models\ExamName;
 use App\Models\Question;
 use App\Models\QuestionExam;
+use App\Models\SubjectMark;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ExamController extends Controller
 {
     use generalTrait;
@@ -62,17 +63,48 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+
+            $name1=ExamName::query()
+              ->where('id',$request->exam_name_id)
+               ->where('name','مذاكرة اولى')
+                ->first();
+            $name2=ExamName::query()
+              ->where('id',$request->exam_name_id)
+               ->where('name','مذاكرة ثانية')
+                ->first();
+            $name3=ExamName::query()
+             ->where('id',$request->exam_name_id)
+              ->where('name','مذاكرة فصلية')
+               ->first();
+            $name4=ExamName::query()
+             ->where('id',$request->exam_name_id)
+              ->where('name','امتحان')
+               ->first();
+
+
+        $subject_mark=SubjectMark::query()->where('id',$request->subject_mark_id)->first();
+
+        if(isset($name1)||isset($name2))
+
+           $mark=(10/100)*$subject_mark->mark;
+
+         if(isset($name3) )
+
+            $mark=(20/100)*$subject_mark->mark;
+
+          if(isset($name4))
+
+            $mark=(40/100)*$subject_mark->mark;
+
         $exam = Exam::query()->create([
 
-            'mark' => $request->mark,
-            'subject_id' => $request->subject_id,
+            'mark' => $mark,
             'exam_name_id' => $request->exam_name_id,
-            'class_id' => $request->class_id
+            'subject_mark_id' => $request->subject_mark_id
 
         ]);
 
         return $this->returnData('exam', $exam, 'added exams successfully');
-
     }
 
     /**
@@ -98,9 +130,8 @@ class ExamController extends Controller
         $exam->update([
 
             'mark' => $request->mark,
-            'subject_id' => $request->subject_id,
             'exam_name_id' => $request->exam_name_id,
-            'class_id' => $request->class_id
+            'subject_mark_id' => $request->subject_mark_id
 
         ]);
 

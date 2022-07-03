@@ -11,7 +11,7 @@ class Exam extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-       'mark','subject_id','exam_name_id','class_id'
+       'mark','subject_mark_id','exam_name_id'
     ];
 
     public $timestamps = true;
@@ -21,8 +21,8 @@ class Exam extends Model
 
     }
 
-    public function class(){
-        return $this->belongsTo(Claass::class, 'class_id');
+    public function subjectMark(){
+        return $this->belongsTo(SubjectMark::class, 'subject_mark_id');
 
     }
 
@@ -30,9 +30,7 @@ class Exam extends Model
         return $this->belongsTo(ExamName::class, 'exam_name_id');
 
     }
-   public function subject(){
-        return $this->belongsTo(Subject::class, 'subject_id');
-    }
+
     public function questionExam(){
         return $this->hasMany(QuestionExam::class, 'exam_id');
 
