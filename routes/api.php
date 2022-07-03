@@ -128,5 +128,13 @@ Route::prefix('management')->group(function(){
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
-
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
+
+Route::prefix('season')->group(function(){
+Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
+Route::get('all', [\App\Http\Controllers\SeasonController::class, 'index']);
+Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'show']);
+Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
+});
+
+

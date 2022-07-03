@@ -11,7 +11,10 @@ class Exam extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-       'mark','subject_mark_id','exam_name_id'
+       'mark',
+       'subject_mark_id',
+       'exam_name_id',
+       'season_id'
     ];
 
     public $timestamps = true;
