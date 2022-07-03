@@ -16,10 +16,10 @@ use mysql_xdevapi\Exception;
 class ManagementController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
-    // public function addClassroomToClass(Request $request, Claass $claass) {
-    //     $claass -> classroom()->syncWithoutDetaching($request -> classroom_Id);
-    //     return $this->returnSuccessMessage('added classroom to class successfully');
-    // }
+     public function addClassroomToClass(Request $request, Claass $claass) {
+         $claass -> classroom()->syncWithoutDetaching($request -> classroom_Id);
+         return $this->returnSuccessMessage('adde0d classroom to class successfully');
+     }
 
     public function addLessonsToDays(Request $request, Day $day) {
         $day -> lessons()->syncWithoutDetaching($request -> lesson_id);

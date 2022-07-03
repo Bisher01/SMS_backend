@@ -57,10 +57,8 @@ class SubjectController extends Controller
             ]);
             foreach($request->syllabiContent[$key] as $key1 => $insert1){
 
-                if ($request->hasFile('syllabiContent[$key][$key1]')) {
-                    $path = '/'.$request->file('syllabiContent[$key][$key1]')
+                    $path = '/'.$request->file('syllabiContent[0][0]')
                             ->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
-                }
 
                 DB::table('syllabi')->insert([
                     'class_id' => $request->class_id[$key],

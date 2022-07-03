@@ -126,6 +126,13 @@ Route::prefix('management')->group(function(){
 
 });
 
+
+Route::prefix('resultant')->group(function () {
+    Route::get('/{student}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
+});
+
+
+
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 
