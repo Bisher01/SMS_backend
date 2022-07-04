@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResultantController extends Controller
 {
@@ -70,8 +71,30 @@ class ResultantController extends Controller
     }
 
     public function resultantStudent(Student $student) {
-        $avgQuizMarks = QuizMarks::query()
-            ->where('student_id', $student->id)->average('mark');
+
+        $quizzes =  $student->quizzes;
+        $avgQuizMarksQ = 0;
+        $avgQuizMarks = 0;
+        foreach ($quizzes as $quiz) {
+            if ($quiz->quiz_name_id == 2) {
+                $avgQuizMarksQ = QuizMarks::query()
+                    ->where('student_id', $student->id)
+                    ->where('quiz_id', $quiz->id)
+                    ->average('mark');
+            }
+            if ($quiz->quiz_name_id == 1) {
+                $avgQuizMarks = QuizMarks::query()
+                    ->where('student_id', $student->id)
+                    ->where('quiz_id', $quiz->id)
+                    ->average('mark');
+            }
+
+        }
+        $data['شفهي'] = $avgQuizMarks;
+        $data['اختبار'] = $avgQuizMarksQ;
+        return $data ;
+
+
 
         $avgExamMarks = ExamMark::query()
             ->where('student_id', $student->id)->average('mark');

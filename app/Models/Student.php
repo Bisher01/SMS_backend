@@ -31,6 +31,8 @@ class Student extends Authenticatable
         'academic_year_id',
         'address_id'
     ];
+
+    protected $hidden = ['pivot'];
     protected $with = ['parent', 'address'];
 
 
@@ -78,6 +80,14 @@ class Student extends Authenticatable
     public function fees_invoice(){
         return $this->hasMany(Fees_Invoices::class, 'student_id');
 
+    }
+
+    public function quizzes() {
+        return $this->belongsToMany(
+            Quiz::class,
+            'quiz_marks',
+            'student_id',
+            'quiz_id');
     }
 
 

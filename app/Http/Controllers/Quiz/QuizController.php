@@ -28,37 +28,37 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
-        $name1=DB::table('quiz_names')
+        $name1 = DB::table('quiz_names')
               ->where('id',$request->quizNameId)
                ->where('name','شفهي')
                 ->first();
-        $name2=DB::table('quiz_names')
+        $name2 = DB::table('quiz_names')
               ->where('id',$request->quizNameId)
                ->where('name','اختبار')
                 ->first();
-        $subject_mark=SubjectMark::query()
+        $subject_mark = SubjectMark::query()
          ->where('subject_id',$request->subject_id)
           ->where('class_id',$request->class_id)
            ->first();
 
-                if(isset($name1))
+        if (!isset($subject_mark)) {
+           return $this->returnErrorMessage('there is not relationship between subject and class', 404);
+        }
+        if(isset($name1))
+            $mark=(80/100)*$subject_mark->mark;
 
-                   $mark=(80/100)*$subject_mark->mark;
-
-                 if(isset($name2))
-
-                    $mark=(20/100)*$subject_mark->mark;
+        if(isset($name2))
+            $mark=(20/100)*$subject_mark->mark;
 
         $check = $this->check($request);
         $responseFromCheckFun =  $check->getData();
         if ($responseFromCheckFun->status == false) {
            return $responseFromCheckFun;
         }else if ($responseFromCheckFun->status == true)  {
-
             $quiz = Quiz::query()->create([
                 'mark' => $mark,
                 'quiz_name_id' => (int)$request->quizNameId,
-                'C_Cr_T_S_id' => $responseFromCheckFun->id
+                'C_Cr_T_S_id' => $responseFromCheckFun->id[0]
             ]);
 
             return $this->returnData('quiz', $quiz, 'success');

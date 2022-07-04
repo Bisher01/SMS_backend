@@ -20,6 +20,13 @@ class ClassClassroom extends Model
 
     public function teachers() {
         return $this->belongsToMany(Teacher::class, 'teacher_classclassroom','claass_classroom_id','teacher_id');
+    }
 
+    public function classes() {
+        return $this->belongsTo(Claass::class, 'class_id');
+    }
+
+    public function classrooms() {
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 }

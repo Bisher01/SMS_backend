@@ -17,6 +17,7 @@ class Quiz extends Model
         'quiz_name_id',
         'C_Cr_T_S_id'
         ];
+    protected $hidden = ['pivot'];
 
     public function questions() {
         return $this->belongsToMany(
@@ -25,5 +26,9 @@ class Quiz extends Model
             'quiz_id',
             'question_id'
         );
+    }
+
+    public function quizName() {
+        return $this->belongsTo(Q::class);
     }
 }

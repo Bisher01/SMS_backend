@@ -137,3 +137,10 @@ Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
+
+Route::prefix('mobile')->group(function () {
+    Route::get('teacherWithSubjects/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'getTeacherWithSubjects']);
+});
+
+
+Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);

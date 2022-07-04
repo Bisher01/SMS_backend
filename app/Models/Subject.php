@@ -13,6 +13,7 @@ class Subject extends Model
     public $fillable = [
         'name','mark'
     ];
+    protected $hidden = ['pivot'];
 
     public $timestamps = true;
 

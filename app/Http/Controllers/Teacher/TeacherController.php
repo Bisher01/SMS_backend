@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Syllabi;
 use App\Models\Teacher;
+use App\Models\TeacherSubject;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Traits\basicFunctionsTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\generalTrait;
 class TeacherController extends Controller
@@ -62,9 +65,9 @@ class TeacherController extends Controller
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
 
-        $teacher->subject()->syncWithoutDetaching($request->subject_id);
-
-        return $this->returnData('teacher', $teacher,'signup & add her/his subjects  successfully');
+//        $teacher->subjects()->syncWithoutDetaching($request->subject_id);
+//
+        return $this->returnData('teacher', $teacher,'signup & add her / his subjects  successfully');
 
     }
 
@@ -128,6 +131,24 @@ class TeacherController extends Controller
     {
         $teacher->delete();
         return $this->returnSuccessMessage('deleted teacher successfully');
+    }
+
+    public function getTeacherWithSubjects(Teacher $teacher) {
+        $teacherWithSubjects  = $teacher->load('subjects');
+        $teacherSubjects = DB::table('teacher__subjects')->where('teacher_id', $teacher->id)->get();
+        foreach ($teacherSubjects as $teacherSubject) {
+            $classClassroom = DB::table('claass_classrooms')->where('id', $teacherSubject->class_classroom_id)->first();
+            $syllabi[] = DB::table('syllabi')->where('subject_id', $teacherSubject->subject_id)
+                ->where('class_id', $classClassroom->class_id)
+                ->get();
+        }
+        $data['teacher'] = $teacherWithSubjects;
+        $data['books'] = $syllabi;
+        return $this->returnData('data', $data, 'success');
+    }
+
+    public function getTeacherWithClassroom(Teacher $teacher) {
+
     }
 
 

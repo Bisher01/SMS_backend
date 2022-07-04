@@ -9,6 +9,7 @@ class SubjectMark extends Model
 {
     use HasFactory;
 
+    protected $table = 'subject_mark';
 
     public $primaryKey = 'id';
 
