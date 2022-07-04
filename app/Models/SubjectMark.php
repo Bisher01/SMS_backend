@@ -9,8 +9,8 @@ class SubjectMark extends Model
 {
     use HasFactory;
 
-    protected $table = 'subject_mark';
 
+    public $table= 'subject_marks';
     public $primaryKey = 'id';
 
     public $fillable = [
