@@ -59,6 +59,7 @@ class SubjectController extends Controller
 
             foreach($request->syllabiContent[$key] as $key1 => $insert1){
 
+
                 $paths = $request->file('syllabiContent.'.[$key][$key1]);
                  foreach($paths as $path){
 
@@ -90,6 +91,7 @@ class SubjectController extends Controller
 
                 // if ($request->hasFile('syllabiContent[$key][$key1]')) {
                 // }
+
 
             }
         }

@@ -64,25 +64,26 @@ class ExamController extends Controller
     public function store(Request $request)
     {
 
-            $name1=ExamName::query()
+            $name1 = ExamName::query()
               ->where('id',$request->exam_name_id)
                ->where('name','مذاكرة اولى')
                 ->first();
-            $name2=ExamName::query()
+            $name2 = ExamName::query()
               ->where('id',$request->exam_name_id)
                ->where('name','مذاكرة ثانية')
                 ->first();
-            $name3=ExamName::query()
+            $name3 = ExamName::query()
              ->where('id',$request->exam_name_id)
               ->where('name','مذاكرة فصلية')
                ->first();
-            $name4=ExamName::query()
+            $name4 = ExamName::query()
              ->where('id',$request->exam_name_id)
               ->where('name','امتحان')
                ->first();
 
 
-        $subject_mark=SubjectMark::query()->where('id',$request->subject_mark_id)->first();
+        $subject_mark = SubjectMark::query()
+            ->where('id',$request->subject_mark_id)->first();
 
         if(isset($name1)||isset($name2))
 
@@ -95,12 +96,18 @@ class ExamController extends Controller
           if(isset($name4))
 
             $mark=(40/100)*$subject_mark->mark;
-
+          $subjectClassMark = DB::table('subject_mark')->select('id')
+              ->where('subject_id', $request->subject_id)
+              ->where('class_id', $request->class_id)
+              ->first();
+          if (!isset($subjectClassMark)) {
+              return $this->returnErrorMessage('there is not relationship between class & subject', 404);
+          }
         $exam = Exam::query()->create([
 
             'mark' => $mark,
             'exam_name_id' => $request->exam_name_id,
-            'subject_mark_id' => $request->subject_mark_id
+            'subject_mark_id' => $subjectClassMark->id
 
         ]);
 

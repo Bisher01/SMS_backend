@@ -42,7 +42,12 @@ trait basicFunctionsTrait{
         return $classClassroom;
     }
 
-    public function checkTeacherSubject($teacherId, $subjectId) {
+
+//    error
+    public function checkTeacherSubject($teacherId, $subjectId, $classId, $classroomId) {
+        $test = $this->checkClassClassroom($classId, $classroomId);
+        if (isset($test))
+        dd(true);
         $teachSubject = DB::table('teacher__subjects')
             ->select('id')
             ->where('subject_id', $subjectId)
@@ -53,13 +58,13 @@ trait basicFunctionsTrait{
 
     public function quizInfo($quiz) {
         $quizInfo = DB::table('quizzes')
-            ->select(['quiz_name_id', 'C_Cr_T_S_id'])
+            ->select(['quiz_name_id', 'teacher_subject_id'])
             ->where('id', $quiz->id)->first();
 
-        $C_Cr_T_S_id = DB::table('claass_classroom_teacher_subject')
-            ->where('id', $quizInfo->C_Cr_T_S_id)->first();
+        $teacSub = DB::table('teacher__subjects')
+            ->where('id', $quizInfo->teacher_subject_id)->first();
 
-        $classClassroom = ClassClassroom::query()->where('id', $C_Cr_T_S_id->c_cr_id)->first();
+        $classClassroom = ClassClassroom::query()->where('id', $teacSub->class_classroom_id)->first();
         $class = DB::table('claasses')
             ->select(['id', 'name', 'grade_id'])
             ->where('id', $classClassroom->class_id)->first();
@@ -67,16 +72,16 @@ trait basicFunctionsTrait{
         $classroom = DB::table('classrooms')->select('name')
             ->where('id', $classClassroom->classroom_id)->first();
 
-        $teacherSubjcet = DB::table('teacher__subjects')
-            ->where('id', $C_Cr_T_S_id->t_s_id)->first();
+//        $teacherSubjcet = DB::table('teacher__subjects')
+//            ->where('id', $C_Cr_T_S_id->t_s_id)->first();
 
         $teacher = DB::table('teachers')
             ->select(['id', 'f_name', 'l_name', 'picture'])
-            ->where('id', $teacherSubjcet->teacher_id)->first();
+            ->where('id', $teacSub->teacher_id)->first();
 
         $subject = DB::table('subjects')
             ->select(['id', 'name'])
-            ->where('id', $teacherSubjcet->subject_id)->first();
+            ->where('id', $teacSub->subject_id)->first();
 
         $data['quiz'] = $quiz;
         $data['subject'] = $subject;

@@ -19,7 +19,7 @@ class CreateTimeTablesTable extends Migration
             $table->boolean('check');
             $table->foreignId('lesson_day_id')->constrained('lesson_day')->cascadeOnDelete();
             $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
-            $table->foreignId('teacher_info_id')->constrained('claass_classroom_teacher_subject')->cascadeOnDelete();
+            $table->foreignId('teacher_info_id')->constrained('teacher__subjects', 'id')->cascadeOnDelete();
             $table->timestamps();
         });
     }

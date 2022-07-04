@@ -43,7 +43,7 @@ class TimeTableController extends Controller
                     $query->with('teachers');
                 });
             });
-        })->first();
+        })->get();
         return $this->returnData('data', $info, 'success');
 
     }
