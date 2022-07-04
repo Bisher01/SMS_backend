@@ -10,6 +10,7 @@ class SubjectMark extends Model
     use HasFactory;
 
 
+    public $table= 'subject_marks';
     public $primaryKey = 'id';
 
     public $fillable = [

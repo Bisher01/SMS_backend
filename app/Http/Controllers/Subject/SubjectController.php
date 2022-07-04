@@ -50,23 +50,47 @@ class SubjectController extends Controller
 
         foreach($request->class_id as $key => $insert){
 
-            DB::table('subject_mark')->insert([
+            DB::table('subject_marks')->insert([
                 'class_id' => $request->class_id[$key],
                 'mark' => $request->mark[$key],
                 'subject_id' =>$subject->id,
             ]);
+
+
             foreach($request->syllabiContent[$key] as $key1 => $insert1){
 
-                if ($request->hasFile('syllabiContent[$key][$key1]')) {
-                    $path = '/'.$request->file('syllabiContent[$key][$key1]')
-                            ->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
-                }
+                $paths = $request->file('syllabiContent.'.[$key][$key1]);
+                 foreach($paths as $path){
 
-                DB::table('syllabi')->insert([
-                    'class_id' => $request->class_id[$key],
-                    'content' => $path,
-                    'subject_id' =>$subject->id,
-                ]);
+                  $a= $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
+
+
+                    DB::table('syllabi')->insert([
+                        'class_id' => $request->class_id[$key],
+                        'content' => $a,
+                        'subject_id' =>$subject->id,
+                    ]);
+
+                }
+                return $a;
+
+
+                // foreach($paths as $path){
+
+                //    $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
+
+                //     DB::table('syllabi')->insert([
+                //         'class_id' => $request->class_id[$key],
+                //         'content' => $path,
+                //         'subject_id' =>$subject->id,
+                //     ]);
+
+                // }
+
+
+                // if ($request->hasFile('syllabiContent[$key][$key1]')) {
+                // }
+
             }
         }
 
