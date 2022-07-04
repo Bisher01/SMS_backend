@@ -4,6 +4,7 @@ namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassClassroom;
+use App\Models\Subject;
 use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use App\Models\Claass;
@@ -12,6 +13,7 @@ use App\Models\Teacher;
 use App\Traits\generalTrait;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
+use phpDocumentor\Reflection\Types\True_;
 
 class ManagementController extends Controller
 {
@@ -32,18 +34,42 @@ class ManagementController extends Controller
 //        return $this->returnSuccessMessage('added classroom to teacher successfully');
 //    }
 
-//    public function addSubjectToTeacher(Request $request, Teacher $teacher) {
-//        $teacher->subject()->syncWithoutDetaching($request->subject_id);
-//        return $this->returnSuccessMessage('added subject to teacher successfully');
-//    }
+    public function addSubjectToTeacher(Request $request, Teacher $teacher) {
+        $checkClassClassroom = $this->checkClassClassroom($request->class_id, $request->classroom_id);
+        if (!$checkClassClassroom == null) {
+            $check =  DB::table('teacher__subjects')
+                ->where('subject_id', $request->subject_id)
+                ->where('teacher_id', $teacher->id)
+                ->where('class_classroom_id', $checkClassClassroom->id)
+                ->first();
+            if (isset($check)) {
+                return $this->returnSuccessMessage('already exists');
+            }else {
+                if (Subject::query()->find($request->subject_id)) {
+                    DB::table('teacher__subjects')->insert([
+                        'teacher_id' => $teacher->id,
+                        'subject_id' => $request->subject_id,
+                        'class_classroom_id' => $checkClassClassroom->id,
+                    ]);
+                    return $this->returnSuccessMessage('added subject to teacher successfully');
+                }else {
+                    return $this->returnErrorMessage('subject not found', 404);
+                }
+            }
+            return $this->returnErrorMessage('input error', 400);
+        }
+        return $this->returnErrorMessage('class or classroom not found', 404);
 
-
-    public function addSubjectToClass(Request $request, Claass $class) {
-        $class->subjects()->syncWithoutDetaching($request->subject_id,['mark'=>$request->mark]);
-        return $this->returnSuccessMessage('added subject to class successfully');
     }
 
 
+//    error
+    public function addSubjectToClass(Request $request, Claass $class) {
+        $class->subjects()->attach($request->subject_id,['mark'=>$request->mark]);
+        return $this->returnSuccessMessage('added subject to class successfully');
+    }
+
+//      delete
     public function customizeTeachForClassroom(Request $request) {
        $teacherId = $request->teacher_id;
        $subjectId = $request->subject_id;
@@ -79,9 +105,5 @@ class ManagementController extends Controller
        }
         return $this->returnSuccessMessage('already exists');
 
-    }
-
-    public function test() {
-        return $this->checkTeacherSubject(1, 1, 1, 1);
     }
 }
