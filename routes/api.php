@@ -135,12 +135,22 @@ Route::prefix('resultant')->group(function () {
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
-
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
+<<<<<<< HEAD
 Route::prefix('mobile')->group(function () {
     Route::get('teacherWithSubjects/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'getTeacherWithSubjects']);
 });
 
 
 Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);
+=======
+Route::prefix('season')->group(function(){
+Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
+Route::get('all', [\App\Http\Controllers\SeasonController::class, 'index']);
+Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'show']);
+Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
+});
+
+
+>>>>>>> b1ba2322a525c655ab498132a1fd383e593db9d1
