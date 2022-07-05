@@ -25,7 +25,7 @@ class syllabiController extends Controller
     public function index()
     {
         $syllabi = Syllabi::query()->get();
-        return $this->returnData('syllabi', $syllabi, 'syllabi');
+        return $this->returnAllData('syllabi', $syllabi, 'syllabi');
     }
 
     /**

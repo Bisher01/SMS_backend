@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use App\Models\setting;
 use App\Models\Student;
 
 class SettingController extends Controller
 {
+    use generalTrait;
     public function index()
     {
-        $settings=setting::query()->get();
-        return $settings;
+        $settings = setting::query()->get();
+       return $this->returnAllData('settings', $settings, 'success');
     }
 
 

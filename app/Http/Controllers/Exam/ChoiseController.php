@@ -15,7 +15,8 @@ class ChoiseController extends Controller
     public function index()
     {
         $choices=Choice::query()->get();
-        return $this->returnData('choices', $choices, 'all choices');
+        return $this->returnAllData('choices', $choices, 'all choices');
+
     }
 
     /**

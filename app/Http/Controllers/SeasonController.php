@@ -17,7 +17,7 @@ class SeasonController extends Controller
     public function index()
     {
         $seasons = DB::table('seasons')->get();
-        return $this->returnData('seasons', $seasons, 'all seasons');
+        return $this->returnAllData('seasons', $seasons, 'all seasons');
 
     }
 

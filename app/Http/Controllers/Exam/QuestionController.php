@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index()
     {
         $questions=Question::query()->get();
-        return $this->returnData('questions', $questions, 'all questions');
+        return $this->returnAllData('questions', $questions, 'all questions');
     }
 
     /**

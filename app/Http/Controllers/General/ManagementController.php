@@ -5,6 +5,7 @@ namespace App\Http\Controllers\General;
 use App\Http\Controllers\Controller;
 use App\Models\ClassClassroom;
 use App\Models\Subject;
+use App\Models\SubjectMark;
 use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use App\Models\Claass;
@@ -65,7 +66,13 @@ class ManagementController extends Controller
 
 //    error
     public function addSubjectToClass(Request $request, Claass $class) {
-        $class->subjects()->attach($request->subject_id,['mark'=>$request->mark]);
+        foreach ($request->subjects as $item){
+            DB::table('subject_mark')->insert([
+                'subject_id' => $item['subject_id'],
+                'mark' => $item['mark'],
+                'class_id' => $class->id
+            ]);
+        }
         return $this->returnSuccessMessage('added subject to class successfully');
     }
 

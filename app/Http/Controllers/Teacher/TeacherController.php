@@ -24,8 +24,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers=Teacher::query()->get();
-        return $this->returnData('teacher', $teachers,'success');
-
+        return $this->returnAllData('teacher', $teachers,'success');
     }
 
     /**
@@ -64,9 +63,6 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
-
-//        $teacher->subjects()->syncWithoutDetaching($request->subject_id);
-//
         return $this->returnData('teacher', $teacher,'signup & add her / his subjects  successfully');
 
     }

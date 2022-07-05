@@ -22,7 +22,7 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::query()->get();
-        return $this->returnData('subjects', $subjects, 'all subjects');
+        return $this->returnAllData('subjects', $subjects, 'all subjects');
     }
 
     /**
@@ -50,7 +50,7 @@ class SubjectController extends Controller
 
         foreach($request->class_id as $key => $insert){
 
-            DB::table('subject_marks')->insert([
+            DB::table('subject_mark')->insert([
                 'class_id' => $request->class_id[$key],
                 'mark' => $request->mark[$key],
                 'subject_id' =>$subject->id,
@@ -61,9 +61,10 @@ class SubjectController extends Controller
 
 
                 $paths = $request->file('syllabiContent.'.[$key][$key1]);
+
                  foreach($paths as $path){
 
-                  $a= $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $classNmae->id);
+                  $a = $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $key1);
 
 
                     DB::table('syllabi')->insert([
@@ -71,8 +72,8 @@ class SubjectController extends Controller
                         'content' => $a,
                         'subject_id' =>$subject->id,
                     ]);
-
                 }
+
                 return $a;
 
 

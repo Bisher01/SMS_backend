@@ -23,7 +23,7 @@ class ExamController extends Controller
     public function index()
     {
         $exams = Exam::query()->get();
-        return $this->returnData('exams', $exams, 'all exams');
+        return $this->returnAllData('exams', $exams, 'all exams');
 
     }
 

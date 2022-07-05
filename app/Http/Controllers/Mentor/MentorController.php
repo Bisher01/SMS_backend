@@ -21,7 +21,7 @@ class MentorController extends Controller
     public function index()
     {
         $mentors = Mentor::query()->get();
-        return $this->returnData('mentor', $mentors, 'list of mentors');
+        return $this->returnAllData('mentor', $mentors, 'list of mentors');
     }
 
     /**

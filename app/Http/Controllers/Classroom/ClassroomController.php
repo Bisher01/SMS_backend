@@ -15,7 +15,9 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = Classroom::query()->get();
-        return $this->returnData('classroomms', $classrooms, 'all classroom');
+        return $this->returnAllData('classroomms', $classrooms, 'all classroom');
+
+//        return $this->returnData('classroomms', $classrooms, 'all classroom');
     }
 
 

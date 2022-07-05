@@ -122,7 +122,7 @@ Route::prefix('management')->group(function(){
     Route::put('add/classroom/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToTeacher']);
     Route::post('customizeTeachForClassroom', [\App\Http\Controllers\General\ManagementController::class, 'customizeTeachForClassroom']);
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
-    Route::put('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
+    Route::post('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
 
 });
 

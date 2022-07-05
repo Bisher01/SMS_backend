@@ -21,7 +21,7 @@ class QuizController extends Controller
     public function index()
     {
         $quizzes = Quiz::query()->get();
-        return $this->returnData('quiz', $quizzes, 'quiz');
+        return $this->returnAllData('quiz', $quizzes, 'quiz');
     }
 
     public function store(Request $request)

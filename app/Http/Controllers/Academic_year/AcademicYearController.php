@@ -15,7 +15,8 @@ class AcademicYearController extends Controller
     {
         $academicYears = Academic_year::query()->get();
 
-        return $this->returnData('Academic Years', $academicYears, 'List Of Academic Years');
+        return $this->returnAllData('Academic Years', $academicYears, 'List Of Academic Years');
+//        return $this->returnData('Academic Years', $academicYears, 'List Of Academic Years');
     }
 
 
