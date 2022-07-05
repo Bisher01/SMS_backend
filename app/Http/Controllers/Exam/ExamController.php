@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Choice;
 use App\Models\Exam;
 use App\Models\ExamName;
 use App\Models\Question;
 use App\Models\QuestionExam;
+use App\Models\Student;
 use App\Models\SubjectMark;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 class ExamController extends Controller
 {
     use generalTrait;
@@ -107,19 +110,20 @@ class ExamController extends Controller
 
             'mark' => $mark,
             'exam_name_id' => $request->exam_name_id,
-            'subject_mark_id' => $subjectClassMark->id
+            'subject_mark_id' => $request->subject_mark_id,
+            'season_id' => $request->season_id,
+            'start' => $request->start,
+            'end' => $request->end,
+
 
         ]);
 
         return $this->returnData('exam', $exam, 'added exams successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function show(Exam $exam)
     {
         return $this->returnData('exam', $exam, 'success');
@@ -155,6 +159,63 @@ class ExamController extends Controller
     {
         $exam->delete();
         return $this->returnSuccessMessage('deleted exam successfully');
+
+    }
+
+    public function studentMark(Request $request,Exam $exam,Student $student)
+    {
+        $student_mark=0;
+
+         $al=Exam::query()->select('end')->first();
+        $a= Carbon::now()->addMinutes(3)->toDateTimeString();
+         if ($a >= $al->end){
+            return 1;
+
+             foreach($request->question as $question){
+
+            $status = DB::table('choices')
+            ->where('question_id',$question['id'])
+              ->where('id',$question['choise'])
+                ->select('status')
+                ->first();
+
+          if($status->status == 1)
+          {
+              $question_mark = DB::table('question_exams')
+              ->where('exam_id',$exam->id)
+              ->where('question_id',$question['id'])
+              ->select('mark')
+              ->first();
+
+              $student_mark += $question_mark->mark;
+
+          }
+
+        }
+
+        $exam = DB::table('exam_marks') ->insert([
+
+            'exam_id' => $exam->id,
+            'student_id' => $student->id,
+            'mark' => $student_mark,
+
+        ]);
+
+        return $this->returnData('exam', $exam, 'updated exam successfully');
+
+
+    }else{
+        $exam = DB::table('exam_marks') ->insert([
+
+            'exam_id' => $exam->id,
+            'student_id' => $student->id,
+            'mark' => 0,
+
+        ]);
+
+        return $this->returnData('exam', $exam, 'GAMEOVER');
+
+    }
 
     }
 }

@@ -13,7 +13,7 @@ class Quiz extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'mark',
+        'mark' ,
         'quiz_name_id',
         'C_Cr_T_S_id',
         'season_id'

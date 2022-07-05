@@ -44,7 +44,13 @@ class TimeTableController extends Controller
                 });
             });
         })->get();
-        return $this->returnData('data', $info, 'success');
+
+        $info1 = $grade::query()->with('class',function($query){
+            $query->with('classroom',function($query){
+                $query->with('teacherSubjects');
+            });
+        })->get();
+        return $this->returnData('data', $info1, 'success');
 
     }
 }

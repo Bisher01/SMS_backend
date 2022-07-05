@@ -15,9 +15,10 @@ class CreateExamMarksTable extends Migration
     {
         Schema::create('exam_marks', function (Blueprint $table) {
             $table->id();
+            
             $table->foreignId('exam_id')->constrained('exams', 'id')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('students', 'id')->cascadeOnDelete();
-            $table->string('mark');
+            $table->integer('mark');
             $table->timestamps();
         });
     }

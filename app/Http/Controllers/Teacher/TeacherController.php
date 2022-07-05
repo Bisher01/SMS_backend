@@ -65,8 +65,8 @@ class TeacherController extends Controller
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
 
-//        $teacher->subjects()->syncWithoutDetaching($request->subject_id);
-//
+       $teacher->subjects()->syncWithoutDetaching($request->subject_id);
+
         return $this->returnData('teacher', $teacher,'signup & add her / his subjects  successfully');
 
     }

@@ -22,13 +22,13 @@ class Classroom extends Model
         return $this->belongsToMany(Claass::class, 'claass_classrooms','classroom_id','class_id');
     }
 
-    public function teacherSubjects() {
-        return $this->belongsToMany(
-            TeacherSubject::class,
-            'claass_classroom_teacher_subject',
-            'c_cr_id',
-            't_s_id'
-        );
-    }
+    // public function teacherSubjects() {
+    //     return $this->belongsToMany(
+    //         TeacherSubject::class,
+    //         'claass_classroom_teacher_subject',
+    //         'c_cr_id',
+    //         't_s_id'
+    //     );
+    // }
 
 }

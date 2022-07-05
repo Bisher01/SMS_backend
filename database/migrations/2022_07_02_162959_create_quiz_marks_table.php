@@ -17,7 +17,7 @@ class CreateQuizMarksTable extends Migration
             $table->id();
             $table->foreignId('quiz_id')->constrained('quizzes', 'id')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('students', 'id')->cascadeOnDelete();
-            $table->string('mark');
+            $table->integer('mark');
             $table->timestamps();
         });
     }
