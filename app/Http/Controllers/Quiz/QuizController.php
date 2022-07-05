@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Quiz;
 
 use App\Http\Controllers\Controller;
+use App\Models\Claass;
 use App\Models\ClassClassroom;
+use App\Models\Classroom;
 use App\Models\Exam;
 use App\Models\Quiz;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\TeacherSubject;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
@@ -30,6 +36,7 @@ class QuizController extends Controller
         $subjectId = $request->subject_id;
         $claassId = $request->class_id;
         $classroomId = $request->classroom_id;
+        $startDate = $request->start_date;
 
 
         $name1 = DB::table('quiz_names')
@@ -59,7 +66,8 @@ class QuizController extends Controller
             $quiz = Quiz::query()->create([
                 'mark' => $mark,
                 'quiz_name_id' => (int)$request->quizNameId,
-                'teacher_subject_id' => $check->id
+                'teacher_subject_id' => $check->id,
+                'start_date' => $startDate
             ]);
             return $this->returnData('quiz', $quiz, 'success');
         }
@@ -111,6 +119,44 @@ class QuizController extends Controller
         return $this->returnData('data', $data, 'success');
 
     }
+
+
+    public function checkAnswer(Request $request) {
+        $studentId = $request->student_id;
+        $subjectName = $request->subjectName;
+        $classroom = $request->classroom;
+        $classId = $request->classId;
+
+        $subjectId = Subject::query()->where('name', $subjectName)->first('id');
+        if (! isset($subjectId)) {
+            return $this->returnErrorMessage('subject not found',404);
+        }
+
+        $classroomId = Classroom::query()->where('name', $classroom)->first('id');
+        if (! isset($classroomId)) {
+            return $this->returnErrorMessage('classroom not found', 404);
+        }
+
+        if (! Claass::query()->find($classId)) {
+            return $this->returnErrorMessage('class not found', 404);
+        }
+
+        $classClassroomId = $this->checkClassClassroom($classId, $classroomId);
+        if (! isset($classClassroomId)) {
+            return $this->returnErrorMessage('class classroom not found', 404);
+        }
+
+        $check = TeacherSubject::query()
+            ->where('subject_id', $subjectId)
+            ->where('class_classroom_id', $classClassroomId);
+
+
+
+    }
+
+
+
+
 
 //    public function check($request) {
 //        $teacherId = $request->teacher_id;

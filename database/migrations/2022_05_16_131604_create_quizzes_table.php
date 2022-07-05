@@ -17,12 +17,9 @@ class CreateQuizzesTable extends Migration
             $table->id();
             $table->integer('mark');
             $table->foreignId('quiz_name_id')->constrained('quiz_names', 'id')->cascadeOnDelete();
-<<<<<<< HEAD
             $table->foreignId('teacher_subject_id')->constrained('teacher__subjects')->cascadeOnDelete();
-=======
-            $table->foreignId('C_Cr_T_S_id')->constrained('claass_classroom_teacher_subject', 'id')->cascadeOnDelete();
+            $table->dateTime('start_date');
             $table->foreignId('season_id')->constrained('seasons')->cascadeOnDelete();
->>>>>>> b1ba2322a525c655ab498132a1fd383e593db9d1
             $table->timestamps();
         });
     }

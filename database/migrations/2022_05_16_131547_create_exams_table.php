@@ -19,14 +19,8 @@ class CreateExamsTable extends Migration
 
             $table->integer('mark');
             $table->foreignId('exam_name_id')->constrained('exam_names')->cascadeOnDelete();
-<<<<<<< HEAD
             $table->foreignId('subject_mark_id')->constrained('subject_mark')->cascadeOnDelete();
-=======
-            $table->foreignId('subject_mark_id')->constrained('subject_marks')->cascadeOnDelete();
             $table->foreignId('season_id')->constrained('seasons')->cascadeOnDelete();
-
->>>>>>> b1ba2322a525c655ab498132a1fd383e593db9d1
-
             $table->timestamps();
         });
     }
