@@ -15,10 +15,11 @@ class CreateQuizzesTable extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
+            $table->datetime('start');
+            $table->datetime('end');
             $table->integer('mark');
             $table->foreignId('quiz_name_id')->constrained('quiz_names', 'id')->cascadeOnDelete();
             $table->foreignId('teacher_subject_id')->constrained('teacher__subjects')->cascadeOnDelete();
-            $table->dateTime('start_date');
             $table->foreignId('season_id')->constrained('seasons')->cascadeOnDelete();
             $table->timestamps();
         });

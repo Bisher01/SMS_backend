@@ -7,6 +7,7 @@ use App\Models\Claass;
 use App\Models\ClassClassroom;
 use App\Models\Classroom;
 use App\Models\Exam;
+use App\Models\QuestionQuiz;
 use App\Models\Quiz;
 use App\Models\Student;
 use App\Models\Subject;
@@ -124,8 +125,10 @@ class QuizController extends Controller
     public function checkAnswer(Request $request) {
         $studentId = $request->student_id;
         $subjectName = $request->subjectName;
-        $classroom = $request->classroom;
+        $classroom = $request->classroom_name;
         $classId = $request->classId;
+        $nowTime = Carbon::now();
+
 
         $subjectId = Subject::query()->where('name', $subjectName)->first('id');
         if (! isset($subjectId)) {
@@ -141,16 +144,32 @@ class QuizController extends Controller
             return $this->returnErrorMessage('class not found', 404);
         }
 
-        $classClassroomId = $this->checkClassClassroom($classId, $classroomId);
+        $classClassroomId = $this->checkClassClassroom($classId, $classroomId->id);
+
         if (! isset($classClassroomId)) {
             return $this->returnErrorMessage('class classroom not found', 404);
         }
 
-        $check = TeacherSubject::query()
-            ->where('subject_id', $subjectId)
-            ->where('class_classroom_id', $classClassroomId);
+        $teacherSubjects = TeacherSubject::query()
+            ->where('subject_id', $subjectId->id)
+            ->where('class_classroom_id', $classClassroomId->id)
+        ->get();
 
+         foreach ($teacherSubjects as $teacherSubject) {
+            $quiz = Quiz::query()
+                ->where('start', $nowTime->format('Y-m-d H:i:0'))
+                ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
+                ->where('teacher_subject_id', $teacherSubject->id)
+                ->first();
+         }
+         if (! isset($quiz)) {
+             return $this->returnErrorMessage('quiz not found', 404);
+         }
+         $questions = $quiz->with(['questions' => function ($query) {
+             $query->with('choices');
+         }])->first();
 
+         return $this->returnData('data', $questions, 'success');
 
     }
 

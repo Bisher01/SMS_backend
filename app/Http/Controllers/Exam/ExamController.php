@@ -67,22 +67,22 @@ class ExamController extends Controller
     public function store(Request $request)
     {
 
-            $name1 = ExamName::query()
-              ->where('id',$request->exam_name_id)
-               ->where('name','مذاكرة اولى')
-                ->first();
-            $name2 = ExamName::query()
-              ->where('id',$request->exam_name_id)
-               ->where('name','مذاكرة ثانية')
-                ->first();
-            $name3 = ExamName::query()
-             ->where('id',$request->exam_name_id)
-              ->where('name','مذاكرة فصلية')
-               ->first();
-            $name4 = ExamName::query()
-             ->where('id',$request->exam_name_id)
-              ->where('name','امتحان')
-               ->first();
+        $name1 = ExamName::query()
+            ->where('id',$request->exam_name_id)
+            ->where('name','مذاكرة اولى')
+            ->first();
+        $name2 = ExamName::query()
+            ->where('id',$request->exam_name_id)
+            ->where('name','مذاكرة ثانية')
+            ->first();
+        $name3 = ExamName::query()
+            ->where('id',$request->exam_name_id)
+            ->where('name','مذاكرة فصلية')
+            ->first();
+        $name4 = ExamName::query()
+            ->where('id',$request->exam_name_id)
+            ->where('name','امتحان')
+            ->first();
 
 
         $subject_mark = SubjectMark::query()
@@ -90,22 +90,22 @@ class ExamController extends Controller
 
         if(isset($name1)||isset($name2))
 
-           $mark=(10/100)*$subject_mark->mark;
+            $mark=(10/100)*$subject_mark->mark;
 
-         if(isset($name3) )
+        if(isset($name3) )
 
             $mark=(20/100)*$subject_mark->mark;
 
-          if(isset($name4))
+        if(isset($name4))
 
             $mark=(40/100)*$subject_mark->mark;
-          $subjectClassMark = DB::table('subject_mark')->select('id')
-              ->where('subject_id', $request->subject_id)
-              ->where('class_id', $request->class_id)
-              ->first();
-          if (!isset($subjectClassMark)) {
-              return $this->returnErrorMessage('there is not relationship between class & subject', 404);
-          }
+        $subjectClassMark = DB::table('subject_mark')->select('id')
+            ->where('subject_id', $request->subject_id)
+            ->where('class_id', $request->class_id)
+            ->first();
+        if (!isset($subjectClassMark)) {
+            return $this->returnErrorMessage('there is not relationship between class & subject', 404);
+        }
         $exam = Exam::query()->create([
 
             'mark' => $mark,
@@ -164,58 +164,48 @@ class ExamController extends Controller
 
     public function studentMark(Request $request,Exam $exam,Student $student)
     {
-        $student_mark=0;
+        $student_mark = 0;
 
-         $al=Exam::query()->select('end')->first();
-        $a= Carbon::now()->addMinutes(3)->toDateTimeString();
-         if ($a >= $al->end){
-            return 1;
+        $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();
+        $nowTime = Carbon::now()->addMinutes(3)->toDateTimeString();
+        if ($nowTime <= $examEndTime->end){
+            foreach($request->question as $question){
+                $status = DB::table('choices')
+                    ->where('question_id',$question['id'])
+                    ->where('id',$question['choise'])
+                    ->select('status')
+                    ->first();
+                if (!$status == null) {
+                    if ($status->status == 1) {
+                        $question_mark = DB::table('question_exams')
+                            ->where('exam_id', $exam->id)
+                            ->where('question_id', $question['id'])
+                            ->select('mark')
+                            ->first();
 
-             foreach($request->question as $question){
+                        $student_mark += $question_mark->mark;
+                    }
+                }
+            }
+            $exam = DB::table('exam_marks') ->insert([
+                'exam_id' => $exam->id,
+                'student_id' => $student->id,
+                'mark' => $student_mark,
+            ]);
 
-            $status = DB::table('choices')
-            ->where('question_id',$question['id'])
-              ->where('id',$question['choise'])
-                ->select('status')
-                ->first();
+            return $this->returnData('mark', $student_mark, 'success');
 
-          if($status->status == 1)
-          {
-              $question_mark = DB::table('question_exams')
-              ->where('exam_id',$exam->id)
-              ->where('question_id',$question['id'])
-              ->select('mark')
-              ->first();
+        }else if ($nowTime >= $examEndTime->end){
+            $exam = DB::table('exam_marks') ->insert([
+                'exam_id' => $exam->id,
+                'student_id' => $student->id,
+                'mark' => $student_mark,
+            ]);
 
-              $student_mark += $question_mark->mark;
-
-          }
+            return $this->returnData('mark', $student_mark, 'GAMEOVER');
 
         }
-
-        $exam = DB::table('exam_marks') ->insert([
-
-            'exam_id' => $exam->id,
-            'student_id' => $student->id,
-            'mark' => $student_mark,
-
-        ]);
-
-        return $this->returnData('exam', $exam, 'updated exam successfully');
-
-
-    }else{
-        $exam = DB::table('exam_marks') ->insert([
-
-            'exam_id' => $exam->id,
-            'student_id' => $student->id,
-            'mark' => 0,
-
-        ]);
-
-        return $this->returnData('exam', $exam, 'GAMEOVER');
-
-    }
+        return $this->returnError('input error', 400);
 
     }
 }
