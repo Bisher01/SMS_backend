@@ -43,17 +43,17 @@ trait basicFunctionsTrait{
     }
 
 
-//    error
     public function checkTeacherSubject($teacherId, $subjectId, $classId, $classroomId) {
         $test = $this->checkClassClassroom($classId, $classroomId);
-        if (isset($test))
-        dd(true);
-        $teachSubject = DB::table('teacher__subjects')
-            ->select('id')
-            ->where('subject_id', $subjectId)
-            ->where('teacher_id', $teacherId)
-            ->first();
-        return $teachSubject;
+        if (isset($test)) {
+            $teachSubject = DB::table('teacher__subjects')
+                ->select('id')
+                ->where('subject_id', $subjectId)
+                ->where('teacher_id', $teacherId)
+                ->where('class_classroom_id', $test->id)
+                ->first();
+            return $teachSubject;
+        }
     }
 
     public function quizInfo($quiz) {

@@ -21,7 +21,7 @@ class AddStudentController extends Controller
     public function index()
     {
         $students=Student::query()->get();
-        return $this->returnData('student', $students,'success');
+        return $this->returnAllData('student', $students,'success');
     }
 
     /**

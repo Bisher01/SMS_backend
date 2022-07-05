@@ -15,7 +15,7 @@ class Quiz extends Model
     protected $fillable = [
         'mark' ,
         'quiz_name_id',
-        'C_Cr_T_S_id',
+        'teacher_subject_id',
         'season_id'
         ];
     protected $hidden = ['pivot'];

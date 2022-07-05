@@ -124,7 +124,7 @@ Route::prefix('management')->group(function(){
     Route::put('add/classroom/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToTeacher']);
     Route::post('customizeTeachForClassroom', [\App\Http\Controllers\General\ManagementController::class, 'customizeTeachForClassroom']);
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
-    Route::put('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
+    Route::post('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
 
 });
 
@@ -139,12 +139,20 @@ Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd507d32ae85a3b9a3da2b3d11ba59af738bc109
 Route::prefix('mobile')->group(function () {
     Route::get('teacherWithSubjects/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'getTeacherWithSubjects']);
 });
 
 
+<<<<<<< HEAD
 Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);
+=======
+//Route::post('test/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
+>>>>>>> dd507d32ae85a3b9a3da2b3d11ba59af738bc109
 
 Route::prefix('season')->group(function(){
 Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
@@ -154,3 +162,7 @@ Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'upd
 });
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd507d32ae85a3b9a3da2b3d11ba59af738bc109

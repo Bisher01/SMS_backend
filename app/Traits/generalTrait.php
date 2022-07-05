@@ -35,6 +35,22 @@ trait generalTrait{
             $key => [$value]
         ]);
     }
+    public function returnAllData($key, $value, $message = "") {
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            $key => $value
+        ]);
+    }
+    public function returnLoginData($role, $id, $value, $message = "") {
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'role' => $role,
+            'id' => $id,
+            'key' => $value
+        ]);
+    }
 }
 
 
