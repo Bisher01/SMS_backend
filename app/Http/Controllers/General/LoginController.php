@@ -33,7 +33,7 @@ class LoginController extends Controller
 //                $data['student'] = $student;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('teacher', $student->id,  $data, 'success',);
+                return $this->returnLoginData('student', $student->id,  $data, 'success',);
 
 //                return $this->returnData('Student Data', $data,'logged in successfully');
             }
@@ -52,7 +52,7 @@ class LoginController extends Controller
 //                $data['parent'] = $parent;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('teacher', $parent->id,  $data, 'success',);
+                return $this->returnLoginData('parent', $parent->id,  $data, 'success',);
 
 //                return $this->returnData('Parent Data', $data,'logged in successfully');
             }
@@ -90,7 +90,7 @@ class LoginController extends Controller
 //                $data['mentor'] = $mentor;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('teacher', $mentor->id,  $data, 'success',);
+                return $this->returnLoginData('mentor', $mentor->id,  $data, 'success',);
 
 //                return $this->returnData('Mentor Data', $data,'logged in successfully');
             }
