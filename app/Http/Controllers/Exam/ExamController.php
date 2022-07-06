@@ -210,22 +210,13 @@ class ExamController extends Controller
 
     }
 
-    public function GetStudentExam(Student $student){
+    public function GetStudentExam(Exam $exam){
 
-      $studentClass = DB::table('students')
-      ->where('id',$student->id)
-      ->select('class_id')
-      ->first();
-
-      $subject_mark = SubjectMark::query()
-      ->where('class_id',$studentClass->class_id)
-      ->select('id')
-      ->first();
 
       $nowOclock = Carbon::now();
 
       $exam = Exam::query()
-      ->where('subject_mark_id',$subject_mark->id)
+      ->where('id',$exam->id)
       ->where('start',$nowOclock->format('Y-m-d H:i:0'))
       ->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
       ->with('questionExam',function ($query) {

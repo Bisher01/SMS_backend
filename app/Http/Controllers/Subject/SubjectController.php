@@ -46,8 +46,6 @@ class SubjectController extends Controller
             ]);
         }
 
-
-
         foreach($request->class_id as $key => $insert){
 
             DB::table('subject_mark')->insert([
