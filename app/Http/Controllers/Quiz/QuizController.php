@@ -41,20 +41,20 @@ class QuizController extends Controller
 
 
         $name1 = DB::table('quiz_names')
-              ->where('id',$request->quizNameId)
-               ->where('name','شفهي')
-                ->first();
+            ->where('id',$request->quizNameId)
+            ->where('name','شفهي')
+            ->first();
         $name2 = DB::table('quiz_names')
-              ->where('id',$request->quizNameId)
-               ->where('name','اختبار')
-                ->first();
+            ->where('id',$request->quizNameId)
+            ->where('name','اختبار')
+            ->first();
         $subject_mark = SubjectMark::query()
-         ->where('subject_id',$request->subject_id)
-          ->where('class_id',$request->class_id)
-           ->first();
+            ->where('subject_id',$request->subject_id)
+            ->where('class_id',$request->class_id)
+            ->first();
 
         if (!isset($subject_mark)) {
-           return $this->returnErrorMessage('there is not relationship between subject and class', 404);
+            return $this->returnErrorMessage('there is not relationship between subject and class', 404);
         }
         if(isset($name1))
             $mark=(80/100)*$subject_mark->mark;
@@ -122,7 +122,7 @@ class QuizController extends Controller
     }
 
 
-    public function checkAnswer(Request $request) {
+    public function getQuiz(Request $request) {
         $studentId = $request->student_id;
         $subjectName = $request->subjectName;
         $classroom = $request->classroom_name;
@@ -153,25 +153,70 @@ class QuizController extends Controller
         $teacherSubjects = TeacherSubject::query()
             ->where('subject_id', $subjectId->id)
             ->where('class_classroom_id', $classClassroomId->id)
-        ->get();
+            ->get();
 
-         foreach ($teacherSubjects as $teacherSubject) {
+        foreach ($teacherSubjects as $teacherSubject) {
             $quiz = Quiz::query()
                 ->where('start', $nowTime->format('Y-m-d H:i:0'))
                 ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
                 ->where('teacher_subject_id', $teacherSubject->id)
                 ->first();
-         }
-         if (! isset($quiz)) {
-             return $this->returnErrorMessage('quiz not found', 404);
-         }
-         $questions = $quiz->with(['questions' => function ($query) {
-             $query->with('choices');
-         }])->first();
+        }
+        if (! isset($quiz)) {
+            return $this->returnErrorMessage('quiz not found', 404);
+        }
+        $questions = $quiz->with(['questions' => function ($query) {
+            $query->with('choices');
+        }])->first();
 
-         return $this->returnData('data', $questions, 'success');
+        return $this->returnData('data', $questions, 'success');
 
     }
+
+    public function studentQuizMark(Quiz $quiz, Student $student, Request $request)
+    {
+        $studentMark = 0;
+        $nowTime = Carbon::now()->addMinutes(3)->toDateTimeString();
+
+        if ($nowTime <= $quiz->end) {
+            foreach ($request->questions as $question) {
+                $status = DB::table('choices')
+                    ->where('question_id', $question['id'])
+                    ->where('id', $question['choise'])
+                    ->select('status')
+                    ->first();
+                if (!$status == null) {
+                    if ($status->status == 1) {
+                        $question_mark = DB::table('question_quizzes')
+                            ->where('quiz_id', $quiz->id)
+                            ->where('question_id', $question['id'])
+                            ->select('mark')
+                            ->first();
+
+                        $studentMark += $question_mark->mark;
+                    }
+                }
+            }
+            $quiz = DB::table('quiz_marks') ->insert([
+                'quiz_id' => $quiz->id,
+                'student_id' => $student->id,
+                'mark' => $studentMark,
+            ]);
+
+            return $this->returnMark( $studentMark, 'success');
+
+        }else if ($nowTime >= $quiz->end){
+            $exam = DB::table('quiz_marks') ->insert([
+                'quiz_id' => $quiz->id,
+                'student_id' => $student->id,
+                'mark' => $studentMark,
+            ]);
+//            return $nowTime;
+            return $this->returnMark( $studentMark, 'GAMEOVER');
+        }
+        return $this->returnError('input error', 400);
+    }
+
 
 
 

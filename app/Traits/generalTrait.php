@@ -51,6 +51,14 @@ trait generalTrait{
             'key' => $value
         ]);
     }
+
+    public function returnMark($mark, $message = "") {
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'mark' => $mark
+        ]);
+    }
 }
 
 
