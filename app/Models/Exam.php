@@ -44,4 +44,12 @@ class Exam extends Model
         return $this->hasMany(QuestionExam::class, 'exam_id');
 
     }
+    public function questions() {
+        return $this->belongsToMany(
+            Question::class,
+            'question_exams',
+            'exam_id',
+            'question_id'
+        );
+    }
 }

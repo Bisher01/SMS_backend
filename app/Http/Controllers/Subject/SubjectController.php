@@ -33,11 +33,6 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $path  = null;
-        $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
-        $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
-        $time  = Carbon::now();
-
         $subject = Subject::query()
             ->where('name', $request->subject_name)->first();
         if (!isset($subject)) {
@@ -45,8 +40,6 @@ class SubjectController extends Controller
                 'name' => $request->subject_name
             ]);
         }
-
-
 
         foreach($request->class_id as $key => $insert){
 
@@ -57,24 +50,24 @@ class SubjectController extends Controller
             ]);
 
 
-            foreach($request->syllabiContent[$key] as $key1 => $insert1){
-
-
-                $paths = $request->file('syllabiContent.'.[$key][$key1]);
-
-                 foreach($paths as $path){
-
-                  $a = $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $key1);
-
-
-                    DB::table('syllabi')->insert([
-                        'class_id' => $request->class_id[$key],
-                        'content' => $a,
-                        'subject_id' =>$subject->id,
-                    ]);
-                }
-
-                return $a;
+//            foreach($request->syllabiContent[$key] as $key1 => $insert1){
+//
+//
+//                $paths = $request->file('syllabiContent.'.[$key][$key1]);
+//
+//                 foreach($paths as $path){
+//
+//                  $a = $path->store($time->format('Y').'/syllabi/'.$subject->name. '/'. $key1);
+//
+//
+//                    DB::table('syllabi')->insert([
+//                        'class_id' => $request->class_id[$key],
+//                        'content' => $a,
+//                        'subject_id' =>$subject->id,
+//                    ]);
+//                }
+//
+//                return $a;
 
 
                 // foreach($paths as $path){
@@ -95,12 +88,9 @@ class SubjectController extends Controller
 
 
             }
-        }
-
+//        }
 
              return $this->returnSuccessMessage('add subject & choose its class&sylabil successfully');
-
-
     }
 
 

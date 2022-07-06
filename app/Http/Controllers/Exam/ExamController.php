@@ -13,7 +13,8 @@ use App\Models\SubjectMark;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
+// use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 class ExamController extends Controller
 {
     use generalTrait;
@@ -214,6 +215,33 @@ class ExamController extends Controller
 
         }
         return $this->returnError('input error', 400);
+
+    }
+
+    public function GetStudentExam(Student $student){
+
+      $studentClass = DB::table('students')
+      ->where('id',$student->id)
+      ->select('class_id')
+      ->first();
+
+      $subject_mark = SubjectMark::query()
+      ->where('class_id',$studentClass->class_id)
+      ->select('id')
+      ->get();
+
+
+      $nowOclock = Carbon::now();
+
+      $exam = Exam::query()
+      ->where('subject_mark_id',$subject_mark->id)
+      ->where('start',$nowOclock->format('Y-m-d H:i:0'))
+      ->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
+      ->with('questions',function ($query) {
+            $query->with('choices');
+      })->first();
+
+      return $this->returnData('exams', $exam, 'GOODLUCK');
 
     }
 }
