@@ -59,7 +59,8 @@ Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
     Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
-    Route::post('checkAnswer', [\App\Http\Controllers\Quiz\QuizController::class, 'checkAnswer']);
+    Route::post('getQuiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::post('end/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'quizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
     Route::delete('delete/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'destroy']);
