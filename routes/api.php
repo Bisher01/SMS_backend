@@ -159,4 +159,6 @@ Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'sho
 Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
 });
 
-
+Route::prefix('schedule')->group(function () {
+    Route::get('quizzes/{claass}/{classroom}', [App\Http\Controllers\Classroom\ClassroomController::class, 'quizScheduleForClassroom']);
+});
