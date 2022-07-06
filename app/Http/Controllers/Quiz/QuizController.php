@@ -122,56 +122,24 @@ class QuizController extends Controller
     }
 
 
-    public function getQuiz(Request $request) {
-        $studentId = $request->student_id;
-        $subjectName = $request->subjectName;
-        $classroom = $request->classroom_name;
-        $classId = $request->classId;
+    public function getQuiz(Quiz $quiz) {
         $nowTime = Carbon::now();
 
-
-        $subjectId = Subject::query()->where('name', $subjectName)->first('id');
-        if (! isset($subjectId)) {
-            return $this->returnErrorMessage('subject not found',404);
-        }
-
-        $classroomId = Classroom::query()->where('name', $classroom)->first('id');
-        if (! isset($classroomId)) {
-            return $this->returnErrorMessage('classroom not found', 404);
-        }
-
-        if (! Claass::query()->find($classId)) {
-            return $this->returnErrorMessage('class not found', 404);
-        }
-
-        $classClassroomId = $this->checkClassClassroom($classId, $classroomId->id);
-
-        if (! isset($classClassroomId)) {
-            return $this->returnErrorMessage('class classroom not found', 404);
-        }
-
-        $teacherSubjects = TeacherSubject::query()
-            ->where('subject_id', $subjectId->id)
-            ->where('class_classroom_id', $classClassroomId->id)
-            ->get();
-
-        foreach ($teacherSubjects as $teacherSubject) {
             $quiz = Quiz::query()
                 ->where('start', $nowTime->format('Y-m-d H:i:0'))
                 ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
-                ->where('teacher_subject_id', $teacherSubject->id)
+                ->where('id', $quiz->id)
                 ->first();
-        }
+//        }
         if (! isset($quiz)) {
             return $this->returnErrorMessage('quiz not found', 404);
         }
         $questions = $quiz->with(['questions' => function ($query) {
             $query->with('choices');
         }])->first();
-
         return $this->returnData('data', $questions, 'success');
-
     }
+
 
     public function studentQuizMark(Quiz $quiz, Student $student, Request $request)
     {
@@ -181,15 +149,15 @@ class QuizController extends Controller
         if ($nowTime <= $quiz->end) {
             foreach ($request->questions as $question) {
                 $status = DB::table('choices')
-                    ->where('question_id', $question['id'])
-                    ->where('id', $question['choise'])
+                    ->where('question_id', $question['question_id'])
+                    ->where('id', $question['choice_id'])
                     ->select('status')
                     ->first();
                 if (!$status == null) {
                     if ($status->status == 1) {
                         $question_mark = DB::table('question_quizzes')
                             ->where('quiz_id', $quiz->id)
-                            ->where('question_id', $question['id'])
+                            ->where('question_id', $question['question_id'])
                             ->select('mark')
                             ->first();
 
@@ -211,7 +179,7 @@ class QuizController extends Controller
                 'student_id' => $student->id,
                 'mark' => $studentMark,
             ]);
-//            return $nowTime;
+
             return $this->returnMark( $studentMark, 'GAMEOVER');
         }
         return $this->returnError('input error', 400);

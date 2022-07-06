@@ -59,7 +59,7 @@ Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
     Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
-    Route::post('getQuiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
