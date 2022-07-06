@@ -59,7 +59,7 @@ Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
     Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
-    Route::post('getQuiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
@@ -160,6 +160,7 @@ Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'sho
 Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
 });
 
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/clear-cache', function() {
@@ -169,3 +170,8 @@ Route::get('/clear-cache', function() {
 });
 
 
+=======
+Route::prefix('schedule')->group(function () {
+    Route::get('quizzes/{claass}/{classroom}', [App\Http\Controllers\Classroom\ClassroomController::class, 'quizScheduleForClassroom']);
+});
+>>>>>>> dbb1375f44563bffdad1db77b8bda2ced355363c
