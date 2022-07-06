@@ -71,6 +71,7 @@ Route::prefix('exam')->group(function () {
     Route::post('add', [\App\Http\Controllers\Exam\ExamController::class, 'store']);
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
+    Route::get('getExam/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'GetStudentExam']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
     Route::post('mark/{exam}/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'studentMark']);
 
@@ -157,6 +158,14 @@ Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
 Route::get('all', [\App\Http\Controllers\SeasonController::class, 'index']);
 Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'show']);
 Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
+});
+
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-cache', function() {
+
+    $configCache = Artisan::call('config:cache');
+    $clearCache = Artisan::call('cache:clear');
 });
 
 
