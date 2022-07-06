@@ -12,6 +12,7 @@ use App\Models\Student;
 use App\Models\SubjectMark;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use App\Models\Claass;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Carbon;
 use Carbon\Carbon;
@@ -218,21 +219,7 @@ class ExamController extends Controller
 
     }
 
-    public function GetStudentExam(Exam $exam){
-
-<<<<<<< HEAD
-=======
-      $studentClass = DB::table('students')
-      ->where('id',$student->id)
-      ->select('class_id')
-      ->first();
-
-      $subject_mark = SubjectMark::query()
-      ->where('class_id',$studentClass->class_id)
-      ->select('id')
-      ->get();
-
->>>>>>> 3b881704d216261a3f0a8e3eb0c92cdabb7425eb
+    public function GetExamQuestion(Exam $exam){
 
       $nowOclock = Carbon::now();
 
@@ -247,4 +234,23 @@ class ExamController extends Controller
       return $this->returnData('exams', $exam, 'GOODLUCK');
 
     }
+
+    public function GetClassExam(Claass $class){
+
+        $classExams = DB::table('subject_mark')
+        ->where('class_id',$class->id)
+        ->select('id')
+        ->get();
+        foreach($classExams as $classExam)
+        {
+            $allClassExam[] = DB::table('exams')
+            ->where('subject_mark_id',$classExam->id)
+            ->get();
+            ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
+
+        }
+        return $this->returnData('classExam',$allClassExam, 'all classExam');
+
+      }
+
 }

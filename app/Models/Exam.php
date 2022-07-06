@@ -20,10 +20,7 @@ class Exam extends Model
 
     public $timestamps = true;
 
-    public function classExam(){
-        return $this->hasMany(ClassExam::class, 'exam_id');
-
-    }
+ 
 
     public function subjectMark(){
         return $this->belongsTo(SubjectMark::class, 'subject_mark_id');

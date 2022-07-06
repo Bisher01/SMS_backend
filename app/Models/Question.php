@@ -13,6 +13,7 @@ class Question extends Model
     protected $fillable = [
         'text',
         'question_type_id',
+        'teacher_subjects_id'
     ];
 
     protected $hidden = ['pivot'];
@@ -20,6 +21,11 @@ class Question extends Model
     public function questionType(){
         return $this->belongsTo(QuestionType::class, 'question_type_id');
     }
+
+    public function teacherSubjects(){
+        return $this->belongsTo(TeacherSubject::class, 'teacher_subjects_id');
+    }
+
 
     public function choices(){
         return $this->hasMany(Choice::class, 'question_id');
