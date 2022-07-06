@@ -83,7 +83,7 @@ class ClassroomController extends Controller
                 $q[] = $quiz;
             }
         }
-        return $q;
+        return $this->returnAllData('quizzes', $q, 'success');
 
     }
 }

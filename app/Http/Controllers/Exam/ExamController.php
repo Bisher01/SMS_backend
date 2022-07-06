@@ -84,9 +84,17 @@ class ExamController extends Controller
             ->where('name','امتحان')
             ->first();
 
+        $subject_mark = DB::table('subject_mark')
+            ->where('subject_id', $request->subject_id)
+            ->where('class_id', $request->class_id)
+            ->first();
 
-        $subject_mark = SubjectMark::query()
-            ->where('id',$request->subject_mark_id)->first();
+        if (!isset($subject_mark)) {
+            return $this->returnErrorMessage('there is not relationship between class & subject', 404);
+        }
+//
+//        $subject_mark = SubjectMark::query()
+//            ->where('id',$request->subject_mark_id)->first();
 
         if(isset($name1)||isset($name2))
 
@@ -99,24 +107,24 @@ class ExamController extends Controller
         if(isset($name4))
 
             $mark=(40/100)*$subject_mark->mark;
-        $subjectClassMark = DB::table('subject_mark')->select('id')
-            ->where('subject_id', $request->subject_id)
-            ->where('class_id', $request->class_id)
-            ->first();
-        if (!isset($subjectClassMark)) {
-            return $this->returnErrorMessage('there is not relationship between class & subject', 404);
-        }
+
+
         $exam = Exam::query()->create([
 
             'mark' => $mark,
             'exam_name_id' => $request->exam_name_id,
-            'subject_mark_id' => $request->subject_mark_id,
+            'subject_mark_id' => $subject_mark->id,
             'season_id' => $request->season_id,
             'start' => $request->start,
             'end' => $request->end,
-
-
         ]);
+        foreach ($request->questions as $question) {
+            DB::table('question_exams')->insert([
+                'mark' => $question['mark'],
+                'question_id' => $question['question_id'],
+                'exam_id' => $exam->id
+            ]);
+        }
 
         return $this->returnData('exam', $exam, 'added exams successfully');
     }

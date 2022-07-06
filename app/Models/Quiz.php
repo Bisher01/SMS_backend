@@ -16,7 +16,9 @@ class Quiz extends Model
         'mark' ,
         'quiz_name_id',
         'teacher_subject_id',
-        'season_id'
+        'season_id',
+        'start',
+        'end'
         ];
     protected $hidden = ['pivot'];
 

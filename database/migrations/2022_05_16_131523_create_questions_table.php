@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->id();
             $table->text('text');
             $table->foreignId('question_type_id')->constrained('question_types')->cascadeOnDelete();
+            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->timestamps();
         });
     }
