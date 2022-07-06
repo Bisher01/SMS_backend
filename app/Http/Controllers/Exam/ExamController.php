@@ -167,7 +167,7 @@ class ExamController extends Controller
         $student_mark = 0;
 
         $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();
-        $nowTime = Carbon::now()->addMinutes(3)->toDateTimeString();
+        $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
         if ($nowTime <= $examEndTime->end){
             foreach($request->question as $question){
                 $status = DB::table('choices')
