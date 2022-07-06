@@ -173,7 +173,7 @@ class QuizController extends Controller
 
     }
 
-    public function quizMark(Quiz $quiz, Student $student, Request $request)
+    public function studentQuizMark(Quiz $quiz, Student $student, Request $request)
     {
         $studentMark = 0;
         $nowTime = Carbon::now()->addMinutes(3)->toDateTimeString();
