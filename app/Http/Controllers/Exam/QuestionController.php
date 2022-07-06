@@ -40,7 +40,7 @@ class QuestionController extends Controller
                 ]);
             }
         }
-        return  $this->returnData('data', $newQuestion, 'success');
+        return  $this->returnSuccessMessage('success');
     }
 
 

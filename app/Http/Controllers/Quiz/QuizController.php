@@ -37,8 +37,6 @@ class QuizController extends Controller
         $subjectId = $request->subject_id;
         $claassId = $request->class_id;
         $classroomId = $request->classroom_id;
-        $startDate = $request->start_date;
-
 
         $name1 = DB::table('quiz_names')
             ->where('id',$request->quizNameId)
@@ -68,8 +66,17 @@ class QuizController extends Controller
                 'mark' => $mark,
                 'quiz_name_id' => (int)$request->quizNameId,
                 'teacher_subject_id' => $check->id,
-                'start_date' => $startDate
+                'season_id' => $request->season_id,
+                'start' => $request->start,
+                'end' => $request->end,
             ]);
+            foreach ($request->questions as $question) {
+                DB::table('question_quizzes')->insert([
+                    'mark' => $question['mark'],
+                    'question_id' => $question['question_id'],
+                    'quiz_id' => $quiz->id
+                ]);
+            }
             return $this->returnData('quiz', $quiz, 'success');
         }
         return $this->returnErrorMessage('input error', 400);

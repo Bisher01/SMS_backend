@@ -160,18 +160,18 @@ Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'sho
 Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
 });
 
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Artisan;
 
-Route::get('/clear-cache', function() {
+//use Illuminate\Support\Facades\Artisan;
+//
+//Route::get('/clear-cache', function() {
+//
+//    $configCache = Artisan::call('config:cache');
+//    $clearCache = Artisan::call('cache:clear');
+//});
 
-    $configCache = Artisan::call('config:cache');
-    $clearCache = Artisan::call('cache:clear');
-});
 
 
-=======
 Route::prefix('schedule')->group(function () {
     Route::get('quizzes/{claass}/{classroom}', [App\Http\Controllers\Classroom\ClassroomController::class, 'quizScheduleForClassroom']);
 });
->>>>>>> dbb1375f44563bffdad1db77b8bda2ced355363c
+

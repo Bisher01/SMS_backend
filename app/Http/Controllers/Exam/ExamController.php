@@ -85,9 +85,17 @@ class ExamController extends Controller
             ->where('name','امتحان')
             ->first();
 
+        $subject_mark = DB::table('subject_mark')
+            ->where('subject_id', $request->subject_id)
+            ->where('class_id', $request->class_id)
+            ->first();
 
-        $subject_mark = SubjectMark::query()
-            ->where('id',$request->subject_mark_id)->first();
+        if (!isset($subject_mark)) {
+            return $this->returnErrorMessage('there is not relationship between class & subject', 404);
+        }
+//
+//        $subject_mark = SubjectMark::query()
+//            ->where('id',$request->subject_mark_id)->first();
 
         if(isset($name1)||isset($name2))
 
@@ -100,24 +108,24 @@ class ExamController extends Controller
         if(isset($name4))
 
             $mark=(40/100)*$subject_mark->mark;
-        $subjectClassMark = DB::table('subject_mark')->select('id')
-            ->where('subject_id', $request->subject_id)
-            ->where('class_id', $request->class_id)
-            ->first();
-        if (!isset($subjectClassMark)) {
-            return $this->returnErrorMessage('there is not relationship between class & subject', 404);
-        }
+
+
         $exam = Exam::query()->create([
 
             'mark' => $mark,
             'exam_name_id' => $request->exam_name_id,
-            'subject_mark_id' => $subjectClassMark->id,
+            'subject_mark_id' => $subject_mark->id,
             'season_id' => $request->season_id,
             'start' => $request->start,
             'end' => $request->end,
-
-
         ]);
+        foreach ($request->questions as $question) {
+            DB::table('question_exams')->insert([
+                'mark' => $question['mark'],
+                'question_id' => $question['question_id'],
+                'exam_id' => $exam->id
+            ]);
+        }
 
         return $this->returnData('exam', $exam, 'added exams successfully');
     }
@@ -212,6 +220,19 @@ class ExamController extends Controller
 
     public function GetStudentExam(Exam $exam){
 
+<<<<<<< HEAD
+=======
+      $studentClass = DB::table('students')
+      ->where('id',$student->id)
+      ->select('class_id')
+      ->first();
+
+      $subject_mark = SubjectMark::query()
+      ->where('class_id',$studentClass->class_id)
+      ->select('id')
+      ->get();
+
+>>>>>>> 3b881704d216261a3f0a8e3eb0c92cdabb7425eb
 
       $nowOclock = Carbon::now();
 
@@ -219,10 +240,9 @@ class ExamController extends Controller
       ->where('id',$exam->id)
       ->where('start',$nowOclock->format('Y-m-d H:i:0'))
       ->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
-      ->with('questionExam',function ($query) {
-        $query->with('question', function ($query) {
-            $query->with('choices');});})
-      ->first();
+      ->with('questions',function ($query) {
+            $query->with('choices');
+      })->first();
 
       return $this->returnData('exams', $exam, 'GOODLUCK');
 

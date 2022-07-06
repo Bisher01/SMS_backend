@@ -39,6 +39,9 @@ class syllabiController extends Controller
         $path  = null;
         $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
         $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
+        if (! isset($subName) || ! isset($classNmae)) {
+            return $this->returnErrorMessage('input error', 400);
+        }
         $time  = Carbon::now();
         if ($request->hasFile('content')) {
             $path = '/'.$request->file('content')

@@ -64,53 +64,56 @@ class ManagementController extends Controller
     }
 
 
-//    error
+
     public function addSubjectToClass(Request $request, Claass $class) {
         foreach ($request->subjects as $item){
-            DB::table('subject_mark')->insert([
-                'subject_id' => $item['subject_id'],
-                'mark' => $item['mark'],
-                'class_id' => $class->id
-            ]);
+            if (Subject::query()->find($item['subject_id'])){
+                DB::table('subject_mark')->insert([
+                    'subject_id' => $item['subject_id'],
+                    'mark' => $item['mark'],
+                    'class_id' => $class->id
+                ]);
+            }
+
         }
         return $this->returnSuccessMessage('added subject to class successfully');
     }
 
 //      delete
-    public function customizeTeachForClassroom(Request $request) {
-       $teacherId = $request->teacher_id;
-       $subjectId = $request->subject_id;
-       $claassId = $request->class_id;
-       $classroomId = $request->classroom_id;
-
-       $classClassroom = $this->checkClassClassroom($claassId, $classroomId);
-        if ($classClassroom == null) {
-            return $this->returnErrorMessage('class or classroom not found', 404);
-        }
-
-        $teachSubject = $this->checkTeacherSubject($teacherId, $subjectId);
-        if ($teachSubject == null) {
-            return $this->returnErrorMessage('teacher or subject not found', 404);
-        }
-
-        $classClassroomId = $classClassroom->id;
-        $teachSubjectId = $teachSubject->id;
-
-       $C_CR_T_S_ID = DB::table('claass_classroom_teacher_subject')
-           ->select('id')
-           ->where('t_s_id', $teachSubjectId)
-           ->where('c_cr_id', $classClassroomId)
-           ->first();
-
-       if (!isset($C_CR_T_S_ID)) {
-           DB::table('claass_classroom_teacher_subject')->insert([
-               't_s_id' => $teachSubjectId,
-               'c_cr_id' => $classClassroomId
-           ]);
-
-           return $this->returnSuccessMessage('success');
-       }
-        return $this->returnSuccessMessage('already exists');
-
-    }
+//    public function customizeTeachForClassroom(Request $request) {
+//       $teacherId = $request->teacher_id;
+//       $subjectId = $request->subject_id;
+//       $claassId = $request->class_id;
+//       $classroomId = $request->classroom_id;
+//
+//       $classClassroom = $this->checkClassClassroom($claassId, $classroomId);
+//        if ($classClassroom == null) {
+//            return $this->returnErrorMessage('class or classroom not found', 404);
+//        }
+//
+//        $teachSubject = $this->checkTeacherSubject($teacherId, $subjectId);
+//        if ($teachSubject == null) {
+//            return $this->returnErrorMessage('teacher or subject not found', 404);
+//        }
+//
+//        $classClassroomId = $classClassroom->id;
+//        $teachSubjectId = $teachSubject->id;
+//
+//       $C_CR_T_S_ID = DB::table('claass_classroom_teacher_subject')
+//           ->select('id')
+//           ->where('t_s_id', $teachSubjectId)
+//           ->where('c_cr_id', $classClassroomId)
+//           ->first();
+//
+//       if (!isset($C_CR_T_S_ID)) {
+//           DB::table('claass_classroom_teacher_subject')->insert([
+//               't_s_id' => $teachSubjectId,
+//               'c_cr_id' => $classClassroomId
+//           ]);
+//
+//           return $this->returnSuccessMessage('success');
+//       }
+//        return $this->returnSuccessMessage('already exists');
+//
+//    }
 }
