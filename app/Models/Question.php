@@ -12,7 +12,6 @@ class Question extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'text',
-        'question_type_id',
         'teacher_subjects_id'
     ];
 

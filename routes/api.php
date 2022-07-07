@@ -79,7 +79,7 @@ Route::prefix('exam')->group(function () {
 });
 
 Route::prefix('question')->group(function () {
-    Route::get('all', [\App\Http\Controllers\Exam\QuestionController::class, 'index']);
+    Route::post('all', [\App\Http\Controllers\Exam\QuestionController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Exam\QuestionController::class, 'store']);
     Route::put('edit/{question}', [\App\Http\Controllers\Exam\QuestionController::class, 'update']);
     // Route::get('show/{question}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);

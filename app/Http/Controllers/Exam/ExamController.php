@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Choice;
+use App\Models\ClassClassroom;
 use App\Models\Exam;
 use App\Models\ExamName;
 use App\Models\Question;
 use App\Models\QuestionExam;
 use App\Models\Student;
 use App\Models\SubjectMark;
+use App\Models\TeacherSubject;
+use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use App\Models\Claass;
@@ -18,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class ExamController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
 
     /**
      * Display a listing of the resource.
@@ -94,9 +97,7 @@ class ExamController extends Controller
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between class & subject', 404);
         }
-//
-//        $subject_mark = SubjectMark::query()
-//            ->where('id',$request->subject_mark_id)->first();
+
 
         if(isset($name1)||isset($name2))
 
@@ -110,26 +111,39 @@ class ExamController extends Controller
 
             $mark=(40/100)*$subject_mark->mark;
 
+        $subjectMarkOnlySameClass = DB::table('subject_mark')
+            ->where('class_id', $request->class_id)
+            ->get();
 
-        $exam = Exam::query()->create([
-
-            'mark' => $mark,
-            'exam_name_id' => $request->exam_name_id,
-            'subject_mark_id' => $subject_mark->id,
-            'season_id' => $request->season_id,
-            'start' => $request->start,
-            'end' => $request->end,
-        ]);
-        foreach ($request->questions as $question) {
-            DB::table('question_exams')->insert([
-                'mark' => $question['mark'],
-                'question_id' => $question['question_id'],
-                'exam_id' => $exam->id
-            ]);
-        }
-
-        return $this->returnData('exam', $exam, 'added exams successfully');
-    }
+        foreach ($subjectMarkOnlySameClass as $item) {
+            $allExam = Exam::query()->where('subject_mark_id', $item->id)->get();
+            foreach ($allExam as $value) {
+                $start = Carbon::parse($value->start)->subMinute();
+                $end = Carbon::parse($value->end);
+                $checkStart = Carbon::parse($request->start)->between($start, $end);
+                $checkEnd = Carbon::parse($request->end)->between($start, $end);
+                if ($checkStart || $checkEnd) {
+                    return $this->returnErrorMessage('already this class has exam in this date', 400);
+                }
+            }
+                    $exam = Exam::query()->create([
+                        'mark' => $mark,
+                        'exam_name_id' => $request->exam_name_id,
+                        'subject_mark_id' => $subject_mark->id,
+                        'season_id' => $request->season_id,
+                        'start' => $request->start,
+                        'end' => $request->end,
+                    ]);
+                    foreach ($request->questions as $question) {
+                        DB::table('question_exams')->insert([
+                            'mark' => $question['mark'],
+                            'question_id' => $question['question_id'],
+                            'exam_id' => $exam->id
+                        ]);
+                    }
+                    return $this->returnData('exam', $exam, 'success');
+                }
+            }
 
 
 
@@ -172,6 +186,8 @@ class ExamController extends Controller
 
     }
 
+
+//    end exam & show mark
     public function studentMark(Request $request,Exam $exam,Student $student)
     {
         $student_mark = 0;
@@ -219,38 +235,46 @@ class ExamController extends Controller
 
     }
 
+
+//     start exam
     public function GetExamQuestion(Exam $exam){
 
-      $nowOclock = Carbon::now();
+        $nowOclock = Carbon::now();
 
-      $exam = Exam::query()
-      ->where('id',$exam->id)
-      ->where('start',$nowOclock->format('Y-m-d H:i:0'))
-      ->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
-      ->with('questions',function ($query) {
-            $query->with('choices');
-      })->first();
+        $exam = Exam::query()
 
-      return $this->returnData('exams', $exam, 'GOODLUCK');
+            ->where('start',$nowOclock->format('Y-m-d H:i:0'))
+            ->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
+            ->where('id',$exam->id)
+            ->with('questions',function ($query) {
+                $query->with('choices');
+            })
+            ->first();
+
+        return $this->returnData('exams', $exam, 'GOODLUCK');
 
     }
 
-    public function GetClassExam(Claass $class){
+//    schedule exam
+    public function GetClassExam($class){
 
         $classExams = DB::table('subject_mark')
-        ->where('class_id',$class->id)
-        ->select('id')
-        ->get();
+            ->where('class_id',$class)
+            ->select('id')
+            ->get();
         foreach($classExams as $classExam)
         {
-            $allClassExam[] = DB::table('exams')
-            ->where('subject_mark_id',$classExam->id)
-            ->get();
+            $allClassExam = DB::table('exams')
+                ->where('subject_mark_id',$classExam->id)
+                ->get();
             ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
 
+            foreach ($allClassExam as $item) {
+                $exams[] = $item;
+            }
         }
-        return $this->returnData('classExam',$allClassExam, 'all classExam');
+        return $this->returnAllData('classExam',$exams, 'all classExam');
 
-      }
+    }
 
 }

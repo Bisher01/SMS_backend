@@ -15,12 +15,13 @@ class Exam extends Model
        'subject_mark_id',
        'exam_name_id',
        'season_id',
-       'start','end'
+       'start',
+        'end'
     ];
 
     public $timestamps = true;
 
- 
+
 
     public function subjectMark(){
         return $this->belongsTo(SubjectMark::class, 'subject_mark_id');

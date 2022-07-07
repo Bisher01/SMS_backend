@@ -4,23 +4,38 @@ namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Claass;
+use App\Models\ClassClassroom;
 use App\Models\Question;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\TeacherSubject;
+use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use App\Traits\generalTrait;
 use Illuminate\Support\Facades\DB;
 class QuestionController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $questions=Question::query()->get();
+        $subjectId = $request->subject_id;
+        $classId  = $request->class_id;
+        $teacherId = $request->teacher_id;
+
+        $teacherSubjectClass = $this->checkOwnerQuestion($classId, $subjectId, $teacherId);
+        if ($teacherSubjectClass == null) {
+            return $this->returnErrorMessage('input error', 400);
+        }
+
+        $questions = Question::query()
+            ->where('teacher_subjects_id', $teacherSubjectClass->id)
+            ->get();
+//        $questions=Question::query()->get();
         return $this->returnAllData('questions', $questions, 'all questions');
     }
 
@@ -32,24 +47,36 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-
-        $classClassroom = DB::table('claass_classrooms')
-        ->where('class_id',$request->class_id)
-        ->select('id')
-        ->first();
-
-        $teacherSubjectClass = DB::table('teacher__subjects')
-        ->where('teacher_id',$request->teacher_id)
-        ->where('subject_id',$request->subject_id)
-        ->where('class_classroom_id',$classClassroom->id)
-        ->select('id')
-        ->first();
-
+        $subjectId = $request->subject_id;
+        $classId  = $request->class_id;
+        $teacherId = $request->teacher_id;
+//
+//        $classClassroom = DB::table('claass_classrooms')
+//            ->where('class_id',$request->class_id)
+//            ->select('id')
+//            ->first();
+//
+//        if (!isset($classClassroom)){
+//            return $this->returnErrorMessage('input error', 400);
+//        }
+//        $teacherSubjectClass = DB::table('teacher__subjects')
+//            ->where('teacher_id',$request->teacher_id)
+//            ->where('subject_id',$request->subject_id)
+//            ->where('class_classroom_id',$classClassroom->id)
+//            ->select('id')
+//            ->first();
+//
+//        if (!isset($teacherSubjectClass)){
+//            return $this->returnErrorMessage('input error', 400);
+//        }
+        $teacherSubjectClass = $this->checkOwnerQuestion($classId, $subjectId, $teacherId);
+        if ($teacherSubjectClass == null) {
+            return $this->returnErrorMessage('input error', 400);
+        }
         foreach ($request->question as $question) {
             $newQuestion = Question::query()->create([
                 'text' => $question['text'],
-                'question_type_id' => $question['question_type_id'],
-                'teacher_subjects_id' => $teacherSubjectClass ->id
+                'teacher_subjects_id' => $teacherSubjectClass->id
             ]);
             foreach ($question['chioces'] as $chioce) {
                 $newQuestion->choices()->create([
@@ -65,16 +92,16 @@ class QuestionController extends Controller
     public function update(Request $request,Question $question)
     {
         $classClassroom = DB::table('claass_classrooms')
-        ->where('class_id',$request->class_id)
-        ->select('id')
-        ->first();
+            ->where('class_id',$request->class_id)
+            ->select('id')
+            ->first();
 
         $teacherSubjectClass = DB::table('teacher__subjects')
-        ->where('teacher_id',$request->teacher_id)
-        ->where('subject_id',$request->subject_id)
-        ->where('class_classroom_id',$classClassroom->id)
-        ->select('id')
-        ->first();
+            ->where('teacher_id',$request->teacher_id)
+            ->where('subject_id',$request->subject_id)
+            ->where('class_classroom_id',$classClassroom->id)
+            ->select('id')
+            ->first();
 
         $question->update([
             'text'=>$request->text,
@@ -82,7 +109,7 @@ class QuestionController extends Controller
             'teacher_subjects_id' => $teacherSubjectClass ->id
         ]);
 
-         return  $this->returnData('questions', $question, 'updated question successfully');
+        return  $this->returnData('questions', $question, 'updated question successfully');
 
     }
 

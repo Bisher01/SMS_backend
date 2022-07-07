@@ -91,4 +91,24 @@ trait basicFunctionsTrait{
 
         return $data;
     }
+
+    public function checkOwnerQuestion($classId, $subjectId, $teacherId) {
+
+        $classClassroom = DB::table('claass_classrooms')
+            ->where('class_id',$classId)
+            ->select('id')
+            ->first();
+
+        if ($classClassroom == null){
+            return $classClassroom;
+        }
+        $teacherSubjectClass = DB::table('teacher__subjects')
+            ->where('teacher_id',$teacherId)
+            ->where('subject_id',$subjectId)
+            ->where('class_classroom_id',$classClassroom->id)
+            ->select('id')
+            ->first();
+
+            return $teacherSubjectClass;
+    }
 }
