@@ -14,7 +14,7 @@ class ChoiseController extends Controller
     use generalTrait;
     public function index()
     {
-        $choices=Choice::query()->get();
+        $choices=Choice::query()->with('question')->get();
         return $this->returnAllData('choices', $choices, 'all choices');
 
     }

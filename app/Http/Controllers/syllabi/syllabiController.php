@@ -45,7 +45,7 @@ class syllabiController extends Controller
         $time  = Carbon::now();
         if ($request->hasFile('content')) {
             $path = '/'.$request->file('content')
-                    ->store($time->format('Y').'/syllabi/'.$subName->name. '/'. $classNmae->name);
+                    ->store($time->format('Y').'/syllabi/'.$subName->name.'/'. $classNmae->name);
         }
 
         $syllabi = Syllabi::query()->create([
