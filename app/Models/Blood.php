@@ -11,5 +11,7 @@ class Blood extends Model
     protected $fillable = [
         'type'
     ];
+    protected $hidden = ['created_at','updated_at'
+    ];
 
 }

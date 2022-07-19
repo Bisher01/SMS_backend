@@ -13,4 +13,6 @@ class Academic_year extends Model
     protected $fillable = [
         'date',
     ];
+    protected $hidden = ['created_at','updated_at'
+    ];
 }

@@ -32,8 +32,8 @@ class Student extends Authenticatable
         'address_id'
     ];
 
-    protected $hidden = ['pivot'];
-    protected $with = ['parent', 'address'];
+    protected $hidden = ['pivot','created_at','updated_at','deleted_at'
+     ];
 
 
     public function grade(){
@@ -58,7 +58,7 @@ class Student extends Authenticatable
     }
 
     public function blood(){
-        return $this->hasOne(Blood::class, 'blood_id');
+        return $this->belongsTo(Blood::class, 'blood_id');
     }
 
     public function religion(){

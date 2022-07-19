@@ -20,7 +20,17 @@ class AddStudentController extends Controller
 
     public function index()
     {
-        $students=Student::query()->get();
+        $students=Student::query()
+            ->with('grade')
+            ->with('claass')
+            ->with('classroom')
+            ->with('academic_year')
+            ->with('address')
+            ->with('parent')
+            ->with('blood')
+            ->with('religion')
+            ->with('gender')
+            ->with('nationality')->get();
         return $this->returnAllData('student', $students,'success');
     }
 
@@ -92,7 +102,17 @@ class AddStudentController extends Controller
 
     public function show(Student $student)
     {
-        return $this->returnData('student', $student,'success');
+        $student_info = $student->load('grade')
+            ->load('claass')
+            ->load('classroom')
+            ->load('academic_year')
+            ->load('address')
+            ->load('parent')
+            ->load('blood')
+            ->load('religion')
+            ->load('gender')
+            ->load('nationality');
+        return $this->returnData('student',$student_info,'success');
     }
 
     public function update(Request $request, Student $student)

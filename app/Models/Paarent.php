@@ -23,7 +23,8 @@ class Paarent extends Authenticatable
         'jop',
         'phone'
     ];
-
+    protected $hidden = ['created_at','updated_at'
+    ];
     public $timestamps = true;
 
     public function blood(){
