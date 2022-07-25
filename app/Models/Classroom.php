@@ -11,7 +11,7 @@ class Classroom extends Model
     protected $table = 'classrooms';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'max_number',
+        'max_number',
     ];
     public $timestamps = true;
 

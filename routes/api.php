@@ -114,7 +114,7 @@ Route::prefix('classroom')->group(function () {
     Route::get('all', [\App\Http\Controllers\Classroom\ClassroomController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Classroom\ClassroomController::class, 'store']);
     Route::put('edit/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'update']);
-    Route::delete('delete/{classroom}', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
+    Route::post('delete', [\App\Http\Controllers\Classroom\ClassroomController::class, 'destroy']);
 });
 
 Route::prefix('syllabi')->group(function () {
