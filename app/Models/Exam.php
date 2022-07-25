@@ -20,7 +20,9 @@ class Exam extends Model
     ];
 
     public $timestamps = true;
-
+    protected $hidden = [
+        'created_at','updated_at'
+    ];
 
 
     public function subjectMark(){

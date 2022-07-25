@@ -15,7 +15,9 @@ class ExamMark extends Model
     protected $fillable = [
         'exam_id', 'student_id', 'mark'
     ];
-    protected $hidden = ['pivot'];
+    protected $hidden = [
+        'pivot', 'created_at','updated_at'
+    ];
 
 
 }
