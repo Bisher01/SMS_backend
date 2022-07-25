@@ -15,7 +15,7 @@ class Classroom extends Model
     ];
     public $timestamps = true;
 
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot','created_at','updated_at'];
 
 
     public function class() {

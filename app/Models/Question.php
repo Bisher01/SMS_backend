@@ -15,7 +15,7 @@ class Question extends Model
         'teacher_subjects_id'
     ];
 
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot','created_at','updated_at'];
 
     public function questionType(){
         return $this->belongsTo(QuestionType::class, 'question_type_id');

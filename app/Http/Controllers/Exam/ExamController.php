@@ -242,8 +242,6 @@ class ExamController extends Controller
         $nowOclock = Carbon::now();
 
         $exam = Exam::query()
-
-//            ->where('start',$nowOclock->format('Y-m-d H:i:0'))
             ->Where('start','<=',  $nowOclock->format('Y-m-d H:i:0'))
             ->where('id',$exam->id)
             ->with('questions',function ($query) {

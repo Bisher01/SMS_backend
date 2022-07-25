@@ -20,14 +20,8 @@ class Admin extends Authenticatable
     ];
     public $primaryKey = 'id';
     protected $hidden = [
-        'password',
-//        'remember_token',
+        'password','created_at','updated_at'
     ];
-//    protected $casts = [
-//        'email_verified_at' => 'datetime',
-//    ];
-
-
 
    // public $timestamps = true;
 }

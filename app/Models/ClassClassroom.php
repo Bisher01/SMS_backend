@@ -16,6 +16,8 @@ class ClassClassroom extends Model
         'classroom_id',
         'teacher_id'
     ];
+    protected $hidden = ['created_at','updated_at'
+    ];
     public $timestamps = true;
 
     public function teachers() {

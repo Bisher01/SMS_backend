@@ -26,7 +26,7 @@ class Teacher extends Authenticatable
         'salary',
         'picture'
     ];
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot','created_at','updated_at'];
     public $timestamps = true;
 
     public function subjects(){

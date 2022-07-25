@@ -44,6 +44,7 @@ Route::prefix('student')->group(function () {
 
 Route::prefix('parent')->group(function () {
     Route::put('edit/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'update']);
+    Route::get('show/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'show']);
     Route::delete('delete/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'destroy']);
 });
 

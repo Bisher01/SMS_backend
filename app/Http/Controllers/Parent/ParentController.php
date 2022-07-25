@@ -37,9 +37,9 @@ class ParentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Paarent $parent)
     {
-        //
+        return $this->returnData('parent', $parent, 'success');
     }
 
     /**
