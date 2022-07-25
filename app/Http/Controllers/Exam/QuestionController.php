@@ -9,10 +9,10 @@ use App\Models\Question;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\TeacherSubject;
-use App\Traits\basicFunctionsTrait;
 use Illuminate\Http\Request;
 use App\Traits\generalTrait;
 use Illuminate\Support\Facades\DB;
+use App\Traits\basicFunctionsTrait;
 class QuestionController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -34,8 +34,8 @@ class QuestionController extends Controller
 
         $questions = Question::query()
             ->where('teacher_subjects_id', $teacherSubjectClass->id)
+            ->with('choices')
             ->get();
-//        $questions=Question::query()->get();
         return $this->returnAllData('questions', $questions, 'all questions');
     }
 
