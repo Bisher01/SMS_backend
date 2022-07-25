@@ -23,7 +23,13 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers=Teacher::query()->get();
+        $teachers=Teacher::query()->with([
+            'gender',
+            'religion',
+            'address',
+            'grade',
+            'subjects'
+        ])->get();
         return $this->returnAllData('teacher', $teachers,'success');
     }
 
@@ -63,8 +69,9 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
-
-        return $this->returnData('teacher', $teacher,'signup & add her / his subjects  successfully');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'signup & add her / his subjects  successfully');
 
     }
 
@@ -76,7 +83,9 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        return $this->returnData('teacher', $teacher,'success');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'success');
     }
 
     /**
@@ -114,8 +123,9 @@ class TeacherController extends Controller
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
         ]);
-
-        return $this->returnData('teacher', $teacher,'updated successfully');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'updated successfully');
     }
 
     /**

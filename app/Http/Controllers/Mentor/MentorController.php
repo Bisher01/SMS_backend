@@ -41,14 +41,14 @@ class MentorController extends Controller
             'address_id' => $address->id,
             'joining_date' => $request->joining_date,
             'phone' => $request->phone,
-            'class_id' => $request->class_id,
+            'class_id' => (int)$request->class_id,
         ]);
         $time = Carbon::now();
         $mentor->update([
             'code' =>  '004' .$mentor->class_id.  rand(0, 99) . $mentor->id . rand(100, 999) . $time->format('H') ,
         ]);
 
-        return $this->returnData('mentor', $mentor, 'added mentor successfully');
+        return $this->returnData('mentor', $mentor->load('class', 'address'), 'added mentor successfully');
     }
     /**
      * Display the specified resource.

@@ -20,17 +20,7 @@ class AddStudentController extends Controller
 
     public function index()
     {
-        $students=Student::query()
-            ->with('grade')
-            ->with('claass')
-            ->with('classroom')
-            ->with('academic_year')
-            ->with('address')
-            ->with('parent')
-            ->with('blood')
-            ->with('religion')
-            ->with('gender')
-            ->with('nationality')->get();
+        $students=Student::query()->get();
         return $this->returnAllData('student', $students,'success');
     }
 
@@ -101,23 +91,34 @@ class AddStudentController extends Controller
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
 
-        $data['student'] = $student;
+        $data['student'] = $student
+            ->load('academic_year',
+                'grade',
+                'claass',
+                'classroom',
+                'address',
+                'parent',
+                'blood',
+                'religion',
+                'gender',
+                'nationality');
         return $this->returnData('student', $data,'signup successfully');
     }
 
 
     public function show(Student $student)
     {
-        $student_info = $student->load('grade')
-            ->load('claass')
-            ->load('classroom')
-            ->load('academic_year')
-            ->load('address')
-            ->load('parent')
-            ->load('blood')
-            ->load('religion')
-            ->load('gender')
-            ->load('nationality');
+        $student_info = $student
+            ->load('academic_year',
+            'grade',
+            'claass',
+            'classroom',
+            'address',
+            'parent',
+            'blood',
+            'religion',
+            'gender',
+            'nationality');
         return $this->returnData('student',$student_info,'success');
     }
 
