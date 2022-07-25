@@ -35,22 +35,26 @@ class AddStudentController extends Controller
 
         $parent = Paarent::query()
             ->where('national_number', $request->national_number)->first();
-        if(!isset($parent))
-        {
-            $parent = Paarent::query()->create([
-                'mother_name' => $request->mother_name,
-                'father_name' => $request->father_name,
-                'national_number' => $request->national_number,
-                'code' => '002',
-                'phone' => $request->parentPhone,
-                'email' => $request->parentEmail,
-                'jop' => $request->parentJop,
-            ]);
-            $parent->update([
-                'code' => '002' . rand(0,9) .  $parent->id . rand(100, 999),
-            ]);
-            $data['parent'] = $parent;
+        if (!isset($parent)) {
+            if($request->mother_name == null || $request->father_name == null ) {
+                return $this->returnErrorMessage('teacher not found', 404);
+            }
+            else {
+                $parent = Paarent::query()->create([
+                    'mother_name' => $request->mother_name,
+                    'father_name' => $request->father_name,
+                    'national_number' => $request->national_number,
+                    'code' => '002',
+                    'phone' => $request->parentPhone,
+                    'email' => $request->parentEmail,
+                    'jop' => $request->parentJop,
+                ]);
+                $parent->update([
+                    'code' => '002' . rand(0,9) .  $parent->id . rand(100, 999),
+                ]);
+            }
         }
+        $data['parent'] = $parent;
 
         $time = Carbon::now();
 
@@ -86,7 +90,9 @@ class AddStudentController extends Controller
         $student->update([
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
-        return $this->returnData('student', $student,'signup successfully');
+
+        $data['student'] = $student;
+        return $this->returnData('student', $data,'signup successfully');
     }
 
 

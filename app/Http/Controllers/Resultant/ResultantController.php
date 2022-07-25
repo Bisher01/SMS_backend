@@ -79,8 +79,8 @@ class ResultantController extends Controller
             if ($quiz->quiz_name_id == 2) {
                 $avgQuizMarksQ = QuizMarks::query()
                     ->where('student_id', $student->id)
-                    ->where('quiz_id', $quiz->id)
                     ->average('mark');
+                return $avgQuizMarksQ;
             }
             if ($quiz->quiz_name_id == 1) {
                 $avgQuizMarks = QuizMarks::query()
