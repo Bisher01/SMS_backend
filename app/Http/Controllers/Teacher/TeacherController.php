@@ -156,7 +156,7 @@ class TeacherController extends Controller
     }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
-        return $this->returnAllData('data', $teacher->subjects, 'successs');
+        return $this->returnAllData('data', $teacher->subject, 'successs');
     }
 
 

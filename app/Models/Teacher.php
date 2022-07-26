@@ -30,11 +30,18 @@ class Teacher extends Authenticatable
     public $timestamps = true;
 
 // teacher with subjects with class& classroom
-    public function subjects(){
+    public function subject(){
         return $this->belongsToMany(Subject::class,'teacher__subjects',
                 'teacher_id',
                 'subject_id'
             )->with('classClassroom');
+    }
+//
+    public function subjects(){
+        return $this->belongsToMany(Subject::class,'teacher__subjects',
+                'teacher_id',
+                'subject_id'
+            );
     }
 
    public function address(){
