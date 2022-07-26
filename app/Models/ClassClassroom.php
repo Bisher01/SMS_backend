@@ -16,8 +16,7 @@ class ClassClassroom extends Model
         'classroom_id',
         'teacher_id'
     ];
-    protected $hidden = ['created_at','updated_at'
-    ];
+    protected $hidden = ['pivot', 'created_at','updated_at'];
     public $timestamps = true;
 
     public function teachers() {
@@ -31,4 +30,5 @@ class ClassClassroom extends Model
     public function classrooms() {
         return $this->belongsTo(Classroom::class, 'classroom_id');
     }
+
 }

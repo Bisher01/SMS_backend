@@ -101,6 +101,7 @@ Route::prefix('teacher')->group(function () {
     Route::put('edit/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'update']);
     Route::get('show/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'show']);
     Route::delete('delete/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'destroy']);
+    Route::get('teacherWithSubjects/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'getTeacherWithClassroom']);
 });
 
 Route::prefix('subject')->group(function () {

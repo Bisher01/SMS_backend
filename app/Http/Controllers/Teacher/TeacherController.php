@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use App\Models\Syllabi;
 use App\Models\Teacher;
 use App\Models\TeacherSubject;
@@ -155,7 +156,7 @@ class TeacherController extends Controller
     }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
-
+        return $this->returnAllData('data', $teacher->subjects, 'successs');
     }
 
 
