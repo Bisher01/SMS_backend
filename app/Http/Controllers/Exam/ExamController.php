@@ -257,7 +257,6 @@ class ExamController extends Controller
 
         $classExams = DB::table('subject_mark')
             ->where('class_id',$student->class_id)
-            ->select('id')
             ->get();
 
         foreach($classExams as $classExam)
@@ -265,10 +264,15 @@ class ExamController extends Controller
             $allClassExam = DB::table('exams')
                 ->where('subject_mark_id',$classExam->id)
                 ->get();
+            $subject = DB::table('subjects')
+                ->where('id',$classExam->subject_id)
+                ->select('name')
+                ->first();
             ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
 
             foreach ($allClassExam as $item) {
-                $exams[] = $item;
+                $exams[] = $subject;
+                $exams[] =$item;
             }
         }
         return $this->returnAllData('exams',$exams, 'all classExam');
