@@ -242,15 +242,12 @@ class ExamController extends Controller
         $nowOclock = Carbon::now();
 
         $exam = Exam::query()
-
-           // ->where('start',$nowOclock->format('Y-m-d H:i:0'))
-            //->orWhere('start', $nowOclock->subMinute()->format('Y-m-d H:i:0'))
+            ->Where('start','<=',  $nowOclock->format('Y-m-d H:i:0'))
             ->where('id',$exam->id)
             ->with('questions',function ($query) {
                 $query->with('choices');
             })
             ->first();
-
         return $this->returnData('exams', $exam, 'GOODLUCK');
 
     }
@@ -273,7 +270,7 @@ class ExamController extends Controller
                 $exams[] = $item;
             }
         }
-        return $this->returnAllData('classExam',$exams, 'all classExam');
+        return $this->returnAllData('exams',$exams, 'all classExam');
 
     }
 

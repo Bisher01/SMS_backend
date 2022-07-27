@@ -60,7 +60,6 @@ class ResultantController extends Controller
                         ->where('quiz_id', $quiz->id)
                         ->first();
 
-//                    if (isset($studentQuize)) {
                         if ($quiz->quiz_name_id == 1) {
                             $numberOfOral++;
                             $sumOfOralMarks += $studentQuize->mark;
@@ -70,7 +69,6 @@ class ResultantController extends Controller
                             $numberOfQuizes++;
                             $sumOfQuizeMarks += $studentQuize->mark;
                         }
-//                    }
                 }
                 if($numberOfQuizes==0)
                 {
@@ -88,19 +86,16 @@ class ResultantController extends Controller
 
                     $oralResult = $sumOfOralMarks / $numberOfOral ;
                 }
-//                $array[$i] = [$quizeResult , $oralResult];
-//                $i++;
+
                 $numberOfOral = 0;
                 $sumOfOralMarks = 0;
+
             }
 
             $classSubjects = DB::table('subject_mark')
                 ->where('subject_id', $classSubjectt->id)
                 ->where('class_id', $class->id)
                 ->first();
-
-//            foreach ($classSubjects as $classSubject)
-//            {
 
         $exams = DB::table('exams')
             ->where('subject_mark_id',$classSubjects->id)
@@ -113,8 +108,6 @@ class ResultantController extends Controller
                 ->where('exam_id', $exam->id)
                 ->first();
 
-//            if (isset($studentExams)) {
-
                 if ($exam->exam_name_id == 1 || $exam->exam_name_id == 2)
                 {
                     $sumOfSExamMarks += $studentExams->mark;
@@ -122,23 +115,14 @@ class ResultantController extends Controller
                 }
 
                 if ($exam->exam_name_id == 3) {
-//                    $sumOfSExamMarks += $studentExams->mark;
                     $examResult = $studentExams->mark;
-//                    $examResult = $sumOfSExamMarks ;
                 }
                 if ($exam->exam_name_id == 4) {
-//                    $sumOfLExamMarks += $studentExams->mark;
                     $LExamResult = $studentExams->mark;
-//                    echo $LExamResult;
-//                    $LExamResult = $sumOfLExamMarks;
+
                 }
             }
 
-//        }
-//         $array[$i] = [$examResult,$LExamResult];
-//                $i++;
-//                $examResult =0;
-//                $LExamResult=0;
             $array[$i] = [$examResult,$LExamResult,$quizeResult , $oralResult];
             $i++;
             $quizeResult = 0;
@@ -146,12 +130,8 @@ class ResultantController extends Controller
             $examResult =0;
             $LExamResult=0;
 
-     ////       }
-
         }
         return $array;
-
-
 
 //        $subjectMaxMark = $classSubject->mark;
 //        $totalSeasonMark = array_sum($data);

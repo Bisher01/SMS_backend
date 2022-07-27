@@ -23,7 +23,11 @@ class Subject extends Model
     }
     public function teacher(){
         return $this->belongsToMany(Teacher::class, 'teacher__subjects','subject_id','teacher_id');
-
+    }
+//    class & classroom for return teacher with subject & class classroom
+    public function classClassroom(){
+        return $this->belongsToMany(ClassClassroom::class, 'teacher__subjects','subject_id','class_classroom_id')
+            ->with(['classes', 'classrooms']);
     }
     public function exam(){
         return $this->hasMany(Exam::class, 'subject_id');

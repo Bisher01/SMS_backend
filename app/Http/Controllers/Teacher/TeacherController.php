@@ -24,7 +24,13 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers=Teacher::query()->get();
+        $teachers=Teacher::query()->with([
+            'gender',
+            'religion',
+            'address',
+            'grade',
+            'subjects'
+        ])->get();
         return $this->returnAllData('teacher', $teachers,'success');
     }
 
@@ -64,8 +70,9 @@ class TeacherController extends Controller
         $teacher->update([
             'code' =>  '003' .$teacher->grade_id.  rand(0, 99) . $teacher->id . rand(100, 999) . $time->format('H') ,
         ]);
-
-        return $this->returnData('teacher', $teacher,'signup & add her / his subjects  successfully');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'signup & add her / his subjects  successfully');
 
     }
 
@@ -77,7 +84,9 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        return $this->returnData('teacher', $teacher,'success');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'success');
     }
 
     /**
@@ -115,8 +124,9 @@ class TeacherController extends Controller
             'gender_id' => $request->gender_id,
             'grade_id' => $request->grade_id,
         ]);
-
-        return $this->returnData('teacher', $teacher,'updated successfully');
+        $data = $teacher
+            ->load( 'gender', 'religion', 'address', 'grade', 'subjects');
+        return $this->returnData('teacher', $data,'updated successfully');
     }
 
     /**
@@ -131,24 +141,24 @@ class TeacherController extends Controller
         return $this->returnSuccessMessage('deleted teacher successfully');
     }
 
-    public function getTeacherWithSubjects(Teacher $teacher) {
-
-        $teacherWithSubjects  = $teacher->load('subjects');
-        $teacherSubjects = DB::table('teacher__subjects')->where('teacher_id', $teacher->id)->get();
-        foreach ($teacherSubjects as $teacherSubject) {
-            $classClassroom = DB::table('claass_classrooms')->where('id', $teacherSubject->class_classroom_id)->first();
-            $syllabi[] = DB::table('syllabi')->where('subject_id', $teacherSubject->subject_id)
-                ->where('class_id', $classClassroom->class_id)
-                ->get();
-        }
-        $data['teacher'] = $teacherWithSubjects;
-        $data['books'] = $syllabi;
-        return $this->returnData('data', $teacherWithSubjects, 'success');
-
-    }
+//    public function getTeacherWithSubjects(Teacher $teacher) {
+//
+//        $teacherWithSubjects  = $teacher->load('subjects');
+//        $teacherSubjects = DB::table('teacher__subjects')->where('teacher_id', $teacher->id)->get();
+//        foreach ($teacherSubjects as $teacherSubject) {
+//            $classClassroom = DB::table('claass_classrooms')->where('id', $teacherSubject->class_classroom_id)->first();
+//            $syllabi[] = DB::table('syllabi')->where('subject_id', $teacherSubject->subject_id)
+//                ->where('class_id', $classClassroom->class_id)
+//                ->get();
+//        }
+//        $data['teacher'] = $teacherWithSubjects;
+//        $data['books'] = $syllabi;
+//        return $this->returnData('data', $teacherWithSubjects, 'success');
+//
+//    }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
-
+        return $this->returnAllData('data', $teacher->subject, 'successs');
     }
 
 

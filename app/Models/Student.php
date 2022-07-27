@@ -35,6 +35,18 @@ class Student extends Authenticatable
     protected $hidden = ['pivot','created_at','updated_at','deleted_at'
      ];
 
+    protected $with = [
+        'academic_year',
+        'grade',
+        'claass',
+        'classroom',
+        'address',
+        'parent',
+        'blood',
+        'religion',
+        'gender',
+        'nationality'
+    ];
 
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');

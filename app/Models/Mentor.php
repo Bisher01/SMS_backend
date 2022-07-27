@@ -24,13 +24,15 @@ class Mentor extends Authenticatable
         'class_id',
     ];
 
+    protected $with = ['class', 'address'];
     public $timestamps = true;
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function class(){
-        return $this->hasOne(Claass::class, 'class_id');
+        return $this->belongsTo(Claass::class, 'class_id');
 
     }
     public function address(){
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 }

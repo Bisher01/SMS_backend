@@ -13,7 +13,9 @@ class ClassExam extends Model
     public $fillable = [
        'class_id','exam_id'
     ];
-
+    protected $hidden = [
+        'created_at','updated_at'
+    ];
     public $timestamps = true;
 
     public function class(){

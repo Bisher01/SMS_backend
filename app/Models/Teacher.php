@@ -29,26 +29,33 @@ class Teacher extends Authenticatable
     protected $hidden = ['pivot','created_at','updated_at'];
     public $timestamps = true;
 
+// teacher with subjects with class& classroom
+    public function subject(){
+        return $this->belongsToMany(Subject::class,'teacher__subjects',
+                'teacher_id',
+                'subject_id'
+            )->with('classClassroom');
+    }
+//
     public function subjects(){
         return $this->belongsToMany(Subject::class,'teacher__subjects',
                 'teacher_id',
                 'subject_id'
             );
-
     }
 
    public function address(){
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
     public function religion(){
-        return $this->hasOne(Blood::class, 'religion_id');
+        return $this->belongsTo(Blood::class, 'religion_id');
     }
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');
 
     }
     public function gender(){
-        return $this->hasOne(Blood::class, 'gender_id');
+        return $this->belongsTo(Blood::class, 'gender_id');
     }
 
 
@@ -57,7 +64,11 @@ class Teacher extends Authenticatable
 //
 //    }
 //    public function classClassroom() {
-//        return $this->belongsToMany(ClassClassroom::class, 'teacher_classclassroom','teacher_id','claass_classroom_id');
-//
+//        return $this->belongsToMany(
+//            ClassClassroom::class,
+//            'teacher__subjects',
+//            'teacher_id',
+//            'class_classroom_id'
+//        )->with(['classes', 'classrooms','subjects']);
 //    }
 }
