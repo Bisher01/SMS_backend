@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use App\Models\Syllabi;
 use App\Models\Teacher;
 use App\Models\TeacherSubject;
@@ -131,6 +132,7 @@ class TeacherController extends Controller
     }
 
     public function getTeacherWithSubjects(Teacher $teacher) {
+
         $teacherWithSubjects  = $teacher->load('subjects');
         $teacherSubjects = DB::table('teacher__subjects')->where('teacher_id', $teacher->id)->get();
         foreach ($teacherSubjects as $teacherSubject) {
@@ -141,7 +143,8 @@ class TeacherController extends Controller
         }
         $data['teacher'] = $teacherWithSubjects;
         $data['books'] = $syllabi;
-        return $this->returnData('data', $data, 'success');
+        return $this->returnData('data', $teacherWithSubjects, 'success');
+
     }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
