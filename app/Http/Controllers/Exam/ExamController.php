@@ -253,12 +253,13 @@ class ExamController extends Controller
     }
 
 //    schedule exam
-    public function GetClassExam($class){
+    public function GetClassExam(Student $student){
 
         $classExams = DB::table('subject_mark')
-            ->where('class_id',$class)
+            ->where('class_id',$student->class_id)
             ->select('id')
             ->get();
+
         foreach($classExams as $classExam)
         {
             $allClassExam = DB::table('exams')

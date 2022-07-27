@@ -73,7 +73,7 @@ Route::prefix('exam')->group(function () {
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
     Route::get('getExam/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'GetExamQuestion']);
-    Route::get('classExam/{class}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
+    Route::get('classExam/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
     Route::post('mark/{exam}/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'studentMark']);
 
