@@ -133,8 +133,8 @@ class QuizController extends Controller
         $nowTime = Carbon::now();
 
             $quiz = Quiz::query()
-                ->where('start', $nowTime->format('Y-m-d H:i:0'))
-                ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
+//                ->where('start', $nowTime->format('Y-m-d H:i:0'))
+//                ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
                 ->where('id', $quiz->id)
                 ->first();
 //        }
