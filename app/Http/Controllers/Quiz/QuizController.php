@@ -15,6 +15,7 @@ use App\Models\TeacherSubject;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Carbon\Carbon;
+use Dotenv\Repository\Adapter\ReplacingWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
@@ -38,14 +39,14 @@ class QuizController extends Controller
         $claassId = $request->class_id;
         $classroomId = $request->classroom_id;
 
-        $name1 = DB::table('quiz_names')
-            ->where('id',$request->quizNameId)
-            ->where('name','شفهي')
-            ->first();
-        $name2 = DB::table('quiz_names')
-            ->where('id',$request->quizNameId)
-            ->where('name','اختبار')
-            ->first();
+//        $name1 = DB::table('quiz_names')
+//            ->where('id',$request->quizNameId)
+//            ->where('name','شفهي')
+//            ->first();
+//        $name2 = DB::table('quiz_names')
+//            ->where('id',$request->quizNameId)
+//            ->where('name','اختبار')
+//            ->first();
         $subject_mark = SubjectMark::query()
             ->where('subject_id',$request->subject_id)
             ->where('class_id',$request->class_id)
@@ -54,17 +55,17 @@ class QuizController extends Controller
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between subject and class', 404);
         }
-        if(isset($name1))
-            $mark=(80/100)*$subject_mark->mark;
-
-        if(isset($name2))
+//        if(isset($name1))
+//            $mark=(80/100)*$subject_mark->mark;
+//
+//        if(isset($name2))
             $mark=(20/100)*$subject_mark->mark;
 
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
         if (isset($check)) {
             $quiz = Quiz::query()->create([
                 'mark' => $mark,
-                'quiz_name_id' => (int)$request->quizNameId,
+                'quiz_name_id' => 2,
                 'teacher_subject_id' => $check->id,
                 'season_id' => $request->season_id,
                 'start' => $request->start,
@@ -80,6 +81,54 @@ class QuizController extends Controller
             return $this->returnData('quiz', $quiz, 'success');
         }
         return $this->returnErrorMessage('input error', 400);
+    }
+
+//    اختبار شفهي
+    public function addOralQuiz(Request $request) {
+        $studentId = $request->student_id;
+        $teacherId = $request->teacher_id;
+        $subjectId = $request->subject_id;
+        $claassId = $request->class_id;
+        $classroomId = $request->classroom_id;
+        Student::query()->findOrFail($studentId);
+
+        $subject_mark = SubjectMark::query()
+            ->where('subject_id',$request->subject_id)
+            ->where('class_id',$request->class_id)
+            ->first();
+
+        if (!isset($subject_mark)) {
+            return $this->returnErrorMessage('there is not relationship between subject and class', 404);
+        }
+
+        $mark=(80/100)*$subject_mark->mark;
+        $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
+        if (isset($check)) {
+            $quiz = Quiz::query()
+                ->where('teacher_subject_id', $check->id)
+                ->where('season_id', $request->season_id)
+                ->where('quiz_name_id', 1)
+                ->first();
+            if (!isset($quiz)) {
+                $quiz = Quiz::query()->create([
+                    'mark' => $mark,
+                    'quiz_name_id' => 1,
+                    'teacher_subject_id' => $check->id,
+                    'season_id' => $request->season_id,
+                    'start' => Carbon::now()->subMinutes(2)->format('Y-m-d H:i:0'),
+                    'end' => Carbon::now()->format('Y-m-d H:i:0'),
+                ]);
+            }
+            if ($request->mark > $mark) {
+                return $this->returnErrorMessage('mark must be less than '. $mark, 400);
+            }
+            DB::table('quiz_marks')->insert([
+                'quiz_id' => $quiz->id,
+                'student_id' => $studentId,
+                'mark' => $request->mark
+            ]);
+            return $this->returnSuccessMessage('success');
+        }
     }
 
 
@@ -98,7 +147,6 @@ class QuizController extends Controller
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
         if (isset($check)) {
             $quiz->update([
-                'quiz_name_id' => (int)$request->quizNameId,
                 'teacher_subject_id' => $check->id,
             ]);
             return $this->returnData('quiz', $quiz, 'success');
