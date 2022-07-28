@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Resultant;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassClassroom;
 use App\Models\ExamMark;
 use App\Models\Quiz;
 use App\Models\QuizMarks;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
@@ -15,96 +17,125 @@ use Illuminate\Support\Facades\DB;
 class ResultantController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function resultantStudent(Student $student) {
 
-        $quizzes =  $student->quizzes;
-        $avgQuizMarksQ = 0;
-        $avgQuizMarks = 0;
-        foreach ($quizzes as $quiz) {
-            if ($quiz->quiz_name_id == 2) {
-                $avgQuizMarksQ = QuizMarks::query()
-                    ->where('student_id', $student->id)
-                    ->average('mark');
-                return $avgQuizMarksQ;
+        $class = $student->claass;
+        $classSubjects = $class->subjects;
+        $classroom = $student->classroom;
+
+        $classClassroom = ClassClassroom::query()
+            ->where('class_id',$class->id)
+            ->where('classroom_id',$classroom->id)
+            ->first();
+
+        $numberOfQuizes = 0;
+        $sumOfQuizeMarks = 0;
+        $sumOfOralMarks = 0;
+        $numberOfOral = 0;
+        $sumOfSExamMarks = 0;
+        $sumOfLExamMarks = 0;
+        $examResult = 0;
+        $LExamResult = 0;
+        $i = 0;
+        $array[] = 0;
+
+
+        foreach ($classSubjects as $classSubjectt) {
+            $subjects = DB::table('teacher__subjects')
+                ->where('subject_id', $classSubjectt->id)
+                ->where('class_classroom_id',$classClassroom->id)
+                ->get();
+
+            foreach ($subjects as $subjectt) {
+
+                $quizzes = DB::table('quizzes')
+                    ->where('teacher_subject_id', $subjectt->id)
+                    ->get();
+
+                foreach ($quizzes as $quiz) {
+
+                    $studentQuize = DB::table('quiz_marks')
+                        ->where('student_id', $student->id)
+                        ->where('quiz_id', $quiz->id)
+                        ->first();
+
+                        if ($quiz->quiz_name_id == 1) {
+                            $numberOfOral++;
+                            $sumOfOralMarks += $studentQuize->mark;
+                        }
+
+                        if ($quiz->quiz_name_id == 2) {
+                            $numberOfQuizes++;
+                            $sumOfQuizeMarks += $studentQuize->mark;
+                        }
+                }
+                if($numberOfQuizes==0)
+                {
+                    $quizeResult = 0;
+                }else{
+
+                    $quizeResult = $sumOfQuizeMarks / $numberOfQuizes;
+                }
+                $numberOfQuizes = 0;
+                $sumOfQuizeMarks = 0;
+                if($numberOfOral == 0)
+                {
+                    $oralResult = 0;
+                }else{
+
+                    $oralResult = $sumOfOralMarks / $numberOfOral ;
+                }
+
+                $numberOfOral = 0;
+                $sumOfOralMarks = 0;
+
             }
-            if ($quiz->quiz_name_id == 1) {
-                $avgQuizMarks = QuizMarks::query()
-                    ->where('student_id', $student->id)
-                    ->where('quiz_id', $quiz->id)
-                    ->average('mark');
+
+            $classSubjects = DB::table('subject_mark')
+                ->where('subject_id', $classSubjectt->id)
+                ->where('class_id', $class->id)
+                ->first();
+
+        $exams = DB::table('exams')
+            ->where('subject_mark_id',$classSubjects->id)
+            ->get();
+
+        foreach ($exams as $exam){
+
+            $studentExams = DB::table('exam_marks')
+                ->where('student_id', $student->id)
+                ->where('exam_id', $exam->id)
+                ->first();
+
+                if ($exam->exam_name_id == 1 || $exam->exam_name_id == 2)
+                {
+                    $sumOfSExamMarks += $studentExams->mark;
+                    $examResult = $sumOfSExamMarks/2;
+                }
+
+                if ($exam->exam_name_id == 3) {
+                    $examResult = $studentExams->mark;
+                }
+                if ($exam->exam_name_id == 4) {
+                    $LExamResult = $studentExams->mark;
+
+                }
             }
+
+            $array[$i] = [$examResult,$LExamResult,$quizeResult , $oralResult];
+            $i++;
+            $quizeResult = 0;
+            $oralResult = 0;
+            $examResult =0;
+            $LExamResult=0;
 
         }
-        $data['شفهي'] = $avgQuizMarks;
-        $data['اختبار'] = $avgQuizMarksQ;
-        return $data ;
+        return $array;
 
+//        $subjectMaxMark = $classSubject->mark;
+//        $totalSeasonMark = array_sum($data);
 
-
-        $avgExamMarks = ExamMark::query()
-            ->where('student_id', $student->id)->average('mark');
-
-        $data['student'] = $student;
-        $data['avgQuizMarks'] = $avgQuizMarks;
-        $data['avgExamMarks'] = $avgExamMarks;
-
-        return $this->returnData('resultant', $data, 'success');
-
-
+//        return $this->returnData('resultant', $data, 'success');
     }
 }

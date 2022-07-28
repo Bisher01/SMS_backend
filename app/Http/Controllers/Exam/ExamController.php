@@ -253,20 +253,29 @@ class ExamController extends Controller
     }
 
 //    schedule exam
-    public function GetClassExam($class){
+    public function GetClassExam(Student $student){
 
         $classExams = DB::table('subject_mark')
-            ->where('class_id',$class)
-            ->select('id')
+            ->where('class_id',$student->class_id)
             ->get();
+
         foreach($classExams as $classExam)
         {
-            $allClassExam = DB::table('exams')
+            $allClassExam = Exam::query()
                 ->where('subject_mark_id',$classExam->id)
+                ->with('subjectMark',function ($query){
+                    $query->with('subject');
+
+                })
                 ->get();
+            $subject = DB::table('subjects')
+                ->where('id',$classExam->subject_id)
+                ->select('name')
+                ->first();
             ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
 
             foreach ($allClassExam as $item) {
+//                $exams[] = $subject;
                 $exams[] = $item;
             }
         }

@@ -17,6 +17,7 @@ class SubjectMark extends Model
         'subject_id', 'class_id','mark'
     ];
 
+    public $hidden = ['created_at','updated_at','class_id','subject_id'];
     public $timestamps = true;
 
    public function subject(){

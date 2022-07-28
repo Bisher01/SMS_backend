@@ -73,7 +73,7 @@ Route::prefix('exam')->group(function () {
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
     Route::get('getExam/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'GetExamQuestion']);
-    Route::get('classExam/{class}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
+    Route::get('classExam/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
     Route::post('mark/{exam}/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'studentMark']);
 
@@ -144,12 +144,6 @@ Route::prefix('resultant')->group(function () {
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
-
-
-
-Route::prefix('mobile')->group(function () {
-    Route::get('teacherWithSubjects/{teacher}', [\App\Http\Controllers\Teacher\TeacherController::class, 'getTeacherWithSubjects']);
-});
 
 
 Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);
