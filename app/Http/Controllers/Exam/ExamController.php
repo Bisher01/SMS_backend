@@ -126,6 +126,7 @@ class ExamController extends Controller
                     return $this->returnErrorMessage('already this class has exam in this date', 400);
                 }
             }
+        }
                     $exam = Exam::query()->create([
                         'mark' => $mark,
                         'exam_name_id' => $request->exam_name_id,
@@ -142,7 +143,7 @@ class ExamController extends Controller
                         ]);
                     }
                     return $this->returnData('exam', $exam, 'success');
-                }
+
             }
 
 
@@ -163,11 +164,9 @@ class ExamController extends Controller
     public function update(Request $request, Exam $exam)
     {
         $exam->update([
-
             'mark' => $request->mark,
             'exam_name_id' => $request->exam_name_id,
             'subject_mark_id' => $request->subject_mark_id
-
         ]);
 
         return $this->returnData('exam', $exam, 'updated exam successfully');

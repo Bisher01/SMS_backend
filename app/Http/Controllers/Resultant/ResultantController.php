@@ -21,14 +21,16 @@ class ResultantController extends Controller
 
     public function resultantStudent(Student $student , Season $season) {
 
-        $class = $student->claass;
-        $classSubjects = $class->subjects;
-        $classroom = $student->classroom;
+        $classClassroom = $student->classClassroom;
+        $class = $classClassroom->classes;
+        $classSubjects = $classClassroom->classes->subjects;
 
-        $classClassroom = ClassClassroom::query()
-            ->where('class_id',$class->id)
-            ->where('classroom_id',$classroom->id)
-            ->first();
+//        $classroom = $student->classroom;
+//        $classClassroom = ClassClassroom::query()
+//            ->where('class_id',$class->id)
+//            ->where('classroom_id',$classroom->id)
+//            ->first();
+
 
         $numberOfQuizes = 0;
         $sumOfQuizeMarks = 0;
@@ -64,8 +66,14 @@ class ResultantController extends Controller
                         ->first();
 
                         if ($quiz->quiz_name_id == 1) {
-                            $numberOfOral++;
-                            $sumOfOralMarks += $studentQuize->mark;
+                            $studentOralQuiz = DB::table('quiz_marks')
+                                ->where('student_id', $student->id)
+                                ->where('quiz_id', $quiz->id)
+                                ->get();
+                            foreach ($studentOralQuiz as $item) {
+                                $numberOfOral++;
+                                $sumOfOralMarks += $item->mark;
+                            }
                         }
 
                         if ($quiz->quiz_name_id == 2) {
@@ -127,7 +135,16 @@ class ResultantController extends Controller
                 }
             }
             $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
-            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
+//            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
+            $array[$i] = [
+                'subjectName' => $classSubjectt->name,
+                'subjectMark' => $classSubjectts->mark,
+                'quize' => $examResult,
+                'exam' => $LExamResult,
+                'test' => $quizeResult ,
+                'oralTest' => $oralResult ,
+                'totalMark' => $totalSeasonMark
+            ];
             $i++;
 
             $quizeResult = 0;

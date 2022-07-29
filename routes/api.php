@@ -21,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, 'login']);
-
+Route::prefix('admin')->group(function () {
+    Route::get('all-exam', [\App\Http\Controllers\Admin\CheckExam::class, 'getAllExam']);
+    Route::post('edit-exam-date/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'editExamDate']);
+});
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
     Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);

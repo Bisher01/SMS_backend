@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Choice;
 use App\Models\Claass;
 use App\Models\ClassClassroom;
 use App\Models\Question;
@@ -91,25 +92,21 @@ class QuestionController extends Controller
 
     public function update(Request $request,Question $question)
     {
-        $classClassroom = DB::table('claass_classrooms')
-            ->where('class_id',$request->class_id)
-            ->select('id')
-            ->first();
-
-        $teacherSubjectClass = DB::table('teacher__subjects')
-            ->where('teacher_id',$request->teacher_id)
-            ->where('subject_id',$request->subject_id)
-            ->where('class_classroom_id',$classClassroom->id)
-            ->select('id')
-            ->first();
+//        $teacherId = $question->teacherSubjects->teacher_id;
+//        if ($teacherId != $request->teacher_id){
+//            return $this->returnErrorMessage('UnAuthorized', 403);
+//        }
 
         $question->update([
             'text'=>$request->text,
-            'question_type_id' => $request->question_type_id,
-            'teacher_subjects_id' => $teacherSubjectClass ->id
         ]);
 
-        return  $this->returnData('questions', $question, 'updated question successfully');
+        foreach ($request->choices as $choice) {
+            $question->choices()->where('id', $choice['id'])->update([
+                'text' => $choice['text'],
+            ]);
+        }
+        return  $this->returnData('questions', $question->load('choices'), 'updated question successfully');
 
     }
 
