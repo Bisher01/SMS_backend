@@ -74,4 +74,8 @@ class ParentController extends Controller
         $parent->delete();
         return $this->returnSuccessMessage('deleted parent successfully');
     }
+
+    public function getParentWithChild(Paarent $parent) {
+        return $this->returnData('parent', $parent->load('child'), 'success');
+    }
 }

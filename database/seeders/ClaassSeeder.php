@@ -16,6 +16,11 @@ class ClaassSeeder extends Seeder
     public function run()
     {
         DB::table('Claasses')->delete();
+        DB::table('classrooms')->delete();
+        DB::table('classrooms')->insert([
+            'name' => 1,
+            'max_number' => 20
+        ]);
 
 
             DB::table('Claasses')->insert([
@@ -63,6 +68,12 @@ class ClaassSeeder extends Seeder
 
             ]);
 
+            for ($i =1 ; $i<= 12; $i++) {
+                DB::table('claass_classrooms')->insert([
+                    'class_id' => $i,
+                    'classroom_id' => 1
+                ]);
+            }
 
     }
 }

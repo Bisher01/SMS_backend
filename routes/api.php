@@ -45,6 +45,7 @@ Route::prefix('student')->group(function () {
 Route::prefix('parent')->group(function () {
     Route::put('edit/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'update']);
     Route::get('show/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'show']);
+    Route::get('child/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'getParentWithChild']);
     Route::delete('delete/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'destroy']);
 });
 
@@ -60,6 +61,8 @@ Route::prefix('quiz')->group(function () {
     Route::get('all', [\App\Http\Controllers\Quiz\QuizController::class, 'index']);
     Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
+    Route::post('add-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'addOralQuiz']);
+    Route::post('students-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getStudentsForOralQuiz']);
     Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);

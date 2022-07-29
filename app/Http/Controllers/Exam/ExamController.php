@@ -255,8 +255,9 @@ class ExamController extends Controller
 //    schedule exam
     public function GetClassExam(Student $student){
 
+        $classId = $student->classClassroom->class_id;
         $classExams = DB::table('subject_mark')
-            ->where('class_id',$student->class_id)
+            ->where('class_id', $classId)
             ->get();
 
         foreach($classExams as $classExam)
