@@ -47,10 +47,7 @@ class QuizController extends Controller
 //            ->where('id',$request->quizNameId)
 //            ->where('name','اختبار')
 //            ->first();
-        $subject_mark = SubjectMark::query()
-            ->where('subject_id',$request->subject_id)
-            ->where('class_id',$request->class_id)
-            ->first();
+        $subject_mark = $this->checkHasRelationBetweenClassAndSubject($claassId, $subjectId);
 
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between subject and class', 404);
@@ -92,10 +89,7 @@ class QuizController extends Controller
         $classroomId = $request->classroom_id;
         Student::query()->findOrFail($studentId);
 
-        $subject_mark = SubjectMark::query()
-            ->where('subject_id',$request->subject_id)
-            ->where('class_id',$request->class_id)
-            ->first();
+        $subject_mark = $this->checkHasRelationBetweenClassAndSubject($claassId, $subjectId);
 
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between subject and class', 404);
@@ -131,6 +125,26 @@ class QuizController extends Controller
         }
     }
 
+    public function getStudentsForOralQuiz(Request $request) {
+        $teacherId = $request->teacher_id;
+        $subjectId = $request->subject_id;
+        $claassId = $request->class_id;
+        $classroomId = $request->classroom_id;
+
+        $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
+
+        $subject_mark = $this->checkHasRelationBetweenClassAndSubject($claassId, $subjectId);
+
+        if (!isset($subject_mark)) {
+            return $this->returnErrorMessage('there is not relationship between subject and class', 404);
+        }
+        $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
+        if (isset($check, $classClassroomId)) {
+            $students = Student::query()->where('class_classroom_id', $classClassroomId->id)->get();
+            return $this->returnAllData('students', $students, 'success');
+        }
+        return $this->returnErrorMessage('input error', 400);
+    }
 
     public function show(Quiz $quiz)
     {
@@ -240,4 +254,13 @@ class QuizController extends Controller
         return $this->returnError('input error', 400);
     }
 
+
+    public function checkHasRelationBetweenClassAndSubject($classId, $SubjectId) {
+        $subject_mark = SubjectMark::query()
+            ->where('subject_id', $SubjectId)
+            ->where('class_id', $classId)
+            ->first();
+        return $subject_mark;
+
+    }
 }

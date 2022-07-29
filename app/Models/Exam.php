@@ -16,12 +16,13 @@ class Exam extends Model
        'exam_name_id',
        'season_id',
        'start',
-        'end'
+        'end',
+        'active'
     ];
 
     public $timestamps = true;
     protected $hidden = [
-        'created_at','updated_at'
+        'created_at','updated_at', 'active'
     ];
 
 

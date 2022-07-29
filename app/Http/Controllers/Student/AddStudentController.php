@@ -35,6 +35,10 @@ class AddStudentController extends Controller
 
         $parent = Paarent::query()
             ->where('national_number', $request->national_number)->first();
+        $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
+        if (!isset($classClassroomId)) {
+            return $this->returnErrorMessage('input error', 400);
+        }
         if (!isset($parent)) {
             if($request->mother_name == null || $request->father_name == null ) {
                 return $this->returnErrorMessage('teacher not found', 404);
@@ -83,8 +87,7 @@ class AddStudentController extends Controller
             'gender_id' => $request->gender_id,
             'religion_id' => $request->religion_id,
             'grade_id' => $request->grade_id,
-            'class_id' => $request->class_id,
-            'classroom_id' => $request->classroom_id,
+            'class_classroom_id' => $classClassroomId->id,
             'academic_year_id' => $request->academic_year_id,
         ]);
         $student->update([
@@ -94,8 +97,7 @@ class AddStudentController extends Controller
         $data['student'] = $student
             ->load('academic_year',
                 'grade',
-                'claass',
-                'classroom',
+                'classClassroom',
                 'address',
                 'parent',
                 'blood',
@@ -108,18 +110,7 @@ class AddStudentController extends Controller
 
     public function show(Student $student)
     {
-        $student_info = $student
-            ->load('academic_year',
-            'grade',
-            'claass',
-            'classroom',
-            'address',
-            'parent',
-            'blood',
-            'religion',
-            'gender',
-            'nationality');
-        return $this->returnData('student',$student_info,'success');
+        return $this->returnData('student',$student,'success');
     }
 
     public function update(Request $request, Student $student)
@@ -136,6 +127,10 @@ class AddStudentController extends Controller
         }
 
         $address = $this->addAddress($request);
+        $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
+        if (!isset($classClassroomId)) {
+            return $this->returnErrorMessage('input error', 400);
+        }
 
         $student->update([
             'f_name' => $request->f_name,
@@ -149,8 +144,7 @@ class AddStudentController extends Controller
             'gender_id' => $request->gender_id,
             'religion_id' => $request->religion_id,
             'grade_id' => $request->grade_id,
-            'class_id' => $request->class_id,
-            'classroom_id' => $request->classroom_id,
+            'class_classroom_id' => $classClassroomId->id,
             'academic_year_id' => $request->academic_year_id,
         ]);
 

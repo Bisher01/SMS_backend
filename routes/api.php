@@ -62,6 +62,7 @@ Route::prefix('quiz')->group(function () {
     Route::get('mark-ladder/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'markLadder']);
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
     Route::post('add-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'addOralQuiz']);
+    Route::post('students-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getStudentsForOralQuiz']);
     Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);

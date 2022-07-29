@@ -26,8 +26,7 @@ class Student extends Authenticatable
         'religion_id',
         'nationality_id',
         'grade_id',
-        'class_id',
-        'classroom_id',
+        'class_classroom_id',
         'academic_year_id',
         'address_id'
     ];
@@ -36,12 +35,11 @@ class Student extends Authenticatable
      ];
 
     protected $with = [
+        'parent',
         'academic_year',
         'grade',
-        'claass',
-        'classroom',
+        'classClassroom',
         'address',
-        'parent',
         'blood',
         'religion',
         'gender',
@@ -51,11 +49,15 @@ class Student extends Authenticatable
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');
     }
-    public function claass(){
-        return $this->belongsTo(Claass::class, 'class_id');
-    }
-    public function classroom(){
-        return $this->belongsTo(Classroom::class, 'classroom_id');
+//    public function claass(){
+//        return $this->belongsTo(Claass::class, 'class_id');
+//    }
+//    public function classroom(){
+//        return $this->belongsTo(Classroom::class, 'classroom_id');
+//    }
+
+    public function classClassroom() {
+        return $this->belongsTo(ClassClassroom::class, 'class_classroom_id')->with(['classes', 'classrooms']);
     }
     public function academic_year(){
         return $this->belongsTo(Academic_year::class, 'academic_year_id');
