@@ -7,6 +7,7 @@ use App\Models\ClassClassroom;
 use App\Models\ExamMark;
 use App\Models\Quiz;
 use App\Models\QuizMarks;
+use App\Models\Season;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Traits\basicFunctionsTrait;
@@ -18,7 +19,7 @@ class ResultantController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
 
-    public function resultantStudent(Student $student) {
+    public function resultantStudent(Student $student , Season $season) {
 
         $class = $student->claass;
         $classSubjects = $class->subjects;
@@ -42,6 +43,7 @@ class ResultantController extends Controller
 
 
         foreach ($classSubjects as $classSubjectt) {
+
             $subjects = DB::table('teacher__subjects')
                 ->where('subject_id', $classSubjectt->id)
                 ->where('class_classroom_id',$classClassroom->id)
@@ -51,6 +53,7 @@ class ResultantController extends Controller
 
                 $quizzes = DB::table('quizzes')
                     ->where('teacher_subject_id', $subjectt->id)
+                    ->where('season_id',$season->id)
                     ->get();
 
                 foreach ($quizzes as $quiz) {
@@ -92,13 +95,14 @@ class ResultantController extends Controller
 
             }
 
-            $classSubjects = DB::table('subject_mark')
+            $classSubjectts = DB::table('subject_mark')
                 ->where('subject_id', $classSubjectt->id)
                 ->where('class_id', $class->id)
                 ->first();
 
         $exams = DB::table('exams')
-            ->where('subject_mark_id',$classSubjects->id)
+            ->where('subject_mark_id',$classSubjectts->id)
+            ->where('season_id',$season->id)
             ->get();
 
         foreach ($exams as $exam){
@@ -122,20 +126,16 @@ class ResultantController extends Controller
 
                 }
             }
-
-            $array[$i] = [$examResult,$LExamResult,$quizeResult , $oralResult];
+            $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
+            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
             $i++;
+
             $quizeResult = 0;
             $oralResult = 0;
-            $examResult =0;
-            $LExamResult=0;
+            $examResult = 0;
+            $LExamResult = 0;
 
         }
-        return $array;
-
-//        $subjectMaxMark = $classSubject->mark;
-//        $totalSeasonMark = array_sum($data);
-
-//        return $this->returnData('resultant', $data, 'success');
+        return $this->returnAllData('resultant', $array , 'success');
     }
 }

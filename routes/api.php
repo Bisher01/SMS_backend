@@ -136,7 +136,7 @@ Route::prefix('management')->group(function(){
 
 
 Route::prefix('resultant')->group(function () {
-    Route::get('/{student}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
+    Route::get('/{student}/{season}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
 });
 
 
