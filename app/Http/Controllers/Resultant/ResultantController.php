@@ -24,8 +24,8 @@ class ResultantController extends Controller
         $classClassroom = $student->classClassroom;
         $class = $classClassroom->classes;
         $classSubjects = $classClassroom->classes->subjects;
-//        $classroom = $student->classroom;
 
+//        $classroom = $student->classroom;
 //        $classClassroom = ClassClassroom::query()
 //            ->where('class_id',$class->id)
 //            ->where('classroom_id',$classroom->id)
@@ -128,7 +128,16 @@ class ResultantController extends Controller
                 }
             }
             $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
-            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
+//            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
+            $array[$i] = [
+                'subjectName' => $classSubjectt->name,
+                'subjectMark' => $classSubjectts->mark,
+                'quize' => $examResult,
+                'exam' => $LExamResult,
+                'test' => $quizeResult ,
+                'oralTest' => $oralResult ,
+                'totalMark' => $totalSeasonMark
+            ];
             $i++;
 
             $quizeResult = 0;
