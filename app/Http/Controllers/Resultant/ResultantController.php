@@ -21,15 +21,14 @@ class ResultantController extends Controller
 
     public function resultantStudent(Student $student , Season $season) {
 
-        $classClassroom = $student->classClassroom;
-        $class = $classClassroom->classes;
-        $classSubjects = $classClassroom->classes->subjects;
-//        $classroom = $student->classroom;
+        $class = $student->claass;
+        $classSubjects = $class->subjects;
+        $classroom = $student->classroom;
 
-//        $classClassroom = ClassClassroom::query()
-//            ->where('class_id',$class->id)
-//            ->where('classroom_id',$classroom->id)
-//            ->first();
+        $classClassroom = ClassClassroom::query()
+            ->where('class_id',$class->id)
+            ->where('classroom_id',$classroom->id)
+            ->first();
 
         $numberOfQuizes = 0;
         $sumOfQuizeMarks = 0;
