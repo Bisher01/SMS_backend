@@ -123,6 +123,7 @@ class QuizController extends Controller
             ]);
             return $this->returnSuccessMessage('success');
         }
+        return $this->returnErrorMessage('input error', 400);
     }
 
     public function getStudentsForOralQuiz(Request $request) {
