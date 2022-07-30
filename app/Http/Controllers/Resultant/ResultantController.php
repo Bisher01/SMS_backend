@@ -113,17 +113,17 @@ class ResultantController extends Controller
             ->where('season_id',$season->id)
             ->get();
 
-        foreach ($exams as $exam){
+        foreach ($exams as $exam) {
 
             $studentExams = DB::table('exam_marks')
-                ->where('student_id', $student->id)
                 ->where('exam_id', $exam->id)
+                ->where('student_id', $student->id)
                 ->first();
+            if (isset($studentExams)) {
 
-                if ($exam->exam_name_id == 1 || $exam->exam_name_id == 2)
-                {
+                if ($exam->exam_name_id == 1 || $exam->exam_name_id == 2) {
                     $sumOfSExamMarks += $studentExams->mark;
-                    $examResult = $sumOfSExamMarks/2;
+                    $examResult = $sumOfSExamMarks / 2;
                 }
 
                 if ($exam->exam_name_id == 3) {
@@ -134,6 +134,7 @@ class ResultantController extends Controller
 
                 }
             }
+        }
             $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
 //            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
             $array[$i] = [

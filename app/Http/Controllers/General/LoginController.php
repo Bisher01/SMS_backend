@@ -40,11 +40,13 @@ class LoginController extends Controller
 
             // login for parent
         } elseif(Str::is('002*', $code)) {
+//            child
             $parent = Paarent::query()
                 ->where('code', $code)->first()
                 ->child()->where('f_name', $firstName)
                 ->where('l_name', $lastName)
                 ->first();
+
             $parent_id = Paarent::query()
                 ->where('code', $code)->first();
 
@@ -55,7 +57,7 @@ class LoginController extends Controller
 //                $data['parent'] = $parent;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('parent', $parent_id->id,  $data, 'success');
+                return $this->returnLoginData('test', $parent->id,  $data, 'success');
 
 //                return $this->returnData('Parent Data', $data,'logged in successfully');
             }
