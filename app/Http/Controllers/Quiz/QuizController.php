@@ -142,7 +142,7 @@ class QuizController extends Controller
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
         if (isset($check, $classClassroomId)) {
             $students = Student::query()->where('class_classroom_id', $classClassroomId->id)->get();
-            return $this->returnAllData('students', $students, 'success');
+            return $this->returnAllData('student', $students, 'success');
         }
         return $this->returnErrorMessage('input error', 400);
     }
