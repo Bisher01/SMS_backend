@@ -20,7 +20,8 @@ class Quiz extends Model
         'start',
         'end'
         ];
-    protected $hidden = ['pivot'];
+
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
 
     public function questions() {
         return $this->belongsToMany(

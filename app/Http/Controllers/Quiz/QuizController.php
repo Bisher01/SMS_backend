@@ -264,4 +264,32 @@ class QuizController extends Controller
         return $subject_mark;
 
     }
+
+    public function quizScheduleForClassroom(Claass $claass, Classroom $classroom)
+    {
+        $checkClassClassroom = $this->checkClassClassroom($claass->id, $classroom->id);
+        if (!isset($checkClassClassroom)) {
+            return $this->returnErrorMessage('input error', 400);
+        }
+        $classClassroomId = ClassClassroom::query()
+            ->select('id')
+            ->where('class_id', $claass->id)
+            ->where('classroom_id', $classroom->id)
+            ->first();
+
+        $teacherSubjects = TeacherSubject::query()
+            ->where('class_classroom_id', $classClassroomId->id)
+            ->get();
+
+        foreach ($teacherSubjects as $teacherSubject) {
+            $quizzes = Quiz::query()
+                ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>', Carbon::now())
+                ->get();
+            foreach ($quizzes as $quiz) {
+                $q[] = $quiz;
+            }
+        }
+        return $this->returnAllData('quizzes', $q, 'success');
+
+    }
 }

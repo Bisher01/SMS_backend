@@ -227,7 +227,7 @@ class ExamController extends Controller
                 'mark' => $student_mark,
             ]);
 
-            return $this->returnData('mark', $student_mark, 'GAMEOVER');
+            return $this->returnMark( $student_mark, 'GAMEOVER');
 
         }
         return $this->returnError('input error', 400);

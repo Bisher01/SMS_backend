@@ -27,11 +27,12 @@ Route::prefix('admin')->group(function () {
 });
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
+    Route::post('/logout', [\App\Http\Controllers\General\LoginController::class, 'logout'])->middleware('auth:api');
     Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);
 });
 
 Route::prefix('AcademicYear')->group(function () {
-    Route::get('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
+    Route::post('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
     Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
     Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
     Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
@@ -66,10 +67,11 @@ Route::prefix('quiz')->group(function () {
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
     Route::post('add-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'addOralQuiz']);
     Route::post('students-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getStudentsForOralQuiz']);
-    Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::get('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
+    Route::get('schedule/{claass}/{classroom}', [App\Http\Controllers\Quiz\QuizController::class, 'quizScheduleForClassroom']);
     Route::delete('delete/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'destroy']);
 });
 

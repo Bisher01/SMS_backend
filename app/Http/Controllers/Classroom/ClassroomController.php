@@ -10,6 +10,7 @@ use App\Models\Quiz;
 use App\Models\TeacherSubject;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function Sodium\increment;
@@ -66,31 +67,4 @@ class ClassroomController extends Controller
         return $this->returnSuccessMessage('deleted classroom successfully');
     }
 
-    public function quizScheduleForClassroom(Claass $claass, Classroom $classroom)
-    {
-        $checkClassClassroom = $this->checkClassClassroom($claass->id, $classroom->id);
-        if (!isset($checkClassClassroom)) {
-            return $this->returnErrorMessage('input error', 400);
-        }
-        $classClassroomId = ClassClassroom::query()
-            ->select('id')
-            ->where('class_id', $claass->id)
-            ->where('classroom_id', $classroom->id)
-            ->first();
-
-        $teacherSubjects = TeacherSubject::query()
-            ->where('class_classroom_id', $classClassroomId->id)
-            ->get();
-
-        foreach ($teacherSubjects as $teacherSubject) {
-            $quizzes = DB::table('quizzes')
-                ->where('teacher_subject_id', $teacherSubject->id)
-                ->get();
-            foreach ($quizzes as $quiz) {
-                $q[] = $quiz;
-            }
-        }
-        return $this->returnAllData('quizzes', $q, 'success');
-
-    }
 }
