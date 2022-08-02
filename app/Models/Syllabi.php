@@ -14,11 +14,12 @@ class Syllabi extends Model
     protected $fillable  = [
         'content' ,
         'class_id',
-        'subject_id'
+        'subject_id',
+        'active'
     ];
+    protected $with = ['subject', 'class'];
     public $timestamps = true;
-    protected $hidden = ['created_at','updated_at'
-    ];
+    protected $hidden = ['created_at','updated_at', 'active'];
     protected $primaryKey = 'id';
 
     public function subject() {

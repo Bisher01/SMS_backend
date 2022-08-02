@@ -24,6 +24,9 @@ Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, '
 Route::prefix('admin')->group(function () {
     Route::get('all-exam', [\App\Http\Controllers\Admin\CheckExam::class, 'getAllExam']);
     Route::post('edit-exam-date/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'editExamDate']);
+    Route::post('accept-exam/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'acceptExam']);
+    Route::post('accept-syllabi/{syllabi}', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'acceptSyllabi']);
+    Route::get('all-syllabi', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'getAllSyllabi']);
 });
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
@@ -127,7 +130,7 @@ Route::prefix('classroom')->group(function () {
 });
 
 Route::prefix('syllabi')->group(function () {
-    Route::get('all', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
+    Route::get('all/{class}', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\syllabi\syllabiController::class, 'store']);
     Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);

@@ -35,7 +35,6 @@ class QuestionController extends Controller
         }
 //        $examMark = SubjectMark::query()->where('subject_id', $subjectId)->where('class_id', $classId)->first('mark');
 
-
         $questions = Question::query()
             ->where('teacher_subjects_id', $teacherSubjectClass->id)
             ->with('choices')

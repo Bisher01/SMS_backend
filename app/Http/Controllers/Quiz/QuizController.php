@@ -253,14 +253,7 @@ class QuizController extends Controller
     }
 
 
-    public function checkHasRelationBetweenClassAndSubject($classId, $SubjectId) {
-        $subject_mark = SubjectMark::query()
-            ->where('subject_id', $SubjectId)
-            ->where('class_id', $classId)
-            ->first();
-        return $subject_mark;
 
-    }
 
     public function quizScheduleForClassroom(Claass $claass, Classroom $classroom)
     {

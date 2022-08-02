@@ -198,9 +198,9 @@ class ExamController extends Controller
         $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();
         $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
         if ($nowTime <= $examEndTime->end){
-            foreach($request->question as $question){
+            foreach($request->questions as $question){
                 $status = DB::table('choices')
-                    ->where('question_id',$question['id'])
+                    ->where('question_id',$question['question_id'])
                     ->where('id',$question['choise'])
                     ->select('status')
                     ->first();
@@ -208,7 +208,7 @@ class ExamController extends Controller
                     if ($status->status == 1) {
                         $question_mark = DB::table('question_exams')
                             ->where('exam_id', $exam->id)
-                            ->where('question_id', $question['id'])
+                            ->where('question_id', $question['question_id'])
                             ->select('mark')
                             ->first();
 
