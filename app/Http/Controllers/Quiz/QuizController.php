@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
 use App\Models\SubjectMark;
+use function PHPUnit\Framework\isNull;
+
 class QuizController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -285,8 +287,8 @@ class QuizController extends Controller
             $quizzes = Quiz::query()
                 ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>', Carbon::now())
                 ->get();
-            if (!isset($quizzes)) {
-                return $this->returnErrorMessage('There are no َQizzes', 404);
+            if (isNull($quizzes)) {
+                return $this->returnErrorMessage('There are not Qizzes', 404);
             }
             foreach ($quizzes as $quiz) {
                 $q[] = $quiz;
