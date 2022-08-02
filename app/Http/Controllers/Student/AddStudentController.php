@@ -62,14 +62,19 @@ class AddStudentController extends Controller
 
         $time = Carbon::now();
 
-        if ($request->hasFile('picture')) {
+        $byte_array = $request->picture;
+        $image = base64_decode($byte_array);
+        Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
+        $picture = '/'. $time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
 
-            $picture = '/'.$request->file('picture')
-                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
-        }
-        else{
-            $picture = null;
-        }
+//        if ($request->hasFile('picture')) {
+//
+//            $picture = '/'.$request->file('picture')
+//                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
+//        }
+//        else{
+//            $picture = null;
+//        }
 
         $address = $this->addAddress($request);
 
@@ -116,15 +121,21 @@ class AddStudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $time = Carbon::now();
-        if ($request->hasFile('picture')) {
+//        if ($request->hasFile('picture')) {
+//        return $student->picture;
+
             if (Storage::exists($student->picture)) {
                 Storage::delete($student->picture);
                 Storage::deleteDirectory($time->format('Y').'/images/student/'. $student->f_name. '_'. $student->l_name);
             }
-            $picture =  '/'.$request->file('picture')
-                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
+        $byte_array = $request->picture;
+        $image = base64_decode($byte_array);
+        Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
+        $picture = '/'. $time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
+//            $picture =  '/'.$request->file('picture')
+//                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
             $student->update(['picture' => $picture]);
-        }
+//        }
 
         $address = $this->addAddress($request);
         $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
