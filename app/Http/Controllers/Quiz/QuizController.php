@@ -285,6 +285,9 @@ class QuizController extends Controller
             $quizzes = Quiz::query()
                 ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>', Carbon::now())
                 ->get();
+            if (!isset($quizzes)) {
+                return $this->returnErrorMessage('There are no َQizzes', 404);
+            }
             foreach ($quizzes as $quiz) {
                 $q[] = $quiz;
             }
