@@ -8,6 +8,7 @@ use App\Models\Claass;
 use App\Models\ClassClassroom;
 use App\Models\Question;
 use App\Models\Subject;
+use App\Models\SubjectMark;
 use App\Models\Teacher;
 use App\Models\TeacherSubject;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ class QuestionController extends Controller
         if ($teacherSubjectClass == null) {
             return $this->returnErrorMessage('input error', 400);
         }
+//        $examMark = SubjectMark::query()->where('subject_id', $subjectId)->where('class_id', $classId)->first('mark');
+
 
         $questions = Question::query()
             ->where('teacher_subjects_id', $teacherSubjectClass->id)

@@ -42,6 +42,13 @@ trait basicFunctionsTrait{
         return $classClassroom;
     }
 
+    public function checkStartAndEndDate($start, $end) {
+        if ($end <= $start) {
+            return false;
+        }
+        return true;
+    }
+
 
     public function checkTeacherSubject($teacherId, $subjectId, $classId, $classroomId) {
         $test = $this->checkClassClassroom($classId, $classroomId);

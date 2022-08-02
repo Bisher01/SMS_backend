@@ -97,6 +97,10 @@ class ExamController extends Controller
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between class & subject', 404);
         }
+        $checkDate = $this->checkStartAndEndDate($request->start, $request->end);
+        if ($checkDate == false) {
+            return $this->returnErrorMessage('exam time must be checked', 400);
+        }
 
 
         if(isset($name1)||isset($name2))

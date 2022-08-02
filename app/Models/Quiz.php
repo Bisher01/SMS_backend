@@ -35,4 +35,7 @@ class Quiz extends Model
     public function quizName() {
         return $this->belongsTo(Q::class);
     }
+    public function teacherAndSubject() {
+        return $this->belongsTo(TeacherSubject::class, 'teacher_subject_id')->with('subjects');
+    }
 }

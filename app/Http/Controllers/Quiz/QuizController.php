@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
 use App\Models\SubjectMark;
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 class QuizController extends Controller
@@ -41,23 +42,17 @@ class QuizController extends Controller
         $claassId = $request->class_id;
         $classroomId = $request->classroom_id;
 
-//        $name1 = DB::table('quiz_names')
-//            ->where('id',$request->quizNameId)
-//            ->where('name','شفهي')
-//            ->first();
-//        $name2 = DB::table('quiz_names')
-//            ->where('id',$request->quizNameId)
-//            ->where('name','اختبار')
-//            ->first();
+
         $subject_mark = $this->checkHasRelationBetweenClassAndSubject($claassId, $subjectId);
 
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between subject and class', 404);
         }
-//        if(isset($name1))
-//            $mark=(80/100)*$subject_mark->mark;
-//
-//        if(isset($name2))
+        $checkDate = $this->checkStartAndEndDate($request->start, $request->end);
+        if ($checkDate == false) {
+            return $this->returnErrorMessage('must be check quiz date', 400);
+        }
+
             $mark=(20/100)*$subject_mark->mark;
 
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
@@ -269,29 +264,24 @@ class QuizController extends Controller
 
     public function quizScheduleForClassroom(Claass $claass, Classroom $classroom)
     {
+        $q = null;
         $checkClassClassroom = $this->checkClassClassroom($claass->id, $classroom->id);
         if (!isset($checkClassClassroom)) {
             return $this->returnErrorMessage('input error', 400);
         }
-        $classClassroomId = ClassClassroom::query()
-            ->select('id')
-            ->where('class_id', $claass->id)
-            ->where('classroom_id', $classroom->id)
-            ->first();
 
         $teacherSubjects = TeacherSubject::query()
-            ->where('class_classroom_id', $classClassroomId->id)
+            ->where('class_classroom_id', $checkClassClassroom->id)
             ->get();
 
         foreach ($teacherSubjects as $teacherSubject) {
             $quizzes = Quiz::query()
-                ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>', Carbon::now())
+                ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>=', Carbon::now())
                 ->get();
-            if (isNull($quizzes)) {
-                return $this->returnErrorMessage('There are not Qizzes', 404);
-            }
-            foreach ($quizzes as $quiz) {
-                $q[] = $quiz;
+            if ($quizzes->isNotEmpty()) {
+                foreach ($quizzes as $quiz) {
+                    $q[] = $quiz->load('teacherAndSubject');
+                }
             }
         }
         return $this->returnAllData('quizzes', $q, 'success');

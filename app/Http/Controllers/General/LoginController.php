@@ -58,7 +58,7 @@ class LoginController extends Controller
 //                $data['parent'] = $parent;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('test', $parent->id,  $data, 'success');
+                return $this->returnLoginData('parent', $parent->id,  $data, 'success');
 
 //                return $this->returnData('Parent Data', $data,'logged in successfully');
             }
