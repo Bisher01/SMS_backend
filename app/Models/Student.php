@@ -87,10 +87,10 @@ class Student extends Authenticatable
     public function nationality(){
         return $this->belongsTo(Nationality::class, 'nationality_id');
     }
-
     public function attendance(){
         return $this->hasMany(Attendance::class, 'student_id');
     }
+
     public function fees_invoice(){
         return $this->hasMany(Fees_Invoices::class, 'student_id');
 

@@ -153,7 +153,7 @@ Route::prefix('resultant')->group(function () {
 
 Route::controller(AttendanceController::class)->prefix('attendance')->group(function () {
     Route::post('add', 'store');
-    Route::post('get/{mentor}', 'getAttendance');
+    Route::post('get', 'getAttendance');
     Route::get('student/{student}', 'getAttendanceStudent');
 });
 
