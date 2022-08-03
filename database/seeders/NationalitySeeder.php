@@ -18,6 +18,13 @@ class NationalitySeeder extends Seeder
         DB::table('nationality')->delete();
 
         $nationals = [
+            // [
+
+            //     'en'=>
+            'Syrian',
+            //     'ar'=>
+//            'سوري',
+            // ],
 
             // [
             //     'en'=>
@@ -103,9 +110,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Austrian',
+        //         'en'=>
+             'Austrian',
         //         'ar'=>
-        'نمساوي',
+//        'نمساوي',
         //     ],
         //     [
 
@@ -119,7 +127,8 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Bahraini',
+        //         'en'=>
+             'Bahraini',
         //         'ar'=> 'بحريني'
         //     ],
         //     [
@@ -134,14 +143,16 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Belarusian',
+        //         'en'=>
+             'Belarusian',
         //         'ar'=> 'روسي'
         //     ],
         //     [
 
-        //         'en'=> 'Belgian',
+        //         'en'=>
+             'Belgian',
         //         'ar'=>
-         'بلجيكي',
+//         'بلجيكي',
         //     ],
         //     [
 
@@ -190,9 +201,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Brazilian',
+        //         'en'=>
+             'Brazilian',
         //         'ar'=>
-        'برازيلي',
+//        'برازيلي',
         //     ],
         //     [
 
@@ -231,9 +243,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Canadian',
+        //         'en'=>
+             'Canadian',
         //         'ar'=>
-        'كندي',
+//        'كندي',
         //     ],
         //     [
 
@@ -247,9 +260,10 @@ class NationalitySeeder extends Seeder
         //     ],
             // [
 
-            //     'en'=> 'Central African',
+            //     'en'=>
+             'Central African',
                 //'ar'=>
-                'أفريقي',
+//                'أفريقي',
            // ],
             // [
 
@@ -263,9 +277,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Chinese',
+            //     'en'=>
+             'Chinese',
             //     'ar'=>
-                     'صيني',
+//                     'صيني',
            // ],
             // [
 
@@ -354,9 +369,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Egyptian',
+            //     'en'=>
+             'Egyptian',
             //     'ar'=>
-              'مصري',
+//              'مصري',
             // ],
             // [
 
@@ -440,9 +456,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'German',
+            //     'en'=>
+             'German',
             //     'ar'=>
-             'ألماني',
+//             'ألماني',
             // ],
         //     [
 
@@ -551,15 +568,17 @@ class NationalitySeeder extends Seeder
         //     ],
             // [
 
-            //     'en'=> 'Iranian',
+            //     'en'=>
+             'Iranian',
             //     'ar'=>
-            'إيراني',
+//            'إيراني',
             // ],
             // [
 
-            //     'en'=> 'Iraqi',
+            //     'en'=>
+             'Iraqi',
             //     'ar'=>
-             'عراقي',
+//             'عراقي',
             // ],
             // [
 
@@ -568,9 +587,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Italian',
+            //     'en'=>
+             'Italian',
             //     'ar'=>
-            'إيطالي',
+//            'إيطالي',
             // ],
             // [
 
@@ -594,9 +614,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Jordanian',
+            //     'en'=>
+             'Jordanian',
             //     'ar'=>
-            'أردني',
+//            'أردني',
             // ],
         //     [
 
@@ -630,9 +651,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Kuwaiti',
+        //         'en'=>
+             'Kuwaiti',
         //         'ar'=>
-        'كويتي',
+//        'كويتي',
         //     ],
             // [
 
@@ -651,9 +673,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Lebanese',
+            //     'en'=>
+             'Lebanese',
             //     'ar'=>
-            'لبناني',
+//            'لبناني',
             // ],
             // [
 
@@ -667,9 +690,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Libyan',
+            //     'en'=>
+             'Libyan',
             //     'ar'=>
-            'ليبي',
+//            'ليبي',
             // ],
             // [
 
@@ -743,9 +767,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Mauritanian',
+            //     'en'=>
+             'Mauritanian',
             //     'ar'=>
-             'موريتانيي',
+//             'موريتانيي',
             // ],
             // [
 
@@ -794,9 +819,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Moroccan',
+            //     'en'=>
+             'Moroccan',
             //     'ar'=>
-            'مغربي',
+//            'مغربي',
             // ],
             // [
 
@@ -825,9 +851,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Dutch',
+            //     'en'=>
+             'Dutch',
             //     'ar'=>
-            'هولندي',
+//            'هولندي',
             // ],
             // [
 
@@ -876,21 +903,24 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Norwegian',
+            //     'en'=>
+             'Norwegian',
             //     'ar'=>
-            'نرويجي',
+//            'نرويجي',
             // ],
             // [
 
-            //     'en'=> 'Omani',
+            //     'en'=>
+             'Omani',
             //     'ar'=>
-            'عماني',
+//            'عماني',
             // ],
             // [
 
-            //     'en'=> 'Pakistani',
+            //     'en'=>
+             'Pakistani',
             //     'ar'=>
-            'باكستاني',
+//            'باكستاني',
             // ],
             // [
 
@@ -899,9 +929,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Palestinian',
+            //     'en'=>
+             'Palestinian',
             //     'ar'=>
-             'فلسطيني',
+//             'فلسطيني',
             // ],
         //     [
 
@@ -950,9 +981,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Qatari',
+        //         'en'=>
+             'Qatari',
         //         'ar'=>
-        'قطري',
+//        'قطري',
         //     ],
             // [
 
@@ -966,9 +998,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Russian',
+            //     'en'=>
+             'Russian',
             //     'ar'=>
-            'روسي',
+//            'روسي',
             // ],
             // [
 
@@ -1017,15 +1050,17 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Saudi Arabian',
+            //     'en'=>
+             'Saudi Arabian',
             //     'ar'=>
-             'سعودي',
+//             'سعودي',
             // ],
             // [
 
-            //     'en'=> 'Senegalese',
+            //     'en'=>
+             'Senegalese',
             //     'ar'=>
-            'سنغالي',
+//            'سنغالي',
             // ],
             // [
 
@@ -1094,9 +1129,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Sudanese',
+            //     'en'=>
+             'Sudanese',
             //     'ar'=>
-             'سوداني',
+//             'سوداني',
             // ],
             // [
 
@@ -1123,12 +1159,7 @@ class NationalitySeeder extends Seeder
             //     'en'=> 'Swiss',
             //     'ar'=> 'سويسري'
             // ],
-            // [
 
-            //     'en'=> 'Syrian',
-            //     'ar'=>
-            'سوري',
-            // ],
         //     [
 
         //         'en'=> 'Taiwanese',
@@ -1176,15 +1207,17 @@ class NationalitySeeder extends Seeder
         //    // ],
         //     [
 
-        //         'en'=> 'Tunisian',
+        //         'en'=>
+             'Tunisian',
         //         'ar'=>
-         'تونسي',
+//         'تونسي',
         //     ],
         //     [
 
-        //         'en'=> 'Turkish',
+        //         'en'=>
+             'Turkish',
         //         'ar'=>
-        'تركي',
+//        'تركي',
         //     ],
             // [
 
@@ -1213,21 +1246,24 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Emirati',
+            //     'en'=>
+             'Emirati',
             //     'ar'=>
-            'إماراتي',
+//            'إماراتي',
             // ],
         //     [
 
-        //         'en'=> 'British',
+        //         'en'=>
+             'British',
         //         'ar'=>
-         'بريطاني',
+//         'بريطاني',
         //     ],
         //     [
 
-        //         'en'=> 'American',
+        //         'en'=>
+             'American',
         //         'ar'=>
-        'أمريكي',
+//        'أمريكي',
         //     ],
         //     // [
 
@@ -1281,9 +1317,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     // [
 
-        //     //     'en'=> 'Yemeni',
+        //     //     'en'=>
+             'Yemeni',
         //         'ar'=>
-         'يمني',
+//         'يمني',
         //   //  ],
             // [
 

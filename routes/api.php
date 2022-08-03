@@ -146,10 +146,13 @@ Route::prefix('management')->group(function(){
 
 });
 
-
 Route::prefix('resultant')->group(function () {
     Route::get('/{student}/{season}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
 });
+
+//Route::controller(\App\Http\Controllers\AttendanceController::class)->prefix('attendance')->group(function () {
+//    Route::post('add', )
+//});
 
 
 

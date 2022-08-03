@@ -17,11 +17,11 @@ class QuizNameSeed extends Seeder
         DB::table('quiz_names')->delete();
 
         DB::table('quiz_names')->insert([
-            'name' => 'شفهي'
+            'name' => 'Oral'
         ]);
 
         DB::table('quiz_names')->insert([
-            'name' => 'اختبار'
+            'name' => 'quiz'
         ]);
 
     }

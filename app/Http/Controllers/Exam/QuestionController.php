@@ -104,8 +104,15 @@ class QuestionController extends Controller
         ]);
 
         foreach ($request->choices as $choice) {
+            $chioceTrue =$question->choices()->where('status', 1)->first();
+            if ($choice['status'] == 1 && $choice['id'] != $chioceTrue->id){
+                $chioceTrue->update([
+                    'status' => 0
+                ]);
+            }
             $question->choices()->where('id', $choice['id'])->update([
                 'text' => $choice['text'],
+                'status' => $choice['status']
             ]);
         }
         return  $this->returnData('questions', $question->load('choices'), 'updated question successfully');

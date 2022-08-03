@@ -15,7 +15,7 @@ class ReligtionSeeder extends Seeder
     public function run()
     {
         DB::table('Religtions')->delete();
-        $Religions=['مسلم','مسيحي'];
+        $Religions=['Muslim','Messianic'];
         foreach($Religions as $Religion){
             Religtion::create(['name'=>$Religion]);
         }
