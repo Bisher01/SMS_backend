@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassClassroom;
+use App\Models\Mentor;
+use App\Models\Student;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
@@ -17,16 +20,27 @@ class AttendanceController extends Controller
                 ->where('student_id', $student['student_id'])
                 ->where('date', $request->date)->first();
             if (isset($check)) {
-                DB::table('attendances')->update([
-                    'status_id' => $request['status_id']
+                DB::table('attendances')->where('id', $check->id)->update([
+                    'status_id' => $student['status_id']
                 ]);
             }
-            DB::table('attendances')->update([
-                'student_id' => $student['student_id'],
-                'status_id' => $request['status_id'],
-                'date' => $request->date
-            ]);
+            if (!isset($check)) {
+                DB::table('attendances')->insert([
+                    'student_id' => $student['student_id'],
+                    'status_id' => $student['status_id'],
+                    'date' => $request->date
+                ]);
+            }
+
         }
         return $this->returnSuccessMessage('success');
+    }
+
+    public function getAttendance(Mentor $mentor) {
+        $classrooms = ClassClassroom::query()->where('class_id', $mentor->class_id)->with(['classrooms', 'students'])->get();
+        return $this->returnAllData('data', $classrooms, 'success');
+    }
+    public function getAttendanceStudent(Student $student) {
+        return $this->returnData('data',$student->load('attendance'), 'success');
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\AttendanceController;
 
 use function PHPSTORM_META\map;
 
@@ -150,9 +151,11 @@ Route::prefix('resultant')->group(function () {
     Route::get('/{student}/{season}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
 });
 
-//Route::controller(\App\Http\Controllers\AttendanceController::class)->prefix('attendance')->group(function () {
-//    Route::post('add', )
-//});
+Route::controller(AttendanceController::class)->prefix('attendance')->group(function () {
+    Route::post('add', 'store');
+    Route::post('get/{mentor}', 'getAttendance');
+    Route::get('student/{student}', 'getAttendanceStudent');
+});
 
 
 

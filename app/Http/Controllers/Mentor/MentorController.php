@@ -100,6 +100,5 @@ class MentorController extends Controller
     public function getStudents(Mentor $mentor) {
         $classrooms = ClassClassroom::query()->where('class_id', $mentor->class_id)->with(['classrooms', 'students'])->get();
         return $this->returnAllData('data', $classrooms, 'success');
-
     }
 }
