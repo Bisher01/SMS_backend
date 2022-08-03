@@ -62,6 +62,7 @@ Route::prefix('mentor')->group(function () {
     Route::put('edit/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'update']);
     Route::get('show/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'show']);
     Route::delete('delete/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'destroy']);
+    Route::get('get-students/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'getStudents']);
 });
 
 Route::prefix('quiz')->group(function () {

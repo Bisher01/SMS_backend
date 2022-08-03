@@ -15,9 +15,9 @@ class ExamNameSeeder extends Seeder
     public function run()
     {
         DB::table('exam_names')->delete();
-        $names=['مذاكرة اولى ','مذاكرة ثانية','مذاكرة فصلية','امتحان'];
+        $names=['First','Second','Mid','Final'];
         foreach($names as $name){
-           ExamName::create(['name'=>$name]);
+           ExamName::query()->create(['name'=>$name]);
         }
     }
 }

@@ -20,15 +20,17 @@ class NationalitySeeder extends Seeder
         $nationals = [
 
             // [
-            //     'en'=> 'Afghan',
+            //     'en'=>
+             'Afghan',
                 //'ar'=>
-                'أفغانستاني',
+//                'أفغانستاني',
          //   ],
             // [
 
-            //     'en'=> 'Albanian',
+            //     'en'=>
+             'Albanian',
                 //'ar'=>
-                 'ألباني',
+//                 'ألباني',
             // ],
             // [
 
@@ -38,9 +40,10 @@ class NationalitySeeder extends Seeder
             // ],
             // [
 
-            //     'en'=> 'Algerian',
+            //     'en'=>
+            'Algerian',
                 //'ar'=>
-                 'جزائري',
+//                 'جزائري',
          //   ],
             // [
 
@@ -81,9 +84,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Armenian',
+        //         'en'=>
+             'Armenian',
         //         'ar'=>
-         'أرميني',
+//         'أرميني',
         //     ],
         //     [
 
@@ -92,9 +96,10 @@ class NationalitySeeder extends Seeder
         //     ],
         //     [
 
-        //         'en'=> 'Australian',
+        //         'en'=>
+             'Australian',
         //         'ar'=>
-         'أسترالي',
+//         'أسترالي',
         //     ],
         //     [
 
