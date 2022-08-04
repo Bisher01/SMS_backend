@@ -119,9 +119,9 @@ class ManagementController extends Controller
 
 
     public function allSubjectsWithClasses() {
-         $sub = Subject::query()->with('classes', function ($query) {
+         $subjects = Subject::query()->with('classes', function ($query) {
              $query->with('classroom');
          })->get();
-         return $sub;
+         return $this->returnAllData('data', $subjects, 'success');
     }
 }
