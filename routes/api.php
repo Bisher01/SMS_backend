@@ -169,10 +169,7 @@ Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableControl
 
 
 ///TODO:front
-<<<<<<< HEAD
 
-=======
->>>>>>> 932be33707bb87909110784bc9161709a2001d36
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
 
