@@ -35,7 +35,7 @@ class ClassroomController extends Controller
 
             $newclassroom = Classroom::query()->create([
                 'name' => $classroomNumber->name + 1,
-                'max_number' =>  $classroom['max_number'],
+                'max_number' => (int)$classroom['max_number'],
             ]);
 
             $newclassroom -> class()->syncWithoutDetaching($classroom['class_id']);

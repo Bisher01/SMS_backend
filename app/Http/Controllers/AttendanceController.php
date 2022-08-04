@@ -45,10 +45,6 @@ class AttendanceController extends Controller
     }
 
     public function getAttendance(Request $request) {
-        $attendanceDate = Attendance::query()->where('date', $request->date)->first();
-        if (!isset($attendanceDate)) {
-            return $this->returnSuccessMessage('Excuse Me!!!');
-        }
         $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
         if (! isset($classClassroomId)) {
             return $this->returnErrorMessage('input error', 400);
