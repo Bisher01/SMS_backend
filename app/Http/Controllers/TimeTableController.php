@@ -82,22 +82,14 @@ class TimeTableController extends Controller
 
     public function studentTimetable(Request $request,Claass $class,Classroom $classroom)
     {
-
-
-        $info = $grade::query()->with('class', function ($query) {
-            $query->with('classroom', function ($query) {
-                $query->with('teacherSubjects', function ($query) {
-                    $query->with('teachers');
-                });
-            });
-        })->get();
-
-        $info1 = $grade::query()->with('class',function($query){
-            $query->with('classroom',function($query){
-                $query->with('teacherSubjects');
-            });
-        })->get();
-        return $this->returnData('data', $info1, 'success');
+        $classClassroom = ClassClassroom::query()
+            ->where('class_id',$class->id)
+            ->where('classroom_id',$classroom->id)
+            ->first();
+        $timetables = TimeTable::query()
+            ->where('classClassroom_id',$classClassroom->id)
+            ->with('teacher')->get();
+        return $timetables;
 
     }
 }
