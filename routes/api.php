@@ -64,6 +64,7 @@ Route::prefix('mentor')->group(function () {
     Route::get('show/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'show']);
     Route::delete('delete/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'destroy']);
     Route::get('get-students/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'getStudents']);
+    Route::get('get-classrooms/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'getClassrooms']);
 });
 
 Route::prefix('quiz')->group(function () {
@@ -86,7 +87,7 @@ Route::prefix('exam')->group(function () {
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
     Route::get('getExam/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'GetExamQuestion']);
-    Route::get('classExam/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
+    Route::get('classExam/{claass}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
     Route::post('mark/{exam}/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'studentMark']);
 
@@ -168,6 +169,10 @@ Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableControl
 
 
 ///TODO:front
+<<<<<<< HEAD
+
+=======
+>>>>>>> 932be33707bb87909110784bc9161709a2001d36
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
 
