@@ -116,4 +116,12 @@ class ManagementController extends Controller
 //        return $this->returnSuccessMessage('already exists');
 //
 //    }
+
+
+    public function allSubjectsWithClasses() {
+         $sub = Subject::query()->with('classes', function ($query) {
+             $query->with('classroom');
+         })->get();
+         return $sub;
+    }
 }

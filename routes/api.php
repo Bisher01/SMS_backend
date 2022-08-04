@@ -144,7 +144,7 @@ Route::prefix('management')->group(function(){
 //    Route::post('customizeTeachForClassroom', [\App\Http\Controllers\General\ManagementController::class, 'customizeTeachForClassroom']);
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
     Route::post('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
-
+    Route::get('/get-subjects', [\App\Http\Controllers\General\ManagementController::class, 'allSubjectsWithClasses']);
 });
 
 Route::prefix('resultant')->group(function () {

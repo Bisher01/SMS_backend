@@ -118,7 +118,7 @@ class ExamController extends Controller
         $subjectMarkOnlySameClass = DB::table('subject_mark')
             ->where('class_id', $request->class_id)
             ->get();
-
+        $vari = 0;
         foreach ($subjectMarkOnlySameClass as $item) {
             $allExam = Exam::query()->where('subject_mark_id', $item->id)->get();
             foreach ($allExam as $value) {
@@ -131,24 +131,32 @@ class ExamController extends Controller
                 }
             }
         }
-                    $exam = Exam::query()->create([
-                        'mark' => $mark,
-                        'exam_name_id' => $request->exam_name_id,
-                        'subject_mark_id' => $subject_mark->id,
-                        'season_id' => $request->season_id,
-                        'start' => $request->start,
-                        'end' => $request->end,
-                    ]);
-                    foreach ($request->questions as $question) {
-                        DB::table('question_exams')->insert([
-                            'mark' => $question['mark'],
-                            'question_id' => $question['question_id'],
-                            'exam_id' => $exam->id
-                        ]);
-                    }
-                    return $this->returnData('exam', $exam, 'success');
 
-            }
+        foreach ($request->questions as $question) {
+            $vari += $question['mark'];
+        }
+        if ($vari != $mark) {
+            return $this->returnSuccessMessage('Excuse Me!!!');
+        }
+        $exam = Exam::query()->create([
+            'mark' => $mark,
+            'exam_name_id' => $request->exam_name_id,
+            'subject_mark_id' => $subject_mark->id,
+            'season_id' => $request->season_id,
+            'start' => $request->start,
+            'end' => $request->end,
+        ]);
+        foreach ($request->questions as $question) {
+
+            DB::table('question_exams')->insert([
+                'mark' => $question['mark'],
+                'question_id' => $question['question_id'],
+                'exam_id' => $exam->id
+            ]);
+        }
+        return $this->returnData('exam', $exam, 'success');
+
+    }
 
 
 
