@@ -264,11 +264,11 @@ class ExamController extends Controller
     }
 
 //    schedule exam
-    public function GetClassExam(Student $student){
+    public function GetClassExam(Claass $claass){
 
-        $classId = $student->classClassroom->class_id;
+//        $classId = $student->classClassroom->class_id;
         $classExams = DB::table('subject_mark')
-            ->where('class_id', $classId)
+            ->where('class_id', $claass->id)
             ->get();
 
         foreach($classExams as $classExam)
@@ -291,7 +291,11 @@ class ExamController extends Controller
                 $exams[] = $item;
             }
         }
+        if (isset($exams))
         return $this->returnAllData('exams',$exams, 'all classExam');
+
+        else
+            return $this->returnSuccessMessage('not found');
 
     }
 
