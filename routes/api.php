@@ -148,7 +148,10 @@ Route::prefix('resultant')->group(function () {
 
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
+Route::post('aloosAgain', [\App\Http\Controllers\TimeTableController::class, 'store']);
+
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
+
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
 

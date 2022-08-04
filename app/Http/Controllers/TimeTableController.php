@@ -22,20 +22,67 @@ class TimeTableController extends Controller
     use generalTrait;
     public function store(Request $request)
     {
-        $timetaple=TimeTable::query()->create([
+        $days = $request->day_id;
+        $class = $request->class_id;
 
-            'check' => $request->check,
-            'grade_id' =>$request->grade_id,
-            'lesson_day_id'=>$request->lesson_day_id,
-            'teacher_info_id'=>$request->teacher_info_id
+        foreach ($days as $day){
+                foreach ($day['classroom_id'] as $classroom){
+                    foreach ($classroom['lesson_id'] as $lesson){
 
-        ]);
-        return $timetaple;
+                        $lessonDay = DB::table('lesson_day')
+                            ->where('lesson_id',$lesson['id'])
+                            ->where('day_id',$day['id'])
+                            ->first();
+
+                        $classClassroom = DB::table('claass_classrooms')
+                            ->where('class_id',$class)
+                            ->where('classroom_id',$classroom['id'])
+                            ->first();
+
+                       $check = TimeTable::query()
+                       ->where('lessonDay_id',$lessonDay->id)
+                           ->where('teacher_id',$lesson['teacher_id'])
+                           ->first(['teacher_id','classClassroom_id']);
+
+                       if($check)
+                       {
+                           $teacherName = Teacher::query()
+                               ->where('id',$lesson['teacher_id'])
+                               ->first(['f_name','l_name']);
+                           $lessonName = Lesson::query()
+                               ->where('id',$lesson['id'])
+                               ->first('name');
+                           $classroomId = DB::table('claass_classrooms')
+                               ->where('id',$check->classClassroom_id)
+                               ->first('classroom_id');
+                           $dayName = Day::query()
+                               ->where('id',$day['id'])
+                               ->first('name');
+
+                return $this->returnErrorMessage("error in day:".$dayName->name ." "."in lesson:".$lessonName->name." "."this teacher:".$teacherName->f_name." ". $teacherName->l_name." ".
+                "is already exist in classroom:".$classroomId->classroom_id." ",400);
+                       }
+                       else{
+                           $timetaple=TimeTable::query()->create([
+
+                               'lessonDay_id' =>$lessonDay->id,
+                               'classClassroom_id'=>$classClassroom->id,
+                               'teacher_id'=>$lesson['teacher_id']
+
+                           ]);
+
+                       }
+                    }
+            }
+        }
+
+        return $this->returnSuccessMessage("success");
     }
 
 
     public function show(Request $request,Grade $grade,Day $day,Lesson $lesson)
     {
+
 
         $info = $grade::query()->with('class', function ($query) {
             $query->with('classroom', function ($query) {
