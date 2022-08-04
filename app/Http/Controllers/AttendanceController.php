@@ -17,20 +17,26 @@ class AttendanceController extends Controller
     use basicFunctionsTrait, generalTrait;
 
     public function store(Request $request) {
+        $checkDate = Attendance::query()->where('date', $request->date)->first();
+        if (!isset($checkDate)) {
+            $checkDate = Attendance::query()->create([
+                'date' => $request->date
+            ]);
+        }
         foreach ($request->students as $student) {
-            $check  = DB::table('attendances')
+            $check  = DB::table('attendances_students')
                 ->where('student_id', $student['student_id'])
-                ->where('date', $request->date)->first();
+                ->where('attendance_id', $checkDate->id)->first();
             if (isset($check)) {
-                DB::table('attendances')->where('id', $check->id)->update([
+                DB::table('attendances_students')->where('id', $check->id)->update([
                     'status_id' => $student['status_id']
                 ]);
             }
             if (!isset($check)) {
-                DB::table('attendances')->insert([
+                DB::table('attendances_students')->insert([
                     'student_id' => $student['student_id'],
                     'status_id' => $student['status_id'],
-                    'date' => $request->date
+                    'attendance_id' => $checkDate->id
                 ]);
             }
 
@@ -39,22 +45,21 @@ class AttendanceController extends Controller
     }
 
     public function getAttendance(Request $request) {
-        $check = Attendance::query()->where('date', $request->date)->first();
-        if (!isset($check)) {
-            return $this->returnSuccessMessage('Excuse Me!!!!');
+        $attendanceDate = Attendance::query()->where('date', $request->date)->first();
+        if (!isset($attendanceDate)) {
+            return $this->returnSuccessMessage('Excuse Me!!!');
         }
         $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
-        if (isset($classClassroomId)){
-            $students = Student::query()
-                ->where('class_classroom_id', $classClassroomId->id)
-                ->with('attendance', function ($query) use ($request) {
-                    $query->where('date', $request->date);
-                })
-                ->get();
-            return $this->returnAllData('data', $students, 'success');
+        if (! isset($classClassroomId)) {
+            return $this->returnErrorMessage('input error', 400);
         }
+
+        $data = Attendance::query()->with('student', function ($query) use ($classClassroomId)  {
+            $query->with('attendances')->where('class_classroom_id', $classClassroomId->id);
+        })->get();
+        return $this->returnAllData('data', $data, 'success');
     }
     public function getAttendanceStudent(Student $student) {
-        return $this->returnData('data',$student->load('attendance'), 'success');
+        return $this->returnData('data', $student->load('attendances'), 'success');
     }
 }

@@ -110,6 +110,7 @@ class AddStudentController extends Controller
                 'gender',
                 'nationality');
         return $this->returnData('student', $data,'signup successfully');
+
     }
 
 
@@ -136,7 +137,6 @@ class AddStudentController extends Controller
 //                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
             $student->update(['picture' => $picture]);
 //        }
-
         $address = $this->addAddress($request);
         $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
         if (!isset($classClassroomId)) {

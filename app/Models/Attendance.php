@@ -12,12 +12,17 @@ class Attendance extends Model
 
     protected $table = 'attendances';
     public $fillable = [
-        'student_id','date','status_id'
+        'date'
     ];
+    protected $hidden = ['pivot'];
+    public $timestamps = false;
 
 
+//    public function student(){
+//        return $this->belongsTo(Student::class, 'student_id');
+//    }
     public function student(){
-        return $this->belongsTo(Student::class, 'student_id');
+        return $this->belongsToMany(Student::class, 'attendances_students', 'attendance_id', 'student_id');
     }
 
 }

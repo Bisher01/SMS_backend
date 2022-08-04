@@ -87,8 +87,12 @@ class Student extends Authenticatable
     public function nationality(){
         return $this->belongsTo(Nationality::class, 'nationality_id');
     }
-    public function attendance(){
-        return $this->hasMany(Attendance::class, 'student_id');
+//    public function attendance(){
+//        return $this->belongsToMany(Attendance::class, 'attendances_students', 'student_id', 'attendance_id');
+//    }
+
+    public function attendances(){
+        return $this->hasMany(AttendancesStudents::class, 'student_id')->with('status', 'attendance');
     }
 
     public function fees_invoice(){
