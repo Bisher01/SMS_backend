@@ -22,7 +22,7 @@ class Claass extends Model
     }
 
     public function Exam(){
-        return $this->hasMany(Exam::class, 'exam_id');
+        return $this->hasMany(Exam::class, 'class_id');
     }
     public function subjects() {
         return $this->belongsToMany(Subject::class, 'subject_mark','class_id','subject_id');

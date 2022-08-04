@@ -136,7 +136,6 @@ class ResultantController extends Controller
             }
         }
             $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
-//            $array[$i] = [$classSubjectt->name,$classSubjectts->mark,$examResult,$LExamResult, $quizeResult , $oralResult , $totalSeasonMark];
             $array[$i] = [
                 'subjectName' => $classSubjectt->name,
                 'subjectMark' => $classSubjectts->mark,

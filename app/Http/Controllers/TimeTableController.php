@@ -8,6 +8,7 @@ use App\Models\Classroom;
 use App\Models\Day;
 use App\Models\Grade;
 use App\Models\Lesson;
+use App\Models\Mentor;
 use App\Models\Teacher;
 use App\Models\TimeTable;
 use App\Traits\generalTrait;
@@ -80,16 +81,69 @@ class TimeTableController extends Controller
     }
 
 
-    public function studentTimetable(Request $request,Claass $class,Classroom $classroom)
+    public function studentTimetable(Claass $class,Classroom $classroom)
     {
         $classClassroom = ClassClassroom::query()
             ->where('class_id',$class->id)
             ->where('classroom_id',$classroom->id)
             ->first();
+
         $timetables = TimeTable::query()
             ->where('classClassroom_id',$classClassroom->id)
-            ->with('teacher')->get();
-        return $timetables;
+            ->with('teacher')
+            ->with('lesson',function ($query){
+                $query->with('lessons','days');
+            })
+//            ->with('classroom',function ($query){
+//                $query->with('classes','classrooms');
+//            })
+            ->get();
 
+
+        return $this->returnAllData('studentTimetable',$timetables,'success');
+    }
+
+    public function teacherTimetable(Teacher $teacher){
+
+        $timetables = TimeTable::query()
+            ->where('teacher_id',$teacher->id)
+//            ->with('teacher')
+            ->with('lesson',function ($query){
+                $query->with('lessons','days');
+            })
+            ->with('classroom',function ($query){
+                $query->with('classes','classrooms');
+            })
+            ->get();
+
+        return $this->returnAllData('teacherTimetable',$timetables,'success');
+
+    }
+
+    public function mentorTimetable(Mentor $mentor){
+        $class = Mentor::query()
+            ->where('id',$mentor->id)
+            ->first('class_id');
+
+        $classClassrooms = ClassClassroom::query()
+            ->where('class_id',$class->class_id)
+            ->select('classroom_id','id')
+            ->get();
+
+        foreach ($classClassrooms as $classClassroom){
+
+            $timetables[] =[$classClassroom->classroom_id => TimeTable::query()
+                ->where('classClassroom_id',$classClassroom->id)
+                ->with('teacher')
+                ->with('lesson',function ($query){
+                    $query->with('lessons','days');
+                })
+                ->with('classroom',function ($query){
+                $query->with('classes','classrooms');
+                })
+                ->get()];
+
+        }
+        return $this->returnAllData('studentTimetable',$timetables,'success');
     }
 }

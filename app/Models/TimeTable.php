@@ -16,16 +16,17 @@ class TimeTable extends Model
         'teacher_id',
         'classClassroom_id'
     ];
+    protected $hidden = ['created_at','updated_at'];
     public $timestamps = true;
 
     public function teacher(){
-        return $this->hasMany(Teacher::class,'lessonDay_id','time_table_id');
+        return $this->belongsTo(Teacher::class,'teacher_id');
     }
     public function lesson(){
-        return $this->hasMany(LessonDay::class,'time_table_id');
+        return $this->belongsTo(LessonDay::class,'lessonDay_id');
 
     }   public function classroom(){
-    return $this->hasMany(ClassClassroom::class,'time_table_id');
+    return $this->belongsTo(ClassClassroom::class,'classClassroom_id');
 }
 
 }

@@ -161,6 +161,8 @@ Route::controller(AttendanceController::class)->prefix('attendance')->group(func
 Route::controller(\App\Http\Controllers\TimeTableController::class)->prefix('timetable')->group(function (){
     Route::post('add',  'store');
     Route::get('studentTimetable/{class}/{classroom}',  'studentTimetable');
+    Route::get('teacherTimetable/{teacher}',  'teacherTimetable');
+    Route::get('mentorTimetable/{mentor}',  'mentorTimetable');
 
 
 });

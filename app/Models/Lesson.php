@@ -12,6 +12,7 @@ class Lesson extends Model
         'name'
     ];
     protected $table = 'lessons';
+    protected $hidden = ['created_at','updated_at'];
 
     public function days() {
         return $this->belongsToMany(Day::class, 'lesson_day', 'lesson_id', 'day_id');
