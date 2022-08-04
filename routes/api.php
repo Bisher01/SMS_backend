@@ -160,9 +160,14 @@ Route::controller(AttendanceController::class)->prefix('attendance')->group(func
 
 
 Route::get('all', [\App\Http\Controllers\TimeTableController::class, 'index']);
+Route::post('aloosAgain', [\App\Http\Controllers\TimeTableController::class, 'store']);
+
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 
+<<<<<<< HEAD
+=======
 ///TODO:front
+>>>>>>> 7d4fcdd03b6b01445bbd110bd7caec65ab38b843
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
 

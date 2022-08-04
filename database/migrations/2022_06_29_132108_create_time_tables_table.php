@@ -16,10 +16,9 @@ class CreateTimeTablesTable extends Migration
     {
         Schema::create('time_tables', function (Blueprint $table) {
             $table->id();
-            $table->boolean('check');
-            $table->foreignId('lesson_day_id')->constrained('lesson_day')->cascadeOnDelete();
-            $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete();
-            $table->foreignId('teacher_info_id')->constrained('teacher__subjects', 'id')->cascadeOnDelete();
+            $table->foreignId('lessonDay_id')->constrained('lesson_day')->cascadeOnDelete();
+            $table->foreignId('classClassroom_id')->constrained('claass_classrooms')->cascadeOnDelete();
+            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->timestamps();
         });
     }
