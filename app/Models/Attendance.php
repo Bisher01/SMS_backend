@@ -10,15 +10,19 @@ class Attendance extends Model
     use HasFactory;
     public $primaryKey = 'id';
 
+    protected $table = 'attendances';
     public $fillable = [
-        'student_id','attendence-date','attendance-status'
+        'date'
     ];
+    protected $hidden = ['pivot'];
+    public $timestamps = false;
 
-    public $timestamps = true;
 
+//    public function student(){
+//        return $this->belongsTo(Student::class, 'student_id');
+//    }
     public function student(){
-        return $this->belongsTo(Student::class, 'student_id');
-
+        return $this->belongsToMany(Student::class, 'attendances_students', 'attendance_id', 'student_id');
     }
 
 }

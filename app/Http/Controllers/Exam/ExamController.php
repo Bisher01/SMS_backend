@@ -97,6 +97,10 @@ class ExamController extends Controller
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between class & subject', 404);
         }
+        $checkDate = $this->checkStartAndEndDate($request->start, $request->end);
+        if ($checkDate == false) {
+            return $this->returnErrorMessage('exam time must be checked', 400);
+        }
 
 
         if(isset($name1)||isset($name2))
@@ -114,7 +118,7 @@ class ExamController extends Controller
         $subjectMarkOnlySameClass = DB::table('subject_mark')
             ->where('class_id', $request->class_id)
             ->get();
-
+        $vari = 0;
         foreach ($subjectMarkOnlySameClass as $item) {
             $allExam = Exam::query()->where('subject_mark_id', $item->id)->get();
             foreach ($allExam as $value) {
@@ -127,24 +131,32 @@ class ExamController extends Controller
                 }
             }
         }
-                    $exam = Exam::query()->create([
-                        'mark' => $mark,
-                        'exam_name_id' => $request->exam_name_id,
-                        'subject_mark_id' => $subject_mark->id,
-                        'season_id' => $request->season_id,
-                        'start' => $request->start,
-                        'end' => $request->end,
-                    ]);
-                    foreach ($request->questions as $question) {
-                        DB::table('question_exams')->insert([
-                            'mark' => $question['mark'],
-                            'question_id' => $question['question_id'],
-                            'exam_id' => $exam->id
-                        ]);
-                    }
-                    return $this->returnData('exam', $exam, 'success');
 
-            }
+        foreach ($request->questions as $question) {
+            $vari += $question['mark'];
+        }
+        if ($vari != $mark) {
+            return $this->returnSuccessMessage('Excuse Me!!!');
+        }
+        $exam = Exam::query()->create([
+            'mark' => $mark,
+            'exam_name_id' => $request->exam_name_id,
+            'subject_mark_id' => $subject_mark->id,
+            'season_id' => $request->season_id,
+            'start' => $request->start,
+            'end' => $request->end,
+        ]);
+        foreach ($request->questions as $question) {
+
+            DB::table('question_exams')->insert([
+                'mark' => $question['mark'],
+                'question_id' => $question['question_id'],
+                'exam_id' => $exam->id
+            ]);
+        }
+        return $this->returnData('exam', $exam, 'success');
+
+    }
 
 
 
@@ -194,9 +206,9 @@ class ExamController extends Controller
         $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();
         $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
         if ($nowTime <= $examEndTime->end){
-            foreach($request->question as $question){
+            foreach($request->questions as $question){
                 $status = DB::table('choices')
-                    ->where('question_id',$question['id'])
+                    ->where('question_id',$question['question_id'])
                     ->where('id',$question['choise'])
                     ->select('status')
                     ->first();
@@ -204,7 +216,7 @@ class ExamController extends Controller
                     if ($status->status == 1) {
                         $question_mark = DB::table('question_exams')
                             ->where('exam_id', $exam->id)
-                            ->where('question_id', $question['id'])
+                            ->where('question_id', $question['question_id'])
                             ->select('mark')
                             ->first();
 
@@ -227,7 +239,7 @@ class ExamController extends Controller
                 'mark' => $student_mark,
             ]);
 
-            return $this->returnData('mark', $student_mark, 'GAMEOVER');
+            return $this->returnMark( $student_mark, 'GAMEOVER');
 
         }
         return $this->returnError('input error', 400);

@@ -14,7 +14,7 @@ class Claass extends Model
         'name',
         'grade_id'
     ];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
     public $timestamps = true;
 
     public function grade() {

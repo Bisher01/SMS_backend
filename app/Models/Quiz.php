@@ -20,7 +20,8 @@ class Quiz extends Model
         'start',
         'end'
         ];
-    protected $hidden = ['pivot'];
+
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
 
     public function questions() {
         return $this->belongsToMany(
@@ -33,5 +34,8 @@ class Quiz extends Model
 
     public function quizName() {
         return $this->belongsTo(Q::class);
+    }
+    public function teacherAndSubject() {
+        return $this->belongsTo(TeacherSubject::class, 'teacher_subject_id')->with('subjects');
     }
 }

@@ -31,4 +31,8 @@ class ClassClassroom extends Model
         return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 
+    public function students() {
+        return $this->hasMany(Student::class, 'class_classroom_id');
+    }
+
 }

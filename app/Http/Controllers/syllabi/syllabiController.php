@@ -9,22 +9,24 @@ use App\Models\Subject_Class;
 use App\Models\SubjectClass;
 use App\Models\Syllabi;
 use App\Models\Teacher;
+use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class syllabiController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Claass $class)
     {
-        $syllabi = Syllabi::query()->get();
+        $syllabi = Syllabi::query()->where('class_id', $class->id)->get();
         return $this->returnAllData('syllabi', $syllabi, 'syllabi');
     }
 
@@ -37,15 +39,21 @@ class syllabiController extends Controller
     public function store(Request $request)
     {
         $path  = null;
-        $subName = Subject::query()->select('name')->where('id', $request->subject_id)->first();
-        $classNmae = Claass::query()->select('name')->where('id', $request->class_id)->first();
+        $subName = Subject::query()->where('id', $request->subject_id)->first();
+        $classNmae = Claass::query()->where('id', $request->class_id)->first();
         if (! isset($subName) || ! isset($classNmae)) {
             return $this->returnErrorMessage('input error', 400);
         }
+        $check = $this->checkHasRelationBetweenClassAndSubject($classNmae->id, $subName->id);
+        if (!isset($check)) {
+            return $this->returnErrorMessage('there is not relationship between subject and class', 404);
+        }
+        $newClassName = str_replace(' ', '_', $classNmae->name);
+
         $time  = Carbon::now();
         if ($request->hasFile('content')) {
             $path = '/'.$request->file('content')
-                    ->store($time->format('Y').'/syllabi/'.$subName->name. '_'. $classNmae->name);
+                    ->store($time->format('Y').'/syllabi/'.$subName->name. '_'. $newClassName);
         }
 
         $syllabi = Syllabi::query()->create([
@@ -53,7 +61,7 @@ class syllabiController extends Controller
             'class_id' => $request->class_id,
             'subject_id' => $request->subject_id,
         ]);
-        return $this->returnData('syllabi', $syllabi, 'added syllabi success');
+        return $this->returnData('syllabi', $syllabi->load('subject', 'class'), 'added syllabi success');
     }
 
 

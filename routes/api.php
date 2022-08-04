@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\AttendanceController;
 
 use function PHPSTORM_META\map;
 
@@ -24,18 +25,22 @@ Route::post('/admin', [\App\Http\Controllers\Admin\AuthAdminController::class, '
 Route::prefix('admin')->group(function () {
     Route::get('all-exam', [\App\Http\Controllers\Admin\CheckExam::class, 'getAllExam']);
     Route::post('edit-exam-date/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'editExamDate']);
+    Route::post('accept-exam/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'acceptExam']);
+    Route::post('accept-syllabi/{syllabi}', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'acceptSyllabi']);
+    Route::get('all-syllabi', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'getAllSyllabi']);
 });
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
+    Route::post('/logout', [\App\Http\Controllers\General\LoginController::class, 'logout'])->middleware('auth:api');
     Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);
 });
 
-Route::prefix('AcademicYear')->group(function () {
-    Route::get('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
-    Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
-    Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
-    Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
-});
+//Route::prefix('AcademicYear')->group(function () {
+//    Route::post('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
+//    Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
+//    Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
+//    Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
+//});
 
 Route::prefix('student')->group(function () {
     Route::get('all', [\App\Http\Controllers\Student\AddStudentController::class, 'index']);
@@ -47,9 +52,9 @@ Route::prefix('student')->group(function () {
 
 Route::prefix('parent')->group(function () {
     Route::put('edit/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'update']);
-    Route::get('show/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'show']);
+//    Route::get('show/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'show']);
     Route::get('child/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'getParentWithChild']);
-    Route::delete('delete/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'destroy']);
+//    Route::delete('delete/{parent}', [\App\Http\Controllers\Parent\ParentController::class, 'destroy']);
 });
 
 Route::prefix('mentor')->group(function () {
@@ -58,6 +63,7 @@ Route::prefix('mentor')->group(function () {
     Route::put('edit/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'update']);
     Route::get('show/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'show']);
     Route::delete('delete/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'destroy']);
+    Route::get('get-students/{mentor}', [\App\Http\Controllers\Mentor\MentorController::class, 'getStudents']);
 });
 
 Route::prefix('quiz')->group(function () {
@@ -66,10 +72,11 @@ Route::prefix('quiz')->group(function () {
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
     Route::post('add-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'addOralQuiz']);
     Route::post('students-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getStudentsForOralQuiz']);
-    Route::post('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::get('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
+    Route::get('schedule/{claass}/{classroom}', [App\Http\Controllers\Quiz\QuizController::class, 'quizScheduleForClassroom']);
     Route::delete('delete/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'destroy']);
 });
 
@@ -93,13 +100,13 @@ Route::prefix('question')->group(function () {
     Route::delete('delete/{question}', [\App\Http\Controllers\Exam\QuestionController::class, 'destroy']);
 });
 
-Route::prefix('choice')->group(function () {
-    Route::get('all', [\App\Http\Controllers\Exam\ChoiseController::class, 'index']);
-    Route::post('add/{question}', [\App\Http\Controllers\Exam\ChoiseController::class, 'store']);
-    Route::put('edit/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'update']);
-    // Route::get('show/{question}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
-    Route::delete('delete/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'destroy']);
-});
+//Route::prefix('choice')->group(function () {
+//    Route::get('all', [\App\Http\Controllers\Exam\ChoiseController::class, 'index']);
+//    Route::post('add/{question}', [\App\Http\Controllers\Exam\ChoiseController::class, 'store']);
+//    Route::put('edit/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'update']);
+//    // Route::get('show/{question}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
+//    Route::delete('delete/{choice}', [\App\Http\Controllers\Exam\ChoiseController::class, 'destroy']);
+//});
 
 Route::prefix('teacher')->group(function () {
     Route::get('all', [\App\Http\Controllers\Teacher\TeacherController::class, 'index']);
@@ -125,7 +132,7 @@ Route::prefix('classroom')->group(function () {
 });
 
 Route::prefix('syllabi')->group(function () {
-    Route::get('all', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
+    Route::get('all/{class}', [\App\Http\Controllers\syllabi\syllabiController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\syllabi\syllabiController::class, 'store']);
     Route::put('edit/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'update']);
     Route::delete('delete/{syllabi}', [\App\Http\Controllers\syllabi\syllabiController::class, 'destroy']);
@@ -134,15 +141,20 @@ Route::prefix('management')->group(function(){
     Route::put('add/lessons/{day}', [\App\Http\Controllers\General\ManagementController::class, 'addLessonsToDays']);
     Route::put('add/ClassroomToClass/{claass}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToClass']);
     Route::put('add/classroom/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addClassroomToTeacher']);
-    Route::post('customizeTeachForClassroom', [\App\Http\Controllers\General\ManagementController::class, 'customizeTeachForClassroom']);
+//    Route::post('customizeTeachForClassroom', [\App\Http\Controllers\General\ManagementController::class, 'customizeTeachForClassroom']);
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
     Route::post('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
-
+    Route::get('/get-subjects', [\App\Http\Controllers\General\ManagementController::class, 'allSubjectsWithClasses']);
 });
-
 
 Route::prefix('resultant')->group(function () {
     Route::get('/{student}/{season}', [\App\Http\Controllers\Resultant\ResultantController::class, 'resultantStudent']);
+});
+
+Route::controller(AttendanceController::class)->prefix('attendance')->group(function () {
+    Route::post('add', 'store');
+    Route::post('get', 'getAttendance');
+    Route::get('student/{student}', 'getAttendanceStudent');
 });
 
 
@@ -152,19 +164,23 @@ Route::post('aloosAgain', [\App\Http\Controllers\TimeTableController::class, 'st
 
 Route::get('all/{grade}/{day}/{lesson}', [\App\Http\Controllers\TimeTableController::class, 'show']);
 
+<<<<<<< HEAD
+=======
+///TODO:front
+>>>>>>> 7d4fcdd03b6b01445bbd110bd7caec65ab38b843
 Route::get('alissar/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'mark_ladder']);
 
 
-Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);
+//Route::get('test', [\App\Http\Controllers\General\ManagementController::class, 'test']);
 
 //Route::post('test/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
 
-Route::prefix('season')->group(function(){
-Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
-Route::get('all', [\App\Http\Controllers\SeasonController::class, 'index']);
-Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'show']);
-Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
-});
+//Route::prefix('season')->group(function(){
+//Route::post('add', [\App\Http\Controllers\SeasonController::class, 'store']);
+//Route::get('all', [\App\Http\Controllers\SeasonController::class, 'index']);
+//Route::get('show/{season}', [\App\Http\Controllers\SeasonController::class, 'show']);
+//Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'update']);
+//});
 
 
 //use Illuminate\Support\Facades\Artisan;
@@ -177,7 +193,7 @@ Route::put('edit/{season}', [\App\Http\Controllers\SeasonController::class, 'upd
 
 
 
-Route::prefix('schedule')->group(function () {
-    Route::get('quizzes/{claass}/{classroom}', [App\Http\Controllers\Classroom\ClassroomController::class, 'quizScheduleForClassroom']);
-});
+//Route::prefix('schedule')->group(function () {
+//    Route::get('quizzes/{claass}/{classroom}', [App\Http\Controllers\Classroom\ClassroomController::class, 'quizScheduleForClassroom']);
+//});
 

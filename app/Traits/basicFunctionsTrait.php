@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Models\Address;
 use App\Models\Blood;
 use App\Models\ClassClassroom;
+use App\Models\SubjectMark;
 use Illuminate\Support\Facades\DB;
 
 
@@ -40,6 +41,13 @@ trait basicFunctionsTrait{
             ->where('classroom_id', $classroomId)
             ->first();
         return $classClassroom;
+    }
+
+    public function checkStartAndEndDate($start, $end) {
+        if ($end <= $start) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -110,5 +118,12 @@ trait basicFunctionsTrait{
             ->first();
 
             return $teacherSubjectClass;
+    }
+    public function checkHasRelationBetweenClassAndSubject($classId, $SubjectId) {
+        $subject_mark = SubjectMark::query()
+            ->where('subject_id', $SubjectId)
+            ->where('class_id', $classId)
+            ->first();
+        return $subject_mark;
     }
 }

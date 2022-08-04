@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 class LoginController extends Controller
 {
@@ -57,7 +58,7 @@ class LoginController extends Controller
 //                $data['parent'] = $parent;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
-                return $this->returnLoginData('test', $parent->id,  $data, 'success');
+                return $this->returnLoginData('parent', $parent->id,  $data, 'success');
 
 //                return $this->returnData('Parent Data', $data,'logged in successfully');
             }
@@ -105,4 +106,9 @@ class LoginController extends Controller
             }
 
         }
+
+    public function logout() {
+        Auth::user()->tokens()->delete();
+        return $this->returnSuccessMessage('logged out successfully');
+    }
 }

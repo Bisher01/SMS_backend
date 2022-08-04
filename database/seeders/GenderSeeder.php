@@ -15,9 +15,9 @@ class GenderSeeder extends Seeder
     public function run()
     {
         DB::table('genders')->delete();
-         $genders=['ذكر','انثى'];
+         $genders=['Male','Female'];
          foreach($genders as $gender){
-             Gender::create(['type'=>$gender]);
+             Gender::query()->create(['type'=>$gender]);
          }
     }
 }

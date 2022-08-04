@@ -20,6 +20,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\True_;
 use App\Models\SubjectMark;
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
+
 class QuizController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -39,23 +42,17 @@ class QuizController extends Controller
         $claassId = $request->class_id;
         $classroomId = $request->classroom_id;
 
-//        $name1 = DB::table('quiz_names')
-//            ->where('id',$request->quizNameId)
-//            ->where('name','شفهي')
-//            ->first();
-//        $name2 = DB::table('quiz_names')
-//            ->where('id',$request->quizNameId)
-//            ->where('name','اختبار')
-//            ->first();
+
         $subject_mark = $this->checkHasRelationBetweenClassAndSubject($claassId, $subjectId);
 
         if (!isset($subject_mark)) {
             return $this->returnErrorMessage('there is not relationship between subject and class', 404);
         }
-//        if(isset($name1))
-//            $mark=(80/100)*$subject_mark->mark;
-//
-//        if(isset($name2))
+        $checkDate = $this->checkStartAndEndDate($request->start, $request->end);
+        if ($checkDate == false) {
+            return $this->returnErrorMessage('must be check quiz date', 400);
+        }
+
             $mark=(20/100)*$subject_mark->mark;
 
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
@@ -123,6 +120,7 @@ class QuizController extends Controller
             ]);
             return $this->returnSuccessMessage('success');
         }
+        return $this->returnErrorMessage('input error', 400);
     }
 
     public function getStudentsForOralQuiz(Request $request) {
@@ -255,12 +253,31 @@ class QuizController extends Controller
     }
 
 
-    public function checkHasRelationBetweenClassAndSubject($classId, $SubjectId) {
-        $subject_mark = SubjectMark::query()
-            ->where('subject_id', $SubjectId)
-            ->where('class_id', $classId)
-            ->first();
-        return $subject_mark;
+
+
+    public function quizScheduleForClassroom(Claass $claass, Classroom $classroom)
+    {
+        $q = null;
+        $checkClassClassroom = $this->checkClassClassroom($claass->id, $classroom->id);
+        if (!isset($checkClassClassroom)) {
+            return $this->returnErrorMessage('input error', 400);
+        }
+
+        $teacherSubjects = TeacherSubject::query()
+            ->where('class_classroom_id', $checkClassClassroom->id)
+            ->get();
+
+        foreach ($teacherSubjects as $teacherSubject) {
+            $quizzes = Quiz::query()
+                ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>=', Carbon::now())
+                ->get();
+            if ($quizzes->isNotEmpty()) {
+                foreach ($quizzes as $quiz) {
+                    $q[] = $quiz->load('teacherAndSubject');
+                }
+            }
+        }
+        return $this->returnAllData('quizzes', $q, 'success');
 
     }
 }

@@ -7,16 +7,35 @@ use App\Models\Academic_year;
 use App\Models\Student;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AcademicYearController extends Controller
 {
  use generalTrait;
-    public function index()
+    public function index(Request $request)
     {
-        $academicYears = Academic_year::query()->get();
 
-        return $this->returnAllData('Academic Years', $academicYears, 'List Of Academic Years');
+//        $path = 'C:\Users\ِAbdUlrahem\Desktop\1.jpg';
+//        $type = pathinfo($path, PATHINFO_EXTENSION);
+//        $data = file_get_contents($path);
+//        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+//        return $base64;
+
+
+        //Here write your code to get $byte_array
+        $byte_array = $request->photo;
+        $data = base64_decode($byte_array);
+        $s = Storage::put('abd1.jpg', $data);
+//        $s = Storage::get()
+        return $s;
+//        $im = imagecreatefromstring($data);
+//       return $data;
+//        $academicYears = Academic_year::query()->get();
+//
+//        return $this->returnAllData('Academic Years', $academicYears, 'List Of Academic Years');
 //        return $this->returnData('Academic Years', $academicYears, 'List Of Academic Years');
+
+
     }
 
 

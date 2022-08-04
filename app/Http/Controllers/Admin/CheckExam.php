@@ -20,9 +20,18 @@ class CheckExam extends Controller
     }
 
     public function acceptExam(Exam $exam) {
-        DB::table('exams')->where('id', $exam->id)->update([
-            'active' => 1
-        ]);
+        if ($exam->active) {
+           $exam->update([
+               'active' => 0
+           ]);
+            return $this->returnSuccessMessage('inactive exam');
+        }else {
+            $exam->update([
+                'active' => 1
+            ]);
+            return $this->returnSuccessMessage('active exam');
+        }
+
     }
     public function editExamDate(Exam $exam, Request $request) {
         $class_id = $exam->subjectMark->class_id;

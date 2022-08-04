@@ -18,31 +18,31 @@ class DaysSeeder extends Seeder
         DB::table('days')->delete();
 
         Day::query()->create([
-            'name' => 'السبت'
+            'name' => 'Saturday'
         ]);
 
         Day::query()->create([
-            'name' => 'الاحد'
+            'name' => 'Sunday'
         ]);
 
         Day::query()->create([
-            'name' => 'الاثنين'
+            'name' => 'Monday'
         ]);
 
         Day::query()->create([
-            'name' => 'الثلاثاء'
+            'name' => 'Tuesday'
         ]);
 
         Day::query()->create([
-            'name' => 'الاربعاء'
+            'name' => 'Wednesday'
         ]);
 
         Day::query()->create([
-            'name' => 'الخميس'
+            'name' => 'Thursday'
         ]);
 
         Day::query()->create([
-            'name' => 'الجمعة'
+            'name' => 'Friday'
         ]);
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mentor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\ClassClassroom;
 use App\Models\Mentor;
 use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
@@ -94,5 +95,10 @@ class MentorController extends Controller
     {
         $mentor->delete();
         return $this->returnSuccessMessage('deleted mentor successfully');
+    }
+
+    public function getStudents(Mentor $mentor) {
+        $classrooms = ClassClassroom::query()->where('class_id', $mentor->class_id)->with(['classrooms', 'students'])->get();
+        return $this->returnAllData('data', $classrooms, 'success');
     }
 }
