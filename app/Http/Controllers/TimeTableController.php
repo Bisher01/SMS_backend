@@ -80,7 +80,7 @@ class TimeTableController extends Controller
     }
 
 
-    public function show(Request $request,Grade $grade,Day $day,Lesson $lesson)
+    public function studentTimetable(Request $request,Claass $class,Classroom $classroom)
     {
 
 

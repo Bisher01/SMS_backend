@@ -16,4 +16,13 @@ class TimeTable extends Model
     ];
     public $timestamps = true;
 
+    public function teacher(){
+        return $this->hasMany(Teacher::class,'time_table_id');
+    }
+    public function lesson(){
+        return $this->hasMany(Le::class,'time_table_id');
+    }   public function teacher(){
+    return $this->hasMany(Teacher::class,'time_table_id');
+}
+
 }
