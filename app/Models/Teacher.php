@@ -55,7 +55,7 @@ class Teacher extends Authenticatable
 
     }
     public function gender(){
-        return $this->belongsTo(Blood::class, 'gender_id');
+        return $this->belongsTo(Gender::class, 'gender_id');
     }
 
 
