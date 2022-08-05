@@ -48,7 +48,7 @@ class Teacher extends Authenticatable
         return $this->belongsTo(Address::class, 'address_id');
     }
     public function religion(){
-        return $this->belongsTo(Blood::class, 'religion_id');
+        return $this->belongsTo(Religtion::class, 'religion_id');
     }
     public function grade(){
         return $this->belongsTo(Grade::class, 'grade_id');
