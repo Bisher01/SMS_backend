@@ -112,11 +112,11 @@ class OnlineClassController extends Controller
                  ->where('teacher_subject_id',$teacherSubject->id)
                  ->with('teacherSubject',function ($query){
                      $query->with('subjects')
-//                         ->with('teachers');
-                         ->with('classClassrooms',function ($query){
-                             $query->with('classes')
-                                 ->with('classrooms');
-                         });
+                         ->with('teachers');
+//                         ->with('classClassrooms',function ($query){
+//                             $query->with('classes')
+//                                 ->with('classrooms');
+//                         });
                  })->get()];
          }
 
