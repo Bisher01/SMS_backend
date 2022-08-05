@@ -13,7 +13,7 @@ class setting extends Model
     public $primaryKey = 'id';
 
     public $fillable = [
-        'name', 'address_id', 'admin_id','logo','email','phone'
+        'name', 'address_id', 'admin_id','logo','phone'
     ];
 
     public $timestamps = true;

@@ -15,8 +15,13 @@ class CheckExam extends Controller
     use basicFunctionsTrait, generalTrait;
 
     public function getAllExam() {
-        $exams = DB::table('exams')->get();
+        $exams = Exam::query()->with('subjectMark', function ($query) {
+            $query->with('subject');
+        })->get();
         return $this->returnAllData('data', $exams, 'success');
+
+//        return $this->returnAllData('data', $data, 'success');
+
     }
 
     public function acceptExam(Exam $exam) {

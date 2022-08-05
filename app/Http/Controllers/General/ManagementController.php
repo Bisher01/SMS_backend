@@ -68,6 +68,10 @@ class ManagementController extends Controller
     public function addSubjectToClass(Request $request, Claass $class) {
         foreach ($request->subjects as $item){
             if (Subject::query()->find($item['subject_id'])){
+                $check = SubjectMark::query()->where('class_id', $class->id)->where('subject_id', $item['subject_id'])->first();
+                if (isset($check)) {
+                    return $this->returnSuccessMessage('the subject '. $check->subject->name . ' already exists in this class');
+                }
                 DB::table('subject_mark')->insert([
                     'subject_id' => $item['subject_id'],
                     'mark' => $item['mark'],
