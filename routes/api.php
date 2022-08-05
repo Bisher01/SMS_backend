@@ -158,7 +158,12 @@ Route::controller(AttendanceController::class)->prefix('attendance')->group(func
     Route::get('student/{student}', 'getAttendanceStudent');
 });
 
-Route::post('onlineClass/add', [\App\Http\Controllers\OnlineClassController::class, 'store']);
+Route::controller(\App\Http\Controllers\OnlineClassController::class)->prefix('onlineClass')->group(function () {
+    Route::post('add', 'store');
+    Route::get('teacher/{teacher}', 'teacherOnlineClass');
+    Route::get('student/{class}/{classroom}', 'studentOnlineClass');
+});
+
 
 Route::controller(\App\Http\Controllers\TimeTableController::class)->prefix('timetable')->group(function (){
     Route::post('add',  'store');

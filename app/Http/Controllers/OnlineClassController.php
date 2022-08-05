@@ -9,7 +9,7 @@ use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Teacher;
 class OnlineClassController extends Controller
 {
     use basicFunctionsTrait,generalTrait;
@@ -69,9 +69,24 @@ class OnlineClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function teacherOnlineClass(Request $request,Teacher $teacher)
     {
-        //
+        $teacherSubjects = TeacherSubject::query()
+            ->where('teacher_id',$teacher->id)
+            ->get('id');
+
+        foreach ($teacherSubjects as $teacherSubject){
+            $onlineClass = OnlineClass::query()
+                ->where('teacher_subject_id',$teacherSubject->id)
+                ->with('teacherSubject',function ($query){
+                    $query->with('subjects')
+                        ->with('classClassrooms',function ($query){
+                           $query->with('classes')
+                           ->with('classrooms');
+                        });
+                })->get();
+        }
+        return $this->returnAllData('data', $onlineClass, 'teacherOnlineClass');
     }
 
     /**
@@ -81,9 +96,32 @@ class OnlineClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function studentOnlineClass(Request $request , $class,$classroom)
     {
-        //
+            $classClassroom = ClassClassroom::query()
+                ->where('class_id',$class)
+                ->where('classroom_id',$classroom)
+                ->first();
+
+        $teacherSubjects = TeacherSubject::query()
+            ->where('class_classroom_id',$classClassroom->id)
+            ->get();
+
+         foreach ($teacherSubjects as $teacherSubject){
+             $onlineClass[] =["Teacher" => OnlineClass::query()
+                 ->where('teacher_subject_id',$teacherSubject->id)
+                 ->with('teacherSubject',function ($query){
+                     $query->with('subjects')
+//                         ->with('teachers');
+                         ->with('classClassrooms',function ($query){
+                             $query->with('classes')
+                                 ->with('classrooms');
+                         });
+                 })->get()];
+         }
+
+        return $this->returnAllData('data', $onlineClass, 'teacherOnlineClass');
+
     }
 
     /**
