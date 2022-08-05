@@ -58,7 +58,7 @@ class AddStudentController extends Controller
                 ]);
             }
         }
-        $data['parent'] = $parent;
+//        $data['parent'] = $parent;
 
         $time = Carbon::now();
 
