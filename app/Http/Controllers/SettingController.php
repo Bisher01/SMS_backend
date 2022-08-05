@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use App\Models\setting;
@@ -9,7 +10,7 @@ use App\Models\Student;
 
 class SettingController extends Controller
 {
-    use generalTrait;
+    use generalTrait, basicFunctionsTrait;
     public function index()
     {
         $settings = setting::query()->get();
@@ -56,17 +57,19 @@ class SettingController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-   /* public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(Request $request)
     {
-        if (Auth::id() == $comment->owner_id){
-            $comment->update([
-                'value'=>$request->value,
-                'owner_id'=>Auth::id(),
-                'product_id'=>$request->product_id,
-            ]);
-            return response()->json(["key"=>$comment, 200]);
-        }else
-            return response()->json(null, 403);
+        $logo = 0 ;
+        $address = $this->addAddress($request);
+
+        $setting = setting::query()->find(1)->update([
+            'phone' =>  $request->phone,
+            'logo' => $logo,
+            'address_id' =>$address->id,
+            'name' => $request->name,
+            'color' => $request->color
+        ]);
+       return $setting->admin;
 
     }
 

@@ -22,7 +22,7 @@ class Exam extends Model
 
     public $timestamps = true;
     protected $hidden = [
-        'created_at','updated_at', 'active'
+        'created_at','updated_at'
     ];
 
 
