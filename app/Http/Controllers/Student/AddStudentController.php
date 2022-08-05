@@ -99,17 +99,17 @@ class AddStudentController extends Controller
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
 
-        $data['student'] = $student
-            ->load('academic_year',
-                'grade',
-                'classClassroom',
-                'address',
-                'parent',
-                'blood',
-                'religion',
-                'gender',
-                'nationality');
-        return $this->returnData('student', $data,'signup successfully');
+//        $data = $student
+//            ->load('academic_year',
+//                'grade',
+//                'classClassroom',
+//                'address',
+//                'parent',
+//                'blood',
+//                'religion',
+//                'gender',
+//                'nationality');
+        return $this->returnData('student', $student,'signup successfully');
 
     }
 
