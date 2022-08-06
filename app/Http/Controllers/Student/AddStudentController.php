@@ -58,23 +58,12 @@ class AddStudentController extends Controller
                 ]);
             }
         }
-//        $data['parent'] = $parent;
-
         $time = Carbon::now();
 
         $byte_array = $request->picture;
         $image = base64_decode($byte_array);
         Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
         $picture = '/'. $time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
-
-//        if ($request->hasFile('picture')) {
-//
-//            $picture = '/'.$request->file('picture')
-//                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
-//        }
-//        else{
-//            $picture = null;
-//        }
 
         $address = $this->addAddress($request);
 
@@ -99,17 +88,17 @@ class AddStudentController extends Controller
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
         ]);
 
-//        $data = $student
-//            ->load('academic_year',
-//                'grade',
-//                'classClassroom',
-//                'address',
-//                'parent',
-//                'blood',
-//                'religion',
-//                'gender',
-//                'nationality');
-        return $this->returnData('student', $student,'signup successfully');
+        $data = $student
+            ->load('academic_year',
+                'grade',
+                'classClassroom',
+                'address',
+                'parent',
+                'blood',
+                'religion',
+                'gender',
+                'nationality');
+        return $this->returnData('student', $data,'signup successfully');
 
     }
 
