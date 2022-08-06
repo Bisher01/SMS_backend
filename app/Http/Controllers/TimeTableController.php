@@ -132,7 +132,7 @@ class TimeTableController extends Controller
 
         foreach ($classClassrooms as $classClassroom){
 
-            $timetables[] =[$classClassroom->classroom_id => TimeTable::query()
+            $timetables = TimeTable::query()
                 ->where('classClassroom_id',$classClassroom->id)
                 ->with('teacher')
                 ->with('lesson',function ($query){
@@ -141,9 +141,12 @@ class TimeTableController extends Controller
                 ->with('classroom',function ($query){
                 $query->with('classes','classrooms');
                 })
-                ->get()];
+                ->get();
+            foreach ($timetables as $timetable){
+                $result[] = $timetable;
+            }
 
         }
-        return $this->returnAllData('studentTimetable',$timetables,'success');
+        return $this->returnAllData('studentTimetable',$result,'success');
     }
 }
