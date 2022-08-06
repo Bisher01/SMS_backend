@@ -16,14 +16,15 @@ class setting extends Model
         'name', 'address_id', 'admin_id','logo','phone'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = true;
 
     public function address(){
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->belongsTo(Address::class, 'address_id');
             //->whereDate('expired_date', '>=', now());
 
     }
     public function admin(){
-        return $this->hasOne(Admin::class, 'admin_id');
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 }

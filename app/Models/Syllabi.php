@@ -19,7 +19,7 @@ class Syllabi extends Model
     ];
     protected $with = ['subject', 'class'];
     public $timestamps = true;
-    protected $hidden = ['created_at','updated_at', 'active'];
+    protected $hidden = ['created_at','updated_at'];
     protected $primaryKey = 'id';
 
     public function subject() {

@@ -14,7 +14,7 @@ class CheckSyllabi extends Controller
     use generalTrait, basicFunctionsTrait;
 
     public function getAllSyllabi() {
-        $syllabi = DB::table('syllabi')->get();
+        $syllabi = Syllabi::query()->with('subject', 'class')->get();
         return $this->returnAllData('data', $syllabi, 'success');
     }
 

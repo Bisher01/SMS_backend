@@ -28,6 +28,7 @@ Route::prefix('admin')->group(function () {
     Route::post('accept-exam/{exam}', [\App\Http\Controllers\Admin\CheckExam::class, 'acceptExam']);
     Route::post('accept-syllabi/{syllabi}', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'acceptSyllabi']);
     Route::get('all-syllabi', [\App\Http\Controllers\Admin\CheckSyllabi::class, 'getAllSyllabi']);
+    Route::put('edit-settings/{setting}', [\App\Http\Controllers\SettingController::class, 'update']);
 });
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
