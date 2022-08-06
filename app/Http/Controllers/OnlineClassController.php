@@ -76,7 +76,7 @@ class OnlineClassController extends Controller
             ->get('id');
 
         foreach ($teacherSubjects as $teacherSubject){
-            $onlineClass = OnlineClass::query()
+            $onlineClass[] =[$teacherSubject->id => OnlineClass::query()
                 ->where('teacher_subject_id',$teacherSubject->id)
                 ->with('teacherSubject',function ($query){
                     $query->with('subjects')
@@ -84,7 +84,7 @@ class OnlineClassController extends Controller
                            $query->with('classes')
                            ->with('classrooms');
                         });
-                })->get();
+                })->get()];
         }
         return $this->returnAllData('data', $onlineClass, 'teacherOnlineClass');
     }
