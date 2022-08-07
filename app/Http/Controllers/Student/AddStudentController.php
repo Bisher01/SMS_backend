@@ -72,7 +72,7 @@ class AddStudentController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'code' => '001',
-            'nationality_id' => $request->nationality_id,
+            'nationality_id' =>(int) $request->nationality_id,
             'picture' => $picture,
             'address_id' =>(int)$address->id,
             'birthdate' => $request->birthdate,

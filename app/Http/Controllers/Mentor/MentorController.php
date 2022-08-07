@@ -39,7 +39,7 @@ class MentorController extends Controller
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'code' =>  '004',
-            'address_id' => $address->id,
+            'address_id' =>(int) $address->id,
             'joining_date' => $request->joining_date,
             'phone' => $request->phone,
             'class_id' => (int)$request->class_id,
@@ -76,10 +76,10 @@ class MentorController extends Controller
             'email' => $request->email,
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
-            'address_id' => $address->id,
+            'address_id' => (int)$address->id,
             'joining_date' => $request->joining_date,
             'phone' => $request->phone,
-            'class_id' => $request->class_id,
+            'class_id' =>(int) $request->class_id,
         ]);
 
         return $this->returnData('mentor', $mentor,'updated successfully');
