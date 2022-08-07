@@ -37,15 +37,15 @@ Route::prefix('general')->group(function () {
     Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);
 });
 
-//Route::prefix('AcademicYear')->group(function () {
+Route::prefix('AcademicYear')->group(function () {
 //    Route::post('all', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'index']);
-//    Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
+    Route::post('add', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'store']);
 //    Route::put('update/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'update']);
 //    Route::delete('delete/{yearId}', [App\Http\Controllers\Academic_year\AcademicYearController::class, 'destroy']);
-//});
+});
 
 Route::prefix('student')->group(function () {
-    Route::get('all', [\App\Http\Controllers\Student\AddStudentController::class, 'index']);
+    Route::post('all', [\App\Http\Controllers\Student\AddStudentController::class, 'index']);
     Route::post('add', [\App\Http\Controllers\Student\AddStudentController::class, 'store']);
     Route::put('edit/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'update']);
     Route::get('show/{student}', [\App\Http\Controllers\Student\AddStudentController::class, 'show']);
@@ -148,6 +148,7 @@ Route::prefix('management')->group(function(){
     Route::put('add/subject/{teacher}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToTeacher']);
     Route::post('subject/{class}', [\App\Http\Controllers\General\ManagementController::class, 'addSubjectToClass']);
     Route::get('/get-subjects', [\App\Http\Controllers\General\ManagementController::class, 'allSubjectsWithClasses']);
+    Route::post('/get-classrooms/{class}', [\App\Http\Controllers\General\ManagementController::class, 'getClassroomAndTeacher']);
 });
 
 Route::prefix('resultant')->group(function () {

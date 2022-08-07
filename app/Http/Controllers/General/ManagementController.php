@@ -128,4 +128,9 @@ class ManagementController extends Controller
          })->get();
          return $this->returnAllData('data', $subjects, 'success');
     }
+//    get classrooms and teacher for class
+    public function getClassroomAndTeacher(Claass $class) {
+         $data = ClassClassroom::query()->where('class_id', $class->id)->with('classrooms','teacher')->get();
+         return $this->returnAllData('data', $data, 'success');
+     }
 }

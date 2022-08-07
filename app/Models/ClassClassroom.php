@@ -23,6 +23,11 @@ class ClassClassroom extends Model
         return $this->belongsToMany(Teacher::class, 'teacher_classclassroom','claass_classroom_id','teacher_id');
     }
 
+    public function teacher() {
+        return $this->belongsToMany(Teacher::class, 'teacher__subjects','class_classroom_id','teacher_id');
+    }
+
+
     public function classes() {
         return $this->belongsTo(Claass::class, 'class_id');
     }

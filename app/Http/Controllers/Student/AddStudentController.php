@@ -18,9 +18,25 @@ class AddStudentController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $students=Student::query()->get();
+        $searchByName = $request->input('searchByName');
+        $orderBy = $request->input('orderBy');
+        $q = Student::query();
+
+        if ($searchByName !== null) {
+            $q->where('f_name', 'LIKE', '%'. $searchByName . '%')
+                ->orWhere('l_name', 'LIKE', '%'. $searchByName . '%');
+        }
+        if ($orderBy !== null) {
+            if ($orderBy == 'DESC') {
+                $q->orderBy('f_name', 'DESC');
+            }
+            if ($orderBy == 'ASC') {
+                $q->orderBy('f_name', 'ASC');
+            }
+        }
+        $students = $q->get();
         return $this->returnAllData('student', $students,'success');
     }
 
