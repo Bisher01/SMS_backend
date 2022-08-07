@@ -68,7 +68,8 @@ class TimeTableController extends Controller
 
                                'lessonDay_id' =>$lessonDay->id,
                                'classClassroom_id'=>$classClassroom->id,
-                               'teacher_id'=>$lesson['teacher_id']
+                               'teacher_id'=>$lesson['teacher_id'],
+                               'subject_id'=>$lesson['subject_id']
 
                            ]);
 
@@ -91,6 +92,7 @@ class TimeTableController extends Controller
         $timetables = TimeTable::query()
             ->where('classClassroom_id',$classClassroom->id)
             ->with('teacher')
+            ->with('subject')
             ->with('lesson',function ($query){
                 $query->with('lessons','days');
             })
@@ -107,9 +109,9 @@ class TimeTableController extends Controller
 
         $timetables = TimeTable::query()
             ->where('teacher_id',$teacher->id)
-//            ->with('teacher')
+            ->with('subject')
             ->with('lesson',function ($query){
-                $query->with('lessons','days');
+                $query->with('days','lessons');
             })
             ->with('classroom',function ($query){
                 $query->with('classes','classrooms');
@@ -135,6 +137,7 @@ class TimeTableController extends Controller
             $timetables = TimeTable::query()
                 ->where('classClassroom_id',$classClassroom->id)
                 ->with('teacher')
+                ->with('subject')
                 ->with('lesson',function ($query){
                     $query->with('lessons','days');
                 })

@@ -14,13 +14,17 @@ class TimeTable extends Model
     protected $fillable  = [
         'lessonDay_id',
         'teacher_id',
-        'classClassroom_id'
+        'classClassroom_id',
+        'subject_id'
     ];
     protected $hidden = ['created_at','updated_at'];
     public $timestamps = true;
 
     public function teacher(){
         return $this->belongsTo(Teacher::class,'teacher_id');
+    }
+    public function subject(){
+        return $this->belongsTo(Subject::class,'subject_id');
     }
     public function lesson(){
         return $this->belongsTo(LessonDay::class,'lessonDay_id');
