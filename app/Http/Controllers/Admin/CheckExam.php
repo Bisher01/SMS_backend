@@ -18,7 +18,7 @@ class CheckExam extends Controller
         $exams = Exam::query()->with('subjectMark', function ($query) {
             $query->with('subject');
         })->get();
-        return $this->returnAllData('data', $exams, 'success');
+        return $this->returnAllData('exams', $exams, 'success');
 
 //        return $this->returnAllData('data', $data, 'success');
 

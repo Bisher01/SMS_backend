@@ -58,8 +58,9 @@ class syllabiController extends Controller
 
         $syllabi = Syllabi::query()->create([
             'content' => $path,
-            'class_id' => $request->class_id,
-            'subject_id' => $request->subject_id,
+            'class_id' => (int)$request->class_id,
+            'active' => 0,
+            'subject_id' => (int)$request->subject_id,
         ]);
         return $this->returnData('syllabi', $syllabi->load('subject', 'class'), 'added syllabi success');
     }

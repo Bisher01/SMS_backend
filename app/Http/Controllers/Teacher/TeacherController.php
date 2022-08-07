@@ -66,9 +66,16 @@ class TeacherController extends Controller
                 'picture' => $picture,
                 'joining_date' => $request->joining_date,
                 'salary' => $request->salary,
+<<<<<<< HEAD
                 'address_id' => $address->id,
                 'religion_id' => $request->religion_id,
                 'gender_id' => $request->gender_id,
+=======
+                'address_id' => (int)$address->id,
+                'religion_id' => (int)$request->religion_id,
+                'gender_id' => (int)$request->gender_id,
+                'grade_id' => (int)$request->grade_id,
+>>>>>>> e75291d4016b2ee8fe7c61fd51b67f9527275460
             ]);
 
         $teacher->update([
@@ -129,9 +136,16 @@ class TeacherController extends Controller
             'picture' => $picture,
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
+<<<<<<< HEAD
             'address_id' =>  $address->id,
             'religion_id' => $request->religion_id,
             'gender_id' => $request->gender_id,
+=======
+            'address_id' => (int) $address->id,
+            'religion_id' =>(int) $request->religion_id,
+            'gender_id' => (int)$request->gender_id,
+            'grade_id' => (int)$request->grade_id,
+>>>>>>> e75291d4016b2ee8fe7c61fd51b67f9527275460
         ]);
         $data = $teacher
             ->load( 'gender', 'religion', 'address', 'subjects');

@@ -15,7 +15,7 @@ class CheckSyllabi extends Controller
 
     public function getAllSyllabi() {
         $syllabi = Syllabi::query()->with('subject', 'class')->get();
-        return $this->returnAllData('data', $syllabi, 'success');
+        return $this->returnAllData('syllabi', $syllabi, 'success');
     }
 
     public function acceptSyllabi(Syllabi $syllabi) {

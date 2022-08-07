@@ -18,9 +18,25 @@ class AddStudentController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $students=Student::query()->get();
+        $searchByName = $request->input('searchByName');
+        $orderBy = $request->input('orderBy');
+        $q = Student::query();
+
+        if ($searchByName !== null) {
+            $q->where('f_name', 'LIKE', '%'. $searchByName . '%')
+                ->orWhere('l_name', 'LIKE', '%'. $searchByName . '%');
+        }
+        if ($orderBy !== null) {
+            if ($orderBy == 'DESC') {
+                $q->orderBy('f_name', 'DESC');
+            }
+            if ($orderBy == 'ASC') {
+                $q->orderBy('f_name', 'ASC');
+            }
+        }
+        $students = $q->get();
         return $this->returnAllData('student', $students,'success');
     }
 
@@ -72,17 +88,17 @@ class AddStudentController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'code' => '001',
-            'nationality_id' => $request->nationality_id,
+            'nationality_id' =>(int) $request->nationality_id,
             'picture' => $picture,
-            'address_id' =>$address->id,
+            'address_id' =>(int)$address->id,
             'birthdate' => $request->birthdate,
-            'parent_id' => $parent->id,
-            'blood_id' => $request->blood_id,
-            'gender_id' => $request->gender_id,
-            'religion_id' => $request->religion_id,
-            'grade_id' => $request->grade_id,
-            'class_classroom_id' => $classClassroomId->id,
-            'academic_year_id' => $request->academic_year_id,
+            'parent_id' => (int)$parent->id,
+            'blood_id' => (int)$request->blood_id,
+            'gender_id' => (int)$request->gender_id,
+            'religion_id' => (int)$request->religion_id,
+            'grade_id' => (int)$request->grade_id,
+            'class_classroom_id' => (int)$classClassroomId->id,
+            'academic_year_id' => (int)$request->academic_year_id,
         ]);
         $student->update([
             'code' => '001' .$student->year_id.  rand(0, 99) . $student->id . rand(100, 999),
@@ -114,10 +130,7 @@ class AddStudentController extends Controller
 //        if ($request->hasFile('picture')) {
 //        return $student->picture;
 
-            if (Storage::exists($student->picture)) {
-                Storage::delete($student->picture);
-                Storage::deleteDirectory($time->format('Y').'/images/student/'. $student->f_name. '_'. $student->l_name);
-            }
+
         $byte_array = $request->picture;
         $image = base64_decode($byte_array);
         Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
@@ -136,16 +149,16 @@ class AddStudentController extends Controller
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
-            'nationality_id' => $request->nationality_id,
-            'address_id' =>  $address->id,
+            'nationality_id' => (int)$request->nationality_id,
+            'address_id' =>  (int)$address->id,
             'birthdate' => $request->birthdate,
-            'parent_id' => $request->parent_id,
-            'blood_id' => $request->blood_id,
-            'gender_id' => $request->gender_id,
-            'religion_id' => $request->religion_id,
-            'grade_id' => $request->grade_id,
-            'class_classroom_id' => $classClassroomId->id,
-            'academic_year_id' => $request->academic_year_id,
+            'parent_id' => (int)$request->parent_id,
+            'blood_id' => (int)$request->blood_id,
+            'gender_id' =>(int) $request->gender_id,
+            'religion_id' =>(int) $request->religion_id,
+            'grade_id' =>(int) $request->grade_id,
+            'class_classroom_id' =>(int) $classClassroomId->id,
+            'academic_year_id' => (int)$request->academic_year_id,
         ]);
 
         return $this->returnData('student', $student,'update successfully');

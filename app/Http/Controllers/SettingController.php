@@ -14,54 +14,10 @@ use Illuminate\Support\Facades\Storage;
 class SettingController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
-    public function index()
+
+    public function update( Request $request)
     {
-        $settings = setting::query()->get();
-       return $this->returnAllData('settings', $settings, 'success');
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCommentRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $settings=setting::query()->create([
-            'name'=>$request->name,
-            'address_id'=>$request->address_id,
-            'admin_id'=>$request->admin_id,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'logo'=>$request->logo,
-
-        ]);
-        return $settings;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-   /* public function show(Student $request)
-    {
-        $user_id->products()->whereDate('expired_date', '>=', now());
-
-    }*/
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCommentRequest  $request
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(setting $setting, Request $request)
-    {
+        $setting = setting::query()->first();
         $address = $this->addAddress($request);
         $time = Carbon::now();
 
@@ -77,7 +33,7 @@ class SettingController extends Controller
         $setting->update([
             'phone' =>  $request->phone,
             'logo' => $picture,
-            'address_id' =>$address->id,
+            'address_id' => $address->id,
             'name' => $request->name,
             'color' => $request->color
         ]);
@@ -98,13 +54,9 @@ class SettingController extends Controller
 
     }
 
-  /*  public function destroy(Comment $comment)
-    {
-        if (Auth::id() == $comment->owner_id){
-            $comment->delete();
-        }else
-            return response()->json(null, 403);
-
-    }*/
+    public function show() {
+        $setting = setting::query()->first();
+        return $setting->load('admin', 'address');
+    }
 
 }

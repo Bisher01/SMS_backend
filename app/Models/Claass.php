@@ -40,5 +40,5 @@ class Claass extends Model
 
     public function mark(){
         return $this->hasMany(SubjectMark::class,'class_id');
-       }
+    }
 }
