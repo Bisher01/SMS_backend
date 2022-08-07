@@ -69,14 +69,14 @@ class OnlineClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function teacherOnlineClass(Request $request,Teacher $teacher)
+    public function teacherOnlineClass(Teacher $teacher)
     {
         $teacherSubjects = TeacherSubject::query()
             ->where('teacher_id',$teacher->id)
             ->get('id');
 
         foreach ($teacherSubjects as $teacherSubject){
-            $onlineClass = OnlineClass::query()
+            $onlineClasses = OnlineClass::query()
                 ->where('teacher_subject_id',$teacherSubject->id)
                 ->with('teacherSubject',function ($query){
                     $query->with('subjects')
@@ -85,8 +85,12 @@ class OnlineClassController extends Controller
                            ->with('classrooms');
                         });
                 })->get();
+            foreach ($onlineClasses as $onlineClass){
+                $result[] = $onlineClass;
+            }
+
         }
-        return $this->returnAllData('data', $onlineClass, 'teacherOnlineClass');
+        return $this->returnAllData('data', $result, 'teacherOnlineClass');
     }
 
     /**
@@ -108,7 +112,7 @@ class OnlineClassController extends Controller
             ->get();
 
          foreach ($teacherSubjects as $teacherSubject){
-             $onlineClass[] =["Teacher" => OnlineClass::query()
+             $onlineClasses = OnlineClass::query()
                  ->where('teacher_subject_id',$teacherSubject->id)
                  ->with('teacherSubject',function ($query){
                      $query->with('subjects')
@@ -117,10 +121,13 @@ class OnlineClassController extends Controller
 //                             $query->with('classes')
 //                                 ->with('classrooms');
 //                         });
-                 })->get()];
+                 })->get();
+             foreach ($onlineClasses as $onlineClass){
+                 $result[] = $onlineClass;
+             }
          }
 
-        return $this->returnAllData('data', $onlineClass, 'teacherOnlineClass');
+        return $this->returnAllData('data', $result, 'teacherOnlineClass');
 
     }
 
