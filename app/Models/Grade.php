@@ -16,10 +16,7 @@ class Grade extends Model
     protected $hidden = ['created_at','updated_at'
     ];
 
-    public function teacher(){
-        return $this->hasMany(Teacher::class, 'grade_id');
 
-    }
     public function class(){
         return $this->hasMany(Claass::class, 'grade_id');
 

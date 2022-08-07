@@ -74,19 +74,19 @@ class ExamController extends Controller
 
         $name1 = ExamName::query()
             ->where('id',$request->exam_name_id)
-            ->where('name','مذاكرة اولى')
+            ->where('name','First')
             ->first();
         $name2 = ExamName::query()
             ->where('id',$request->exam_name_id)
-            ->where('name','مذاكرة ثانية')
+            ->where('name','Second')
             ->first();
         $name3 = ExamName::query()
             ->where('id',$request->exam_name_id)
-            ->where('name','مذاكرة فصلية')
+            ->where('name','Mid')
             ->first();
         $name4 = ExamName::query()
             ->where('id',$request->exam_name_id)
-            ->where('name','امتحان')
+            ->where('name','Final')
             ->first();
 
         $subject_mark = DB::table('subject_mark')
@@ -103,10 +103,9 @@ class ExamController extends Controller
         }
 
 
-        if(isset($name1)||isset($name2))
-
-            $mark=(10/100)*$subject_mark->mark;
-
+        if(isset($name1)||isset($name2)) {
+            $mark = (10 / 100) * $subject_mark->mark;
+        }
         if(isset($name3) )
 
             $mark=(20/100)*$subject_mark->mark;
@@ -209,7 +208,7 @@ class ExamController extends Controller
             foreach($request->questions as $question){
                 $status = DB::table('choices')
                     ->where('question_id',$question['question_id'])
-                    ->where('id',$question['choise'])
+                    ->where('id',$question['choice_id'])
                     ->select('status')
                     ->first();
                 if (!$status == null) {
@@ -219,7 +218,10 @@ class ExamController extends Controller
                             ->where('question_id', $question['question_id'])
                             ->select('mark')
                             ->first();
+                        if(!$question_mark->mark){
 
+                            return $this->returnErrorMessage('this question related to another exam', 400);
+                        }
                         $student_mark += $question_mark->mark;
                     }
                 }

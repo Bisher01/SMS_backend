@@ -16,7 +16,6 @@ class Teacher extends Authenticatable
     public $fillable = [
         'address_id',
         'religion_id',
-        'grade_id',
         'gender_id',
         'f_name',
         'l_name',
@@ -50,10 +49,7 @@ class Teacher extends Authenticatable
     public function religion(){
         return $this->belongsTo(Religtion::class, 'religion_id');
     }
-    public function grade(){
-        return $this->belongsTo(Grade::class, 'grade_id');
 
-    }
     public function gender(){
         return $this->belongsTo(Gender::class, 'gender_id');
     }
