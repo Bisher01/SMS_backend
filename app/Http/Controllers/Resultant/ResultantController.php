@@ -51,6 +51,10 @@ class ResultantController extends Controller
                 ->where('class_classroom_id',$classClassroom->id)
                 ->get();
 
+            if(!$subjects){
+                return $this->returnErrorMessage('this class dont have this subject', 400);
+            }
+
             foreach ($subjects as $subjectt) {
 
                 $quizzes = DB::table('quizzes')
@@ -84,6 +88,7 @@ class ResultantController extends Controller
                 if($numberOfQuizes==0)
                 {
                     $quizeResult = 0;
+
                 }else{
 
                     $quizeResult = $sumOfQuizeMarks / $numberOfQuizes;
