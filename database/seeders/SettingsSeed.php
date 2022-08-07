@@ -29,7 +29,7 @@ class SettingsSeed extends Seeder
         DB::table('settings')->insert([
             'phone' =>  '0991232992',
             'logo' => $logo,
-            'admin_id' => 2,
+            'admin_id' => 1,
             'address_id' =>$address->id,
             'name' => 'test',
             'color' => 'test'
