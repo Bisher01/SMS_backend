@@ -16,6 +16,8 @@ class DaysSeeder extends Seeder
     public function run()
     {
         DB::table('days')->delete();
+//        DB::table('lesson_day')->delete();
+//        $days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         Day::query()->create([
             'name' => 'Saturday'
