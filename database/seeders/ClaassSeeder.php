@@ -29,40 +29,40 @@ class ClaassSeeder extends Seeder
                     'grade_id' => '1'
                 ],
                 [
-                    'name' => 'الصف الثاني',
+                    'name' => "second class",
                     'grade_id' => '1'
                 ],
                 [
-                    'name' => 'الصف الثالث',
+                    'name' => 'third class',
                     'grade_id' => '1'
                 ], [
-                    'name' => 'الصف الرابع',
+                    'name' => 'fourth class',
                     'grade_id' => '1'
                 ], [
-                    'name' => 'الصف الخامس',
+                    'name' => 'fifth class',
                     'grade_id' => '1'
                 ], [
-                    'name' => 'الصف السادس',
+                    'name' => 'sixth class',
                     'grade_id' => '1'
                 ],
                 [
-                    'name' => 'الصف السابع',
+                    'name' => 'seventh class',
                     'grade_id' => '2'
                 ], [
-                    'name' => 'الصف الثامن',
+                    'name' => 'eighth class',
                     'grade_id' => '2'
                 ], [
-                    'name' => 'الصف التاسع',
+                    'name' => 'ninth class',
                     'grade_id' => '2'
                 ],
                 [
-                    'name' => 'الصف الاول الثانوي ',
+                    'name' => 'tenth class',
                     'grade_id' => '3'
                 ], [
-                    'name' => 'الصف الثاني الثانوي',
+                    'name' => 'eleventh class',
                     'grade_id' => '3'
                 ], [
-                    'name' => 'الصف الثالث الثانوي',
+                    'name' => 'twelfth class',
                     'grade_id' => '3'
                 ],
 

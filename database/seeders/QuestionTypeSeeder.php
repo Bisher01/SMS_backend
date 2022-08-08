@@ -16,7 +16,7 @@ class QuestionTypeSeeder extends Seeder
     public function run()
     {
         DB::table('question_types')->delete();
-        $names=['اتمتة','صح وخطأ','تقليدي'];
+        $names=['اتمتة','صح وخطأ','traditional'];
         foreach($names as $name){
            QuestionType::create(['name'=>$name]);
         }

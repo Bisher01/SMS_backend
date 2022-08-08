@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
            DaysSeeder::class,
            QuizNameSeed::class,
            ExamNameSeeder::class,
-           QuestionTypeSeeder::class,
+//           QuestionTypeSeeder::class,
            SeasonSeeder::class,
            AttendanceStatusSeed::class,
 
