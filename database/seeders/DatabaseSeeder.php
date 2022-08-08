@@ -32,9 +32,10 @@ class DatabaseSeeder extends Seeder
            ExamNameSeeder::class,
            QuestionTypeSeeder::class,
            SeasonSeeder::class,
-           AttendanceStatusSeed::class
+           AttendanceStatusSeed::class,
 
-        ]);
+
+       ]);
 
     }
 }

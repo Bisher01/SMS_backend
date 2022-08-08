@@ -27,7 +27,7 @@ class AddSubjectIdToTimeTablesTable extends Migration
     public function down()
     {
         Schema::table('time_tables', function (Blueprint $table) {
-
+            //
         });
     }
 }
