@@ -44,6 +44,9 @@ class TimeTableController extends Controller
                        ->where('lessonDay_id',$lessonDay->id)
                            ->where('teacher_id',$lesson['teacher_id'])
                            ->first(['teacher_id','classClassroom_id']);
+                       $subjectTeacher = DB::table('teacher__subjects')
+                           ->where('teacher_id',$lesson['teacher_id'])
+                           ->first('subject_id');
 
                        if($check)
                        {
@@ -69,7 +72,7 @@ class TimeTableController extends Controller
                                'lessonDay_id' =>$lessonDay->id,
                                'classClassroom_id'=>$classClassroom->id,
                                'teacher_id'=>$lesson['teacher_id'],
-                               'subject_id'=>$lesson['subject_id']
+                               'subject_id'=>$subjectTeacher->subject_id
 
                            ]);
 
