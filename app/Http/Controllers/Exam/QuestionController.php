@@ -25,9 +25,28 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
+        $mark = 0;
         $subjectId = $request->subject_id;
         $classId  = $request->class_id;
         $teacherId = $request->teacher_id;
+
+        if(isset($request->type)) {
+            $subject_mark = SubjectMark::query()->where('subject_id', $subjectId)->where('class_id', $classId)->first();
+            if ($request->type == 1 || $request->type == 2 ) {
+                $mark = (10 / 100) * $subject_mark->mark;
+            }
+            if ($request->type == 3 || $request->type == 5) {
+                $mark=(20/100)*$subject_mark->mark;
+            }
+            if ($request->type == 4) {
+                $mark=(40/100)*$subject_mark->mark;
+            }
+//            if ($request->type == 5) {
+//                $mark=(20/100)*$subject_mark->mark;
+//            }
+
+
+        }
 
         $teacherSubjectClass = $this->checkOwnerQuestion($classId, $subjectId, $teacherId);
         if ($teacherSubjectClass == null) {
@@ -39,7 +58,9 @@ class QuestionController extends Controller
             ->where('teacher_subjects_id', $teacherSubjectClass->id)
             ->with('choices')
             ->get();
-        return $this->returnAllData('questions', $questions, 'all questions');
+        $data['max mark'] = $mark;
+        $data['questions'] = $questions;
+        return $this->returnData('questions', $data, 'all questions');
     }
 
     /**
