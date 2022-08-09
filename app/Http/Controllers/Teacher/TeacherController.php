@@ -132,7 +132,7 @@ class TeacherController extends Controller
             'salary' => $request->salary,
             'address_id' => (int) $address->id,
             'religion_id' => (int)$request->religion_id,
-            'gender_id' => (int)$request->gender_id,
+//            'gender_id' => (int)$request->gender_id,
 
         ]);
         $data = $teacher

@@ -21,9 +21,9 @@ class SettingsSeed extends Seeder
         DB::table('settings')->delete();
 
         $address = Address::query()->create([
-            'city' => 'دمشق',
-            'town' => 'المزة',
-            'street' => 'اتوستراد المزة'
+            'city' => 'Damascus',
+            'town' => 'almaza',
+            'street' => 'aya'
         ]);
         $logo = '/'. Carbon::now()->format('Y'). '/images/settings/logo/logo.jpg';
         DB::table('settings')->insert([

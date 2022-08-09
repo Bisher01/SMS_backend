@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
 //           QuestionTypeSeeder::class,
            SeasonSeeder::class,
            AttendanceStatusSeed::class,
+           SettingsSeed::class
 
 
        ]);
