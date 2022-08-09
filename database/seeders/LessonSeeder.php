@@ -18,31 +18,31 @@ class LessonSeeder extends Seeder
         DB::table('lessons')->delete();
 
         Lesson::query()->create([
-           'name' => 'الحصة الاولى'
+           'name' => 'first lesson'
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة الثانية'
+           'name' => 'second lesson '
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة الثالثة'
+           'name' => 'third lesson '
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة الرابعة'
+           'name' => 'fourth lesson '
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة الخامسة'
+           'name' => 'fifth lesson '
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة السادسة'
+           'name' => 'sixth lesson '
         ]);
 
         Lesson::query()->create([
-           'name' => 'الحصة السابعة'
+           'name' => 'seventh lesson'
         ]);
 
 

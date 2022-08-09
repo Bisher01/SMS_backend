@@ -15,17 +15,16 @@ class GradeSeeder extends Seeder
     public function run()
     {
         DB::table('grades')->delete();
-//        $grades=['المرحلة الابتدائية','المرحلة الاعدادية','المرحلة الثانوية'];
             Grade::query()->create([
-                'name' => 'المرحلة الابتدائية'
+                'name' => 'Primary School'
             ]);
 
             Grade::query()->create([
-                'name' => 'المرحلة الاعدادية'
+                'name' => 'Middle School'
             ]);
 
             Grade::query()->create([
-                'name' => 'المرحلة الثانوية'
+                'name' => 'High School'
             ]);
 
     }

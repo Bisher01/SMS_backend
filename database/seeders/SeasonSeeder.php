@@ -15,7 +15,7 @@ class SeasonSeeder extends Seeder
     public function run()
     {
         DB::table('seasons')->delete();
-        $names=['فصل اول ','فصل ثاني'];
+        $names=['first season','second season'];
         foreach($names as $name){
            Season::create(['name'=>$name]);
         }

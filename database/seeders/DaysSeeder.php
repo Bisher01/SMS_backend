@@ -16,8 +16,6 @@ class DaysSeeder extends Seeder
     public function run()
     {
         DB::table('days')->delete();
-//        DB::table('lesson_day')->delete();
-//        $days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         Day::query()->create([
             'name' => 'Saturday'
@@ -46,6 +44,17 @@ class DaysSeeder extends Seeder
         Day::query()->create([
             'name' => 'Friday'
         ]);
+
+        DB::table('lesson_day')->delete();
+
+        for ($j=1 ; $j<=7 ; $j++){
+            for ($i =1 ; $i<= 7; $i++) {
+                DB::table('lesson_day')->insert([
+                    'day_id' => $j ,
+                    'lesson_id' => $i
+                ]);
+            }}
+
 
 
     }

@@ -239,7 +239,7 @@ class ExamController extends Controller
                 'mark' => $student_mark,
             ]);
 
-            return $this->returnData('mark', $student_mark, 'success');
+            return $this->returnMark( $student_mark, 'success');
 
         }else if ($nowTime >= $examEndTime->end){
             $exam = DB::table('exam_marks') ->insert([
