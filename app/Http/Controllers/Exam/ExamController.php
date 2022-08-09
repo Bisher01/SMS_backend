@@ -203,10 +203,7 @@ class ExamController extends Controller
 //    end exam & show mark
     public function studentMark(Request $request,Exam $exam,Student $student)
     {
-        $checkMark = ExamMark::query()->where('exam_id', $exam->id)->where('student_id', $student->id)->first();
-        if (isset($checkMark)) {
-            return $this->returnErrorMessage('Sorry,  already taken this exam', 403);
-        }
+
         $student_mark = 0;
 
         $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();
@@ -258,7 +255,11 @@ class ExamController extends Controller
 
 //     start exam
     public function GetExamQuestion(Exam $exam){
-
+        $studentId = auth('student')->id();
+        $checkMark = ExamMark::query()->where('exam_id', $exam->id)->where('student_id', $studentId)->first();
+        if (isset($checkMark)) {
+            return $this->returnErrorMessage('Sorry,  already taken this exam', 403);
+        }
         $nowOclock = Carbon::now();
 
         $exam = Exam::query()
@@ -283,6 +284,7 @@ class ExamController extends Controller
         foreach($classExams as $classExam)
         {
             $allClassExam = Exam::query()
+                ->where('start', '>=', Carbon::now())
                 ->where('subject_mark_id',$classExam->id)
                 ->with('subjectMark',function ($query){
                     $query->with('subject');

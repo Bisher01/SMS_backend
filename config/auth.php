@@ -41,10 +41,26 @@ return [
             'provider' => 'users',
         ],
 
-    'api' => [
-    'driver' => 'passport',
-    'provider' => 'admins',
-    ],
+        'admin' => [
+        'driver' => 'passport',
+        'provider' => 'admins',
+        ],
+        'mentor' => [
+        'driver' => 'passport',
+        'provider' => 'mentors',
+        ],
+        'teacher' => [
+        'driver' => 'passport',
+        'provider' => 'teachers',
+        ],
+        'parent' => [
+        'driver' => 'passport',
+        'provider' => 'parents',
+        ],
+        'student' => [
+        'driver' => 'passport',
+        'provider' => 'students',
+        ],
 
     ],
 
@@ -73,6 +89,26 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'mentors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mentor::class,
+        ],
+
+        'teachers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Teacher::class,
+        ],
+
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Paarent::class,
+        ],
+
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

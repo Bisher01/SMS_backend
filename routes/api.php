@@ -33,7 +33,7 @@ Route::prefix('admin')->group(function () {
 });
 Route::prefix('general')->group(function () {
     Route::post('/login', [\App\Http\Controllers\General\LoginController::class, 'login']);
-    Route::post('/logout', [\App\Http\Controllers\General\LoginController::class, 'logout'])->middleware('auth:api');
+    Route::post('/logout', [\App\Http\Controllers\General\LoginController::class, 'logout'])->middleware('auth:student,admin,parent,teacher,mentor');
     Route::get('/allSeed', [\App\Http\Controllers\General\GetAllSeedController::class, 'getAllSeed']);
 });
 
@@ -75,7 +75,7 @@ Route::prefix('quiz')->group(function () {
     Route::post('add', [\App\Http\Controllers\Quiz\QuizController::class, 'store']);
     Route::post('add-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'addOralQuiz']);
     Route::post('students-oral-quiz', [\App\Http\Controllers\Quiz\QuizController::class, 'getStudentsForOralQuiz']);
-    Route::get('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz']);
+    Route::get('getQuiz/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'getQuiz'])->middleware('auth:student');
     Route::post('mark/{quiz}/{student}', [\App\Http\Controllers\Quiz\QuizController::class, 'studentQuizMark']);
     Route::put('edit/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'update']);
     Route::get('show/{quiz}', [\App\Http\Controllers\Quiz\QuizController::class, 'show']);
@@ -88,7 +88,7 @@ Route::prefix('exam')->group(function () {
     Route::post('add', [\App\Http\Controllers\Exam\ExamController::class, 'store']);
     Route::put('edit/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'update']);
     Route::get('show/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'show']);
-    Route::get('getExam/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'GetExamQuestion']);
+    Route::get('getExam/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'GetExamQuestion'])->middleware('auth:student');
     Route::get('classExam/{claass}', [\App\Http\Controllers\Exam\ExamController::class, 'GetClassExam']);
     Route::delete('delete/{exam}', [\App\Http\Controllers\Exam\ExamController::class, 'destroy']);
     Route::post('mark/{exam}/{student}', [\App\Http\Controllers\Exam\ExamController::class, 'studentMark']);

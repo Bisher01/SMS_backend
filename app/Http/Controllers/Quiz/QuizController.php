@@ -199,6 +199,11 @@ class QuizController extends Controller
 
     public function getQuiz(Quiz $quiz) {
         $nowTime = Carbon::now();
+        $studentId = auth('student')->id();
+        $checkMark = QuizMarks::query()->where('quiz_id', $quiz->id)->where('student_id', $studentId)->first();
+        if (isset($checkMark)) {
+            return $this->returnErrorMessage('Sorry,  already taken this quiz', 403);
+        }
 
             $quiz = Quiz::query()
                 ->Where('start','<=',  $nowTime->format('Y-m-d H:i:0'))
@@ -219,10 +224,7 @@ class QuizController extends Controller
 
     public function studentQuizMark(Quiz $quiz, Student $student, Request $request)
     {
-        $checkMark = QuizMarks::query()->where('quiz_id', $quiz->id)->where('student_id', $student->id)->first();
-        if (isset($checkMark)) {
-            return $this->returnErrorMessage('Sorry,  already taken this quiz', 403);
-        }
+
         $studentMark = 0;
         $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
 
@@ -289,6 +291,9 @@ class QuizController extends Controller
                     $q[] = $quiz->load('teacherAndSubject');
                 }
             }
+        }
+        if (!isset($q)) {
+            return $this->returnSuccessMessage('not found');
         }
         return $this->returnAllData('quizzes', $q, 'success');
 
