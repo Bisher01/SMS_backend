@@ -130,15 +130,17 @@ class AddStudentController extends Controller
 //        if ($request->hasFile('picture')) {
 //        return $student->picture;
 
-
-        $byte_array = $request->picture;
-        $image = base64_decode($byte_array);
-        Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
-        $picture = '/'. $time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
+        if (isset($request->picture)) {
+            $byte_array = $request->picture;
+            $image = base64_decode($byte_array);
+            Storage::put($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
+            $picture = '/'. $time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
 //            $picture =  '/'.$request->file('picture')
 //                    ->store($time->format('Y').'/images/student/'. $request->f_name. '_'. $request->l_name);
             $student->update(['picture' => $picture]);
 //        }
+        }
+
         $address = $this->addAddress($request);
         $classClassroomId = $this->checkClassClassroom($request->class_id, $request->classroom_id);
         if (!isset($classClassroomId)) {

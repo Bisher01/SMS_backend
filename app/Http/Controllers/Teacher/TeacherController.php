@@ -106,19 +106,22 @@ class TeacherController extends Controller
         $picture=null;
         $time = Carbon::now();
 //        if ($request->hasFile('picture')) {
+
+
+
+//            $picture =  '/'.$request->file('picture')
+//                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
+        if (isset($request->picture)){
             if (Storage::exists($teacher->picture)) {
                 Storage::delete($teacher->picture);
                 Storage::deleteDirectory($time->format('Y').'/images/teacher/'. $teacher->f_name. '_'. $teacher->l_name);
             }
-
-        $byte_array = $request->picture;
-        $image = base64_decode($byte_array);
-        Storage::put($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
-        $picture = '/'. $time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
-
-//            $picture =  '/'.$request->file('picture')
-//                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
+            $byte_array = $request->picture;
+            $image = base64_decode($byte_array);
+            Storage::put($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
+            $picture = '/'. $time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg';
             $teacher->update(['picture' => $picture]);
+        }
 //        }
 
         $address = $this->addAddress($request);
@@ -127,7 +130,7 @@ class TeacherController extends Controller
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
             'email' => $request->email,
-            'picture' => $picture,
+//            'picture' => $picture,
             'joining_date' => $request->joining_date,
             'salary' => $request->salary,
             'address_id' => (int) $address->id,
