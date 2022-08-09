@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Choice;
 use App\Models\ClassClassroom;
 use App\Models\Exam;
+use App\Models\ExamMark;
 use App\Models\ExamName;
 use App\Models\Question;
 use App\Models\QuestionExam;
+use App\Models\QuizMarks;
 use App\Models\Student;
 use App\Models\SubjectMark;
 use App\Models\TeacherSubject;
@@ -134,6 +136,7 @@ class ExamController extends Controller
         foreach ($request->questions as $question) {
             $vari += $question['mark'];
         }
+//         if sum of mark questions != exam mark
         if ($vari != $mark) {
             return $this->returnSuccessMessage('Excuse Me!!!');
         }
@@ -200,6 +203,10 @@ class ExamController extends Controller
 //    end exam & show mark
     public function studentMark(Request $request,Exam $exam,Student $student)
     {
+        $checkMark = ExamMark::query()->where('exam_id', $exam->id)->where('student_id', $student->id)->first();
+        if (isset($checkMark)) {
+            return $this->returnErrorMessage('Sorry,  already taken this exam', 403);
+        }
         $student_mark = 0;
 
         $examEndTime = Exam::query()->select('end')->where('id', $exam->id)->first();

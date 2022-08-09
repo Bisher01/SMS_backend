@@ -9,6 +9,7 @@ use App\Models\Classroom;
 use App\Models\Exam;
 use App\Models\QuestionQuiz;
 use App\Models\Quiz;
+use App\Models\QuizMarks;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\TeacherSubject;
@@ -57,6 +58,13 @@ class QuizController extends Controller
 
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
         if (isset($check)) {
+            foreach ($request->questions as $question) {
+                $vari += $question['mark'];
+            }
+            if ($vari != $mark) {
+//                if sum of mark questions != quiz mark
+                return $this->returnSuccessMessage('Excuse Me!!!');
+            }
             $quiz = Quiz::query()->create([
                 'mark' => $mark,
                 'quiz_name_id' => 2,
@@ -193,7 +201,8 @@ class QuizController extends Controller
         $nowTime = Carbon::now();
 
             $quiz = Quiz::query()
-//                ->where('start', $nowTime->format('Y-m-d H:i:0'))
+                ->Where('start','<=',  $nowTime->format('Y-m-d H:i:0'))
+                //                ->where('start', $nowTime->format('Y-m-d H:i:0'))
 //                ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
                 ->where('id', $quiz->id)
                 ->first();
@@ -210,6 +219,10 @@ class QuizController extends Controller
 
     public function studentQuizMark(Quiz $quiz, Student $student, Request $request)
     {
+        $checkMark = QuizMarks::query()->where('quiz_id', $quiz->id)->where('student_id', $student->id)->first();
+        if (isset($checkMark)) {
+            return $this->returnErrorMessage('Sorry,  already taken this quiz', 403);
+        }
         $studentMark = 0;
         $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
 
