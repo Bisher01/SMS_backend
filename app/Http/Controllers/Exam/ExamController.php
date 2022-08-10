@@ -263,7 +263,9 @@ class ExamController extends Controller
         $nowOclock = Carbon::now();
 
         $exam = Exam::query()
-            ->Where('start','<=',  $nowOclock->format('Y-m-d H:i:0'))
+            ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
+            ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
+
             ->where('id',$exam->id)
             ->with('questions',function ($query) {
                 $query->with('choices');
@@ -284,7 +286,7 @@ class ExamController extends Controller
         foreach($classExams as $classExam)
         {
             $allClassExam = Exam::query()
-                ->where('start', '>=', Carbon::now())
+                ->where('end', '>=', Carbon::now())
                 ->where('subject_mark_id',$classExam->id)
                 ->with('subjectMark',function ($query){
                     $query->with('subject');
