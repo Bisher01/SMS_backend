@@ -264,7 +264,7 @@ class ExamController extends Controller
 
         $exam = Exam::query()
             ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
-            ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
+            ->where('start','=<', $nowOclock->format('Y-m-d H:i:0'))
 
             ->where('id',$exam->id)
             ->with('questions',function ($query) {
