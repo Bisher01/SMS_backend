@@ -286,7 +286,8 @@ class QuizController extends Controller
 
         foreach ($teacherSubjects as $teacherSubject) {
             $quizzes = Quiz::query()
-                ->where('teacher_subject_id', $teacherSubject->id)->where('start', '>=', Carbon::now())
+                ->where('teacher_subject_id', $teacherSubject->id)
+                ->where('end', '>=', Carbon::now())
                 ->get();
             if ($quizzes->isNotEmpty()) {
                 foreach ($quizzes as $quiz) {
