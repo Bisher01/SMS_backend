@@ -266,11 +266,17 @@ class ExamController extends Controller
             ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
             ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
             ->where('id',$exam->id)
-            ->with('questions',function ($query) {
-                $query->with('choices');
-            })
             ->first();
-        return $this->returnData('exams', $exam, 'GOODLUCK');
+
+        if (! isset($exam)) {
+            return $this->returnErrorMessage('exam not found', 404);
+        }
+
+        $questions = $exam->with(['questions' => function ($query) {
+            $query->with('choices');
+        }])->first();
+
+        return $this->returnData('exams', $questions, 'GOODLUCK');
 
     }
 
