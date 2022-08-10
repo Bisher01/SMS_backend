@@ -31,12 +31,10 @@ class LoginController extends Controller
                 return $this->returnErrorMessage('Student Not Found', 404);
             } else {
                 $token = $student->createToken('student', ['student']);
-//                $data['student'] = $student;
                 $data['Bearer'] = 'Bearer';
                 $data['token'] = $token->accessToken;
                 return $this->returnLoginData('student', $student->id,  $data, 'success',);
 
-//                return $this->returnData('Student Data', $data,'logged in successfully');
             }
 
             // login for parent

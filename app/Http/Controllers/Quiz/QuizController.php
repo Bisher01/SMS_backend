@@ -54,7 +54,9 @@ class QuizController extends Controller
             return $this->returnErrorMessage('must be check quiz date', 400);
         }
 
-            $mark=(20/100)*$subject_mark->mark;
+        $mark=(20/100)*$subject_mark->mark;
+        $vari = 0;
+
 
         $check = $this->checkTeacherSubject($teacherId, $subjectId, $claassId, $classroomId);
         if (isset($check)) {
