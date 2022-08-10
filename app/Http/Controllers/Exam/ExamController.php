@@ -265,19 +265,16 @@ class ExamController extends Controller
         }
 
         $exam = Exam::query()
+            ->where('id',$exam->id)
             ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
             ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
-            ->where('id',$exam->id)
             ->first();
 
         if (! isset($exam)) {
             return $this->returnErrorMessage('exam not found', 404);
         }
 
-        $questions = $exam->with(['questions' => function ($query) {
-            $query->with('choices');
-        }])->first();
-
+        $questions = $exam->load('questions');
         return $this->returnData('exams', $questions, 'GOODLUCK');
 
     }

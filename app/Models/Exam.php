@@ -51,6 +51,6 @@ class Exam extends Model
             'question_exams',
             'exam_id',
             'question_id'
-        );
+        )->with('choices');
     }
 }
