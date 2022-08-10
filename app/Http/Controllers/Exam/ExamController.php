@@ -21,6 +21,8 @@ use App\Models\Claass;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Carbon;
 use Carbon\Carbon;
+use function PHPUnit\Framework\isEmpty;
+
 class ExamController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -291,6 +293,7 @@ class ExamController extends Controller
         foreach($classExams as $classExam)
         {
             $allClassExam = Exam::query()
+                ->where('active', 1)
                 ->where('end', '>=', Carbon::now())
                 ->where('subject_mark_id',$classExam->id)
                 ->with('subjectMark',function ($query){
@@ -303,17 +306,21 @@ class ExamController extends Controller
                 ->select('name')
                 ->first();
             ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
-
             foreach ($allClassExam as $item) {
 //                $exams[] = $subject;
                 $exams[] = $item;
             }
         }
-        if (isset($exams))
-        return $this->returnAllData('exams',$exams, 'all classExam');
+//        if (isEmpty($exams)){
+//            return true;
+//        }
+        try {
+            return $this->returnAllData('exams',$exams, 'all classExam');
 
-        else
+        }catch (\Exception $exception) {
             return $this->returnSuccessMessage('not found');
+        }
+
 
     }
 
