@@ -208,8 +208,8 @@ class QuizController extends Controller
         }
 
             $quiz = Quiz::query()
-                ->Where('start','<=',  $nowTime->format('Y-m-d H:i:0'))
-                //                ->where('start', $nowTime->format('Y-m-d H:i:0'))
+                ->Where('end','<',  $nowTime->format('Y-m-d H:i:0'))
+                                ->where('start','>=', $nowTime->format('Y-m-d H:i:0'))
 //                ->orWhere('start', $nowTime->subMinute()->format('Y-m-d H:i:0'))
                 ->where('id', $quiz->id)
                 ->first();
