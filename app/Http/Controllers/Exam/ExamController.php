@@ -255,17 +255,16 @@ class ExamController extends Controller
 
 //     start exam
     public function GetExamQuestion(Exam $exam){
+        $nowOclock = Carbon::now();
         $studentId = auth('student')->id();
         $checkMark = ExamMark::query()->where('exam_id', $exam->id)->where('student_id', $studentId)->first();
         if (isset($checkMark)) {
             return $this->returnErrorMessage('Sorry,  already taken this exam', 403);
         }
-        $nowOclock = Carbon::now();
 
         $exam = Exam::query()
             ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
-            ->where('start','=<', $nowOclock->format('Y-m-d H:i:0'))
-
+            ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
             ->where('id',$exam->id)
             ->with('questions',function ($query) {
                 $query->with('choices');
