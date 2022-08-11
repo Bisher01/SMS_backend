@@ -20,19 +20,22 @@ class SettingController extends Controller
         $setting = setting::query()->first();
         $address = $this->addAddress($request);
         $time = Carbon::now();
-
-        if (Storage::exists($setting->logo)) {
-            Storage::delete($setting->logo);
-            Storage::deleteDirectory($time->format('Y').'/images/settings/logo');
+        if (isset($request->picture)) {
+            if (Storage::exists($setting->logo)) {
+                Storage::delete($setting->logo);
+                Storage::deleteDirectory($time->format('Y') . '/images/settings/logo');
+            }
+            $byte_array = $request->picture;
+            $image = base64_decode($byte_array);
+            Storage::put($time->format('Y').'/images/settings/logo/logo.jpg', $image);
+            $picture = '/'. $time->format('Y').'/images/settings/logo/logo.jpg';
+            $setting->update(['logo' => $picture]);
         }
-        $byte_array = $request->picture;
-        $image = base64_decode($byte_array);
-        Storage::put($time->format('Y').'/images/settings/logo/logo.jpg', $image);
-        $picture = '/'. $time->format('Y').'/images/settings/logo/logo.jpg';
+
 
         $setting->update([
             'phone' =>  $request->phone,
-            'logo' => $picture,
+//            'logo' => $picture,
             'address_id' => $address->id,
             'name' => $request->name,
             'color' => $request->color
