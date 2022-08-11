@@ -90,7 +90,12 @@ class OnlineClassController extends Controller
             }
 
         }
-        return $this->returnAllData('data', $result, 'teacherOnlineClass');
+        try {
+            return $this->returnAllData('data', $result, 'teacherOnlineClass');
+
+        }catch (\Exception $exception) {
+            return $this->returnAllData('data', [], 'teacherOnlineClass');
+        }
     }
 
     /**
@@ -106,7 +111,9 @@ class OnlineClassController extends Controller
                 ->where('class_id',$class)
                 ->where('classroom_id',$classroom)
                 ->first();
-
+            if (!isset($classClassroom)) {
+                return $this->returnErrorMessage('classroom not found',404);
+            }
         $teacherSubjects = TeacherSubject::query()
             ->where('class_classroom_id',$classClassroom->id)
             ->get();
@@ -126,8 +133,11 @@ class OnlineClassController extends Controller
                  $result[] = $onlineClass;
              }
          }
-
-        return $this->returnAllData('data', $result, 'teacherOnlineClass');
+        try {
+            return $this->returnAllData('data', $result, 'teacherOnlineClass');
+        }catch (\Exception $exception) {
+             return $this->returnSuccessMessage('not found');
+        }
 
     }
 

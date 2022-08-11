@@ -121,7 +121,7 @@ class QuizController extends Controller
                 ]);
             }
             if ($request->mark > $mark) {
-                return $this->returnErrorMessage('mark must be less than '. $mark, 400);
+                return $this->returnErrorMessage('mark must be less than '. $mark, 200);
             }
             DB::table('quiz_marks')->insert([
                 'quiz_id' => $quiz->id,
