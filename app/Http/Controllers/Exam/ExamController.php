@@ -108,9 +108,9 @@ class ExamController extends Controller
 
 
         if(isset($name1)||isset($name2)) {
-            $mark = (10 / 100) * $subject_mark->mark;
+            $mark = (20 / 100) * $subject_mark->mark;
         }
-        if(isset($name3) )
+        if(isset($name3))
 
             $mark=(20/100)*$subject_mark->mark;
 

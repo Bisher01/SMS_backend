@@ -150,7 +150,7 @@ class ResultantController extends Controller
                 }
             }
         }
-            $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
+            $totalSeasonMark = $LExamResult + ($examResult + $quizeResult + $oralResult) / 2;
             $array[$i] = [
                 'subjectName' => $classSubjectt->name,
                 'subjectMark' => $classSubjectts->mark,

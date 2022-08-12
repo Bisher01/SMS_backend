@@ -227,8 +227,8 @@ class QuizController extends Controller
 
         $studentMark = 0;
         $nowTime = Carbon::now()->subMinutes(2)->toDateTimeString();
-//        return $quiz->end .'<br>'. $nowTime;
-//        if ($nowTime <= $quiz->end) {
+
+        if ($nowTime <= $quiz->end) {
             foreach ($request->questions as $question) {
                 $status = DB::table('choices')
                     ->where('question_id', $question['question_id'])
@@ -256,15 +256,15 @@ class QuizController extends Controller
 
             return $this->returnMark( $studentMark, 'success');
 
-//        }else if ($nowTime >= $quiz->end){
-//            $exam = DB::table('quiz_marks') ->insert([
-//                'quiz_id' => $quiz->id,
-//                'student_id' => $student->id,
-//                'mark' => $studentMark,
-//            ]);
+        }else if ($nowTime >= $quiz->end){
+            $exam = DB::table('quiz_marks') ->insert([
+                'quiz_id' => $quiz->id,
+                'student_id' => $student->id,
+                'mark' => $studentMark,
+            ]);
 
             return $this->returnMark( $studentMark, 'GAMEOVER');
-//        }
+        }
         return $this->returnErrorMessage('input error', 400);
     }
 
