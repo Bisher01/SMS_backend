@@ -169,7 +169,7 @@ class TeacherController extends Controller
 //    }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
-        $subject = $teacher->subject()->first();
+        $subject = $teacher->subjects()->first();
         $classes = TeacherSubject::query()->where('teacher_id', $teacher->id)->where('subject_id', $subject->id)->get();
 //        return $ss;
         foreach ($classes as $class) {
