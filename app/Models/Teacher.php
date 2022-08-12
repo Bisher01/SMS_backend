@@ -33,7 +33,7 @@ class Teacher extends Authenticatable
         return $this->belongsToMany(Subject::class,'teacher__subjects',
                 'teacher_id',
                 'subject_id'
-            )->with('classClassroom');
+            );
     }
 //
     public function subjects(){

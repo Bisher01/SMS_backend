@@ -33,7 +33,7 @@ class QuestionController extends Controller
         if(isset($request->type)) {
             $subject_mark = SubjectMark::query()->where('subject_id', $subjectId)->where('class_id', $classId)->first();
             if ($request->type == 1 || $request->type == 2 ) {
-                $mark = (10 / 100) * $subject_mark->mark;
+                $mark = (20 / 100) * $subject_mark->mark;
             }
             if ($request->type == 3 || $request->type == 5) {
                 $mark=(20/100)*$subject_mark->mark;
