@@ -38,7 +38,7 @@ class ClassroomController extends Controller
                 'max_number' => (int)$classroom['max_number'],
             ]);
 
-            $newclassroom -> class()->syncWithoutDetaching($classroom['class_id']);
+            $newclassroom ->class()->syncWithoutDetaching($classroom['class_id']);
 
         }
 
