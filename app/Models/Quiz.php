@@ -29,7 +29,7 @@ class Quiz extends Model
             'question_quizzes',
             'quiz_id',
             'question_id'
-        );
+        )->with('choices');
     }
 
     public function quizName() {

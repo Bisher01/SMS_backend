@@ -26,7 +26,9 @@ class syllabiController extends Controller
      */
     public function index(Claass $class)
     {
-        $syllabi = Syllabi::query()->where('class_id', $class->id)->get();
+        $syllabi = Syllabi::query()
+            ->where('class_id', $class->id)
+            ->where('active', 1)->get();
         return $this->returnAllData('syllabi', $syllabi, 'syllabi');
     }
 

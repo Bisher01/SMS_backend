@@ -21,6 +21,8 @@ use App\Models\Claass;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Carbon;
 use Carbon\Carbon;
+use function PHPUnit\Framework\isEmpty;
+
 class ExamController extends Controller
 {
     use generalTrait, basicFunctionsTrait;
@@ -106,9 +108,9 @@ class ExamController extends Controller
 
 
         if(isset($name1)||isset($name2)) {
-            $mark = (10 / 100) * $subject_mark->mark;
+            $mark = (20 / 100) * $subject_mark->mark;
         }
-        if(isset($name3) )
+        if(isset($name3))
 
             $mark=(20/100)*$subject_mark->mark;
 
@@ -263,19 +265,16 @@ class ExamController extends Controller
         }
 
         $exam = Exam::query()
+            ->where('id',$exam->id)
             ->Where('end','>',  $nowOclock->format('Y-m-d H:i:0'))
             ->where('start','<=', $nowOclock->format('Y-m-d H:i:0'))
-            ->where('id',$exam->id)
             ->first();
 
         if (! isset($exam)) {
             return $this->returnErrorMessage('exam not found', 404);
         }
 
-        $questions = $exam->with(['questions' => function ($query) {
-            $query->with('choices');
-        }])->first();
-
+        $questions = $exam->load('questions');
         return $this->returnData('exams', $questions, 'GOODLUCK');
 
     }
@@ -291,6 +290,7 @@ class ExamController extends Controller
         foreach($classExams as $classExam)
         {
             $allClassExam = Exam::query()
+                ->where('active', 1)
                 ->where('end', '>=', Carbon::now())
                 ->where('subject_mark_id',$classExam->id)
                 ->with('subjectMark',function ($query){
@@ -303,17 +303,21 @@ class ExamController extends Controller
                 ->select('name')
                 ->first();
             ////مزاكرتين خلال الفصل الواحد لنفس المادة بنفس الصف في المرحلة الابتدائية
-
             foreach ($allClassExam as $item) {
 //                $exams[] = $subject;
                 $exams[] = $item;
             }
         }
-        if (isset($exams))
-        return $this->returnAllData('exams',$exams, 'all classExam');
+//        if (isEmpty($exams)){
+//            return true;
+//        }
+        try {
+            return $this->returnAllData('exams',$exams, 'all classExam');
 
-        else
+        }catch (\Exception $exception) {
             return $this->returnSuccessMessage('not found');
+        }
+
 
     }
 

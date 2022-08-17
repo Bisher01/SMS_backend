@@ -65,7 +65,7 @@ class QuizController extends Controller
             }
             if ($vari != $mark) {
 //                if sum of mark questions != quiz mark
-                return $this->returnSuccessMessage('Excuse Me!!!');
+                return $this->returnSuccessMessage('sum of mark questions != quiz mark');
             }
             $quiz = Quiz::query()->create([
                 'mark' => $mark,
@@ -121,7 +121,7 @@ class QuizController extends Controller
                 ]);
             }
             if ($request->mark > $mark) {
-                return $this->returnErrorMessage('mark must be less than '. $mark, 400);
+                return $this->returnErrorMessage('mark must be less than '. $mark, 200);
             }
             DB::table('quiz_marks')->insert([
                 'quiz_id' => $quiz->id,
@@ -209,16 +209,15 @@ class QuizController extends Controller
 
             $quiz = Quiz::query()
                 ->Where('end','>',  $nowTime->format('Y-m-d H:i:0'))
-                ->where('start','<=', $nowTime->format('Y-m-d H:i:0'))
+                ->where('start','<=', $nowTime->addMinute()->format('Y-m-d H:i:0'))
                 ->where('id', $quiz->id)
                 ->first();
 //        }
         if (! isset($quiz)) {
             return $this->returnErrorMessage('quiz not found', 404);
         }
-        $questions = $quiz->with(['questions' => function ($query) {
-            $query->with('choices');
-        }])->first();
+
+        $questions = $quiz->load('questions');
         return $this->returnData('data', $questions, 'success');
     }
 
@@ -244,6 +243,7 @@ class QuizController extends Controller
                             ->select('mark')
                             ->first();
 
+
                         $studentMark += $question_mark->mark;
                     }
                 }
@@ -265,7 +265,7 @@ class QuizController extends Controller
 
             return $this->returnMark( $studentMark, 'GAMEOVER');
         }
-        return $this->returnError('input error', 400);
+        return $this->returnErrorMessage('input error', 400);
     }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassClassroom;
 use App\Models\Subject;
 use App\Models\Syllabi;
 use App\Models\Teacher;
@@ -112,10 +113,6 @@ class TeacherController extends Controller
 //            $picture =  '/'.$request->file('picture')
 //                    ->store($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name);
         if (isset($request->picture)){
-            if (Storage::exists($teacher->picture)) {
-                Storage::delete($teacher->picture);
-                Storage::deleteDirectory($time->format('Y').'/images/teacher/'. $teacher->f_name. '_'. $teacher->l_name);
-            }
             $byte_array = $request->picture;
             $image = base64_decode($byte_array);
             Storage::put($time->format('Y').'/images/teacher/'. $request->f_name. '_'. $request->l_name. '/'. $request->l_name. '.jpg', $image);
@@ -172,7 +169,16 @@ class TeacherController extends Controller
 //    }
 
     public function getTeacherWithClassroom(Teacher $teacher) {
-        return $this->returnAllData('data', $teacher->subject, 'successs');
+        $subject = $teacher->subjects()->first();
+        $classes = TeacherSubject::query()->where('teacher_id', $teacher->id)->where('subject_id', $subject->id)->get();
+//        return $ss;
+        foreach ($classes as $class) {
+            $classClassrooms[] = ClassClassroom::query()->where('id', $class->class_classroom_id)->first()->load('classes', 'classrooms');
+        }
+        $data['subject'] = $subject;
+        $data['classes'] = $classClassrooms;
+//        return $data;
+        return $this->returnData('data', $data, 'successs');
     }
 
 

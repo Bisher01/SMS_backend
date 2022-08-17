@@ -14,6 +14,7 @@ use App\Traits\basicFunctionsTrait;
 use App\Traits\generalTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class ResultantController extends Controller
 {
@@ -63,27 +64,36 @@ class ResultantController extends Controller
                     ->get();
 
                 foreach ($quizzes as $quiz) {
+                    if ($quiz->quiz_name_id == 2) {
 
                     $studentQuize = DB::table('quiz_marks')
                         ->where('student_id', $student->id)
                         ->where('quiz_id', $quiz->id)
                         ->first();
+                     if (isset($studentQuize)) {
+                         $numberOfQuizes++;
+                         $sumOfQuizeMarks += $studentQuize->mark;
+                     }
+
+                    }
+
 
                         if ($quiz->quiz_name_id == 1) {
                             $studentOralQuiz = DB::table('quiz_marks')
                                 ->where('student_id', $student->id)
                                 ->where('quiz_id', $quiz->id)
                                 ->get();
-                            foreach ($studentOralQuiz as $item) {
-                                $numberOfOral++;
-                                $sumOfOralMarks += $item->mark;
+
+                            if (isset($studentOralQuiz)) {
+                                foreach ($studentOralQuiz as $item) {
+                                    $numberOfOral++;
+                                    $sumOfOralMarks += $item->mark;
+                                }
                             }
+
                         }
 
-                        if ($quiz->quiz_name_id == 2) {
-                            $numberOfQuizes++;
-                            $sumOfQuizeMarks += $studentQuize->mark;
-                        }
+
                 }
                 if($numberOfQuizes==0)
                 {
@@ -140,7 +150,7 @@ class ResultantController extends Controller
                 }
             }
         }
-            $totalSeasonMark = $examResult + $LExamResult + $quizeResult + $oralResult;
+            $totalSeasonMark = $LExamResult + ($examResult + $quizeResult + $oralResult) / 2;
             $array[$i] = [
                 'subjectName' => $classSubjectt->name,
                 'subjectMark' => $classSubjectts->mark,
